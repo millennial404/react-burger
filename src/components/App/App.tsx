@@ -1,14 +1,13 @@
 import React from "react";
-import {
-  Logo,
-  Button,
-} from "@ya.praktikum/react-developer-burger-ui-components";
 import "./App.css";
+import AppHeader from "../AppHeader/AppHeader";
 
 function App() {
   return (
     <>
-      <Logo />
+    <AppHeader/>
+
+      
     </>
   );
 }
