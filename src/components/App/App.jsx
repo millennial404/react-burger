@@ -1,35 +1,40 @@
-import React, { useEffect } from "react";
+import React from "react";
 import style from "./App.module.css";
 import AppHeader from "../AppHeader/AppHeader";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients"
+import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 
-const urlApi = "https://norma.nomoreparties.space/api/ingredients";
-
 function App() {
-  const [state, setState] = React.useState({ 
-    productData: null,
-    loading: true
-  })
+  const [state, setState] = React.useState({
+    products: [],
+    loading: true,
+  });
+
+  const urlApi = "https://norma.nomoreparties.space/api/ingredients";
 
   React.useEffect(() => {
-    const getProductData = async () => {
-      setState({...state, loading: true});
-      const res = await fetch(urlApi);
-      const data = await res.json();
-      setState({ productData: data.data, loading: false });
-    }
-    getProductData();
-  },[])
+    fetch(urlApi)
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка ${res.status}`);
+      })
+      .then((productsData) => {
+        setState({ products: productsData.data, loading: false });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <>
-    <AppHeader />
-    <main className={style.main}>
-    <BurgerIngredients products={state.productData} />
-    <BurgerConstructor />
-    </main>
-    
+      <AppHeader />
+      <main className={style.main}>
+        <BurgerIngredients products={state.products} />
+        <BurgerConstructor />
+      </main>
     </>
   );
 }
