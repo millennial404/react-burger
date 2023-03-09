@@ -23,35 +23,63 @@ const TabBurgerIngredients = () => {
   );
 };
 
-const CardsByTypes = () => {
-  return (
-    <>
-      <h2 className="text text_type_main-medium mt-10 mb-6">Булки</h2>
-      <ul>
-        <li>
-          <img
-            src="https://code.s3.yandex.net/react/code/bun-02.png"
-            alt="Краторная булка N-200i"
-          />
-          <Counter count={1} size="default" extraClass="m-1" />
-          <p className="text text_type_digits-default">
-            20
-            <CurrencyIcon type="primary" />
-          </p>
-          <p>Краторная булка N-200i</p>
-        </li>
-      </ul>
-    </>
-  );
-};
+const CardsByTypes = (props) => {
+  const ebala = props.ingridients.map(elem => elem._id)
+  console.log(ebala)
+  // const cardsBun = props.ingridients.map((el) =>
+  //     <li key={el._id} className={`${styles.card} ml-4 mr-6 mb-8`}>
+  //       <img
+  //         className={`${styles.image} mb-1 ml-4 mr-4`}
+  //         src="https://code.s3.yandex.net/react/code/bun-02.png"
+  //         alt="Краторная булка N-200i"
+  //       />
+  //       <Counter count={1} size="default" extraClass="m-1" />
+  //       <div className={`${styles.price} mb-1`}>
+  //         <p className="text text_type_digits-default pr-2">20</p>
+  //         <CurrencyIcon type="primary" />
+  //       </div>
+  //       <p className={`text text_type_main-default ${styles.name}`}>
+  //         Краторная булка N-200i
+  //       </p>
+  //     </li>
+  // )
 
-export default function BurgerIngredients({ products }) {
-  console.log(products);
+  return (
+    <div className={styles.cardsContainer}>
+      <h2 className="text text_type_main-medium mt-10 mb-6">Булки</h2>
+      <ul className={`${styles.cards} mb-10`}></ul>
+    </div>
+  )
+};
+// return (
+//   <div className={styles.cardsContainer}>
+//     <h2 className="text text_type_main-medium mt-10 mb-6">Булки</h2>
+//     <ul className={`${styles.cards} mb-10`}>
+//       <li className={`${styles.card} ml-4 mr-6 mb-8`}>
+//         <img
+//           className={`${styles.image} mb-1 ml-4 mr-4`}
+//           src="https://code.s3.yandex.net/react/code/bun-02.png"
+//           alt="Краторная булка N-200i"
+//         />
+//         <Counter count={1} size="default" extraClass="m-1" />
+//         <div className={`${styles.price} mb-1`}>
+//           <p className="text text_type_digits-default pr-2">20</p>
+//           <CurrencyIcon type="primary" />
+//         </div>
+//         <p className={`text text_type_main-default ${styles.name}`}>
+//           Краторная булка N-200i
+//         </p>
+//       </li>
+//     </ul>
+//   </div>
+// );
+// }
+export default function BurgerIngredients(props) {
   return (
     <section className={styles.BurgerIngredientsContainer}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
       <TabBurgerIngredients />
-      <CardsByTypes />
+      <CardsByTypes ingridients={props.products} />
     </section>
   );
 }
