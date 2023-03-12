@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  Counter,
+  // Counter,
   Tab,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -23,29 +23,52 @@ const TabBurgerIngredients = () => {
   );
 };
 
-function CardsByTypes(props) {
-  const cards = props.ingridients.map((card) => (
-    <li key={card._id} className={`${styles.card} ml-4 mr-6 mb-8`}>
+function Card({ cardData }) {
+  return (
+    <li className={`${styles.card} ml-4 mr-6 mb-8`}>
       <img
         className={`${styles.image} mb-1 ml-4 mr-4`}
-        src={card.image}
-        alt={card.name}
+        src={cardData.image}
+        alt={cardData.name}
       />
-      <Counter count={1} size="default" extraClass="m-1" />
+
+      {/* <Counter count={1} size="default" extraClass="m-1" /> */}
+
       <div className={`${styles.price} mb-1`}>
-        <p className="text text_type_digits-default pr-2">{card.price}</p>
+        <p className="text text_type_digits-default pr-2">{cardData.price}</p>
         <CurrencyIcon type="primary" />
       </div>
       <p className={`text text_type_main-default ${styles.name}`}>
-        {card.name}
+        {cardData.name}
       </p>
     </li>
-  ));
+  );
+}
+
+function CardsByTypes({ ingridients }) {
+  const cardTypes = {
+    bun: "Булки",
+    sauce: "Соусы",
+    main: "Начинки",
+  };
 
   return (
     <div className={styles.cardsContainer}>
-      <h2 className="text text_type_main-medium mt-10 mb-6">Булки</h2>
-      <ul className={`${styles.cards} mb-10`}>{cards}</ul>
+      {Object.keys(cardTypes).map((key) => (
+        <React.Fragment key={key}>
+          <h2 className="text text_type_main-medium mt-10 mb-6">
+            {cardTypes[key]}
+          </h2>
+          <ul className={`${styles.cards} mb-10`}>
+            {ingridients.map(
+              (ingridient) =>
+                key === ingridient.type && (
+                  <Card key={ingridient._id} cardData={ingridient} />
+                )
+            )}
+          </ul>
+        </React.Fragment>
+      ))}
     </div>
   );
 }
