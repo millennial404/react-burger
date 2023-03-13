@@ -1,5 +1,29 @@
-.BurgerConstructorContainer{
-    display: flex;
-    max-width: 600px;
-    width: 100%;
+.BurgerConstructorContainer {
+  display: flex;
+  max-width: 600px;
+  width: 100%;
+}
+
+.bugrgerComponents {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 656px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.bugrgerComponents::-webkit-scrollbar {
+    width: 8px;
+    background-color: #2F2F37;
+}
+
+.bugrgerComponents::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+
+.bugrgerComponents::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background-color: #2F2F37;
 }

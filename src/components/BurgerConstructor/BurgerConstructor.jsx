@@ -9,12 +9,42 @@ import img from "../../images/bun-02.svg";
 
 function BurgerConstructorEl() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+    <div className={`${styles.bugrgerComponents} mt-25 ml-4 mr-4`}>
       <ConstructorElement
         type="top"
         isLocked={true}
         text="Краторная булка N-200i (верх)"
         price={200}
+        thumbnail={img}
+      />
+      <ConstructorElement
+        text="Краторная булка N-200i (верх)"
+        price={50}
+        thumbnail={img}
+      />
+      <ConstructorElement
+        text="Краторная булка N-200i (верх)"
+        price={50}
+        thumbnail={img}
+      />
+      <ConstructorElement
+        text="Краторная булка N-200i (верх)"
+        price={50}
+        thumbnail={img}
+      />
+      <ConstructorElement
+        text="Краторная булка N-200i (верх)"
+        price={50}
+        thumbnail={img}
+      />
+      <ConstructorElement
+        text="Краторная булка N-200i (верх)"
+        price={50}
+        thumbnail={img}
+      />
+      <ConstructorElement
+        text="Краторная булка N-200i (верх)"
+        price={50}
         thumbnail={img}
       />
       <ConstructorElement
