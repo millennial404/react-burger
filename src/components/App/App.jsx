@@ -33,7 +33,7 @@ function App() {
       <AppHeader />
       <main className={style.main}>
         <BurgerIngredients products={state.products} />
-        <BurgerConstructor />
+        <BurgerConstructor products={state.products}/>
       </main>
     </>
   );
