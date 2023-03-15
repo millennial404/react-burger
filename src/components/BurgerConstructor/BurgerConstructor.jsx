@@ -6,8 +6,9 @@ import styles from "./BurgerConstructor.module.css";
 import img from "../../images/bun-02.svg";
 import CurrencyIconTotalPrice from "../../images/CurrencyIcon36x36.svg";
 import componentMarkerImg from "../../images/icon24x24.svg";
+import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
-function Component({component}) {
+function Component({ component }) {
   return (
     <li className={styles.component}>
       <img className="mr-2" src={componentMarkerImg} alt="" />
@@ -34,12 +35,12 @@ function BurgerConstructorComponents({ components }) {
           />
         </div>
         <ul className={styles.componentsList}>
-        {components.map(
-              (component) =>
-                "main" === component.type && (
-                  <Component key={component._id} component={component} />
-                )
-            )}
+          {components.map(
+            (component) =>
+              "main" === component.type && (
+                <Component key={component._id} component={component} />
+              )
+          )}
         </ul>
         <div className={styles.componentBottom}>
           <ConstructorElement
@@ -55,10 +56,12 @@ function BurgerConstructorComponents({ components }) {
   );
 }
 
-function InfoAndOrder() {
+function InfoAndOrder(props) {
   return (
     <div className={styles.order}>
-      <span className="text text_type_digits-medium mr-2">610</span>
+      <span className="text text_type_digits-medium mr-2">
+        {props.tolalPrice}
+      </span>
       <img className="mr-10" src={CurrencyIconTotalPrice} alt="" />
       <Button htmlType="button" type="primary" size="large">
         Оформить заказ
@@ -71,7 +74,7 @@ export default function BurgerConstructor(props) {
   return (
     <section className={styles.BurgerConstructorContainer}>
       <BurgerConstructorComponents components={props.products} />
-      <InfoAndOrder />
+      <InfoAndOrder tolalPrice="610" />
     </section>
   );
 }

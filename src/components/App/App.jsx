@@ -3,6 +3,7 @@ import style from "./App.module.css";
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
+import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
 function App() {
   const [state, setState] = React.useState({
@@ -33,7 +34,7 @@ function App() {
       <AppHeader />
       <main className={style.main}>
         <BurgerIngredients products={state.products} />
-        <BurgerConstructor products={state.products}/>
+        <BurgerConstructor products={state.products} />
       </main>
     </>
   );
