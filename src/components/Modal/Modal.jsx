@@ -1,15 +1,21 @@
+import ReactDOM from "react-dom";
+import React from "react";
 
-const modalRoot = document.getElementById("react-modals");
+const modalRootElement = document.querySelector("#react-modals");
 
-export default function Modal({ children, header, onClose }) {
-  return ReactDOM.createPortal(
-    <>
-      <div className="Modal">
-        <ModalHeader onClose={onClose}>{header}</ModalHeader>
-        {children}
-      </div>
-      <ModalBackDrop onClose={onClose} />
-    </>,
-    modalRoot
-  );
+export default function Modal(props) {
+  const { children, open} = props;
+  const element = React.useMemo(() => document.createElement("div"), []);
+
+  React.useEffect(() => {
+    if (open) {
+      modalRootElement.appendChild(element);
+
+      return () => {
+        modalRootElement.removeChild(element);
+      };
+    }
+  });
+
+  return ReactDOM.createPortal(open && children, element);
 }

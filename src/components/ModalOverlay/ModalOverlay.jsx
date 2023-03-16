@@ -1,17 +1,10 @@
-import ReactDOM from "react";
-
 import styles from "./ModalOverlay.module.css";
 
-const modalRoot = document.getElementById("react-modals");
-
-export default function ModalOverlay() {
-  return ReactDOM.createPortal(
-    <>
-      <div className={styles.modalOverlay}>
-        
-
+export default function ModalOverlay(props) {
+  const {onClose} = props;
+  return (
+      <div className={styles.modalOverlay} onClick={onClose}>
+        <h1>Модальное окно</h1>
       </div>
-    </>,
-    modalRoot
   );
 }

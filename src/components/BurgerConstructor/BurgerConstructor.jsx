@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Button,
   ConstructorElement,
@@ -6,6 +7,7 @@ import styles from "./BurgerConstructor.module.css";
 import img from "../../images/bun-02.svg";
 import CurrencyIconTotalPrice from "../../images/CurrencyIcon36x36.svg";
 import componentMarkerImg from "../../images/icon24x24.svg";
+import Modal from "../Modal/Modal";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
 function Component({ component }) {
@@ -57,18 +59,22 @@ function BurgerConstructorComponents({ components }) {
 }
 
 function InfoAndOrder(props) {
+  const [popupOpen, setpopupOpen] = React.useState(false);
   return (
     <div className={styles.order}>
       <span className="text text_type_digits-medium mr-2">
         {props.tolalPrice}
       </span>
       <img className="mr-10" src={CurrencyIconTotalPrice} alt="" />
-      <Button htmlType="button" type="primary" size="large">
+      <Button htmlType="button" type="primary" size="large" onClick={()=>setpopupOpen(true)}>
         Оформить заказ
       </Button>
+      <Modal open={popupOpen}> <ModalOverlay onClose={() => setpopupOpen(false)}/> </Modal>
     </div>
   );
 }
+
+
 
 export default function BurgerConstructor(props) {
   return (

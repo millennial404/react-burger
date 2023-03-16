@@ -3,14 +3,12 @@ import style from "./App.module.css";
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
 
 function App() {
   const [state, setState] = React.useState({
     products: [],
     loading: true,
   });
-
   const urlApi = "https://norma.nomoreparties.space/api/ingredients";
 
   React.useEffect(() => {
