@@ -1,10 +1,13 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import {
   // Counter,
   Tab,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import Modal from "../Modal/Modal";
 import styles from "./BurgerIngredients.module.css";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
 
 const TabBurgerIngredients = () => {
   const [current, setCurrent] = React.useState("bun");
@@ -24,26 +27,45 @@ const TabBurgerIngredients = () => {
 };
 
 function Card({ cardData }) {
+  const [popupOpen, setPopupOpen] = React.useState(false);
   return (
-    <li className={`${styles.card} ml-4 mr-6 mb-8`}>
-      <img
-        className={`${styles.image} mb-1 ml-4 mr-4`}
-        src={cardData.image}
-        alt={cardData.name}
-      />
+    <>
+      <li
+        className={`${styles.card} ml-4 mr-6 mb-8`}
+        onClick={() => setPopupOpen(true)}
+      >
+        <img
+          className={`${styles.image} mb-1 ml-4 mr-4`}
+          src={cardData.image}
+          alt={cardData.name}
+        />
 
-      {/* <Counter count={1} size="default" extraClass="m-1" /> */}
+        {/* <Counter count={1} size="default" extraClass="m-1" /> */}
 
-      <div className={`${styles.price} mb-1`}>
-        <p className="text text_type_digits-default pr-2">{cardData.price}</p>
-        <CurrencyIcon type="primary" />
-      </div>
-      <p className={`text text_type_main-default ${styles.name}`}>
-        {cardData.name}
-      </p>
-    </li>
+        <div className={`${styles.price} mb-1`}>
+          <p className="text text_type_digits-default pr-2">{cardData.price}</p>
+          <CurrencyIcon type="primary" />
+        </div>
+        <p className={`text text_type_main-default ${styles.name}`}>
+          {cardData.name}
+        </p>
+      </li>
+      <Modal
+        open={popupOpen}
+        onClose={() => setPopupOpen(false)}
+        title="Детали ингредиента"
+      >
+        <IngredientDetails currentIngredient={cardData} />
+      </Modal>
+    </>
   );
 }
+
+Card.propTypes = {
+  name: PropTypes.string,
+  price: PropTypes.number,
+  image: PropTypes.string
+}; 
 
 function CardsByTypes({ ingridients }) {
   const cardTypes = {
@@ -72,6 +94,11 @@ function CardsByTypes({ ingridients }) {
     </div>
   );
 }
+
+CardsByTypes.propTypes = {
+  type: PropTypes.string,
+  _id: PropTypes.string
+}; 
 
 export default function BurgerIngredients(props) {
   return (

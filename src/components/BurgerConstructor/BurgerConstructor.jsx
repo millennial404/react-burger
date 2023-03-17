@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import {
   Button,
   ConstructorElement,
@@ -8,7 +9,7 @@ import img from "../../images/bun-02.svg";
 import CurrencyIconTotalPrice from "../../images/CurrencyIcon36x36.svg";
 import componentMarkerImg from "../../images/icon24x24.svg";
 import Modal from "../Modal/Modal";
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import OrderDetails from "../OrderDetails/OrderDetails";
 
 function Component({ component }) {
   return (
@@ -22,6 +23,12 @@ function Component({ component }) {
     </li>
   );
 }
+
+Component.propTypes = {
+  name: PropTypes.string,
+  price: PropTypes.number,
+  image: PropTypes.string
+}; 
 
 function BurgerConstructorComponents({ components }) {
   return (
@@ -58,29 +65,42 @@ function BurgerConstructorComponents({ components }) {
   );
 }
 
+BurgerConstructorComponents.propTypes = {
+  _id: PropTypes.string,
+}; 
+
 function InfoAndOrder(props) {
-  const [popupOpen, setpopupOpen] = React.useState(false);
+  const [popupOpen, setPopupOpen] = React.useState(false);
   return (
     <div className={styles.order}>
       <span className="text text_type_digits-medium mr-2">
         {props.tolalPrice}
       </span>
       <img className="mr-10" src={CurrencyIconTotalPrice} alt="" />
-      <Button htmlType="button" type="primary" size="large" onClick={()=>setpopupOpen(true)}>
+      <Button
+        htmlType="button"
+        type="primary"
+        size="large"
+        onClick={() => setPopupOpen(true)}
+      >
         Оформить заказ
       </Button>
-      <Modal open={popupOpen}> <ModalOverlay onClose={() => setpopupOpen(false)}/> </Modal>
+      <Modal open={popupOpen} onClose={() => setPopupOpen(false)}>
+        <OrderDetails />
+      </Modal>
     </div>
   );
 }
 
-
+InfoAndOrder.propTypes = {
+  tolalPrice: PropTypes.number
+}; 
 
 export default function BurgerConstructor(props) {
   return (
     <section className={styles.BurgerConstructorContainer}>
       <BurgerConstructorComponents components={props.products} />
-      <InfoAndOrder tolalPrice="610" />
+      <InfoAndOrder tolalPrice={610} />
     </section>
   );
 }

@@ -1,0 +1,9 @@
+.orderDetailsConteiner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.doneImg {
+    max-width: 120px;
+}

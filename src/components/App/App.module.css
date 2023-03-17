@@ -1,3 +1,8 @@
+ /* * {
+    border: 1px solid #4C4CFF;
+    box-sizing: border-box;
+ }
+  */
  .main {
   max-width: 1240px;
   margin: auto;
