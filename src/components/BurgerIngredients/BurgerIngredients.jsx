@@ -1,13 +1,14 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import {
-  // Counter,
+  Counter,
   Tab,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import Modal from "../Modal/Modal";
 import styles from "./BurgerIngredients.module.css";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import {productsPropTypes} from "../../utils/prop-types";
 
 const TabBurgerIngredients = () => {
   const [current, setCurrent] = React.useState("bun");
@@ -40,7 +41,9 @@ function Card({ cardData }) {
           alt={cardData.name}
         />
 
-        {/* <Counter count={1} size="default" extraClass="m-1" /> */}
+        {cardData._id === "60d3b41abdacab0026a733c6" && (
+          <Counter count={1} size="default" extraClass="m-1" />
+        )}
 
         <div className={`${styles.price} mb-1`}>
           <p className="text text_type_digits-default pr-2">{cardData.price}</p>
@@ -50,22 +53,19 @@ function Card({ cardData }) {
           {cardData.name}
         </p>
       </li>
-      <Modal
-        open={popupOpen}
-        onClose={() => setPopupOpen(false)}
-        title="Детали ингредиента"
-      >
-        <IngredientDetails currentIngredient={cardData} />
-      </Modal>
+      {popupOpen && (
+        <Modal onClose={() => setPopupOpen(false)} title="Детали ингредиента">
+          <IngredientDetails currentIngredient={cardData} />
+        </Modal>
+      )}
     </>
   );
 }
 
 Card.propTypes = {
-  name: PropTypes.string,
-  price: PropTypes.number,
-  image: PropTypes.string
-}; 
+  cardData:productsPropTypes.isRequired
+};
+
 
 function CardsByTypes({ ingridients }) {
   const cardTypes = {
@@ -96,9 +96,8 @@ function CardsByTypes({ ingridients }) {
 }
 
 CardsByTypes.propTypes = {
-  type: PropTypes.string,
-  _id: PropTypes.string
-}; 
+  ingridients:PropTypes.arrayOf(productsPropTypes).isRequired
+};
 
 export default function BurgerIngredients(props) {
   return (
@@ -109,3 +108,7 @@ export default function BurgerIngredients(props) {
     </section>
   );
 }
+
+BurgerIngredients.propTypes = {
+  products:PropTypes.arrayOf(productsPropTypes).isRequired
+};

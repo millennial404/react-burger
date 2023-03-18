@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import {
   Button,
   ConstructorElement,
@@ -10,6 +10,7 @@ import CurrencyIconTotalPrice from "../../images/CurrencyIcon36x36.svg";
 import componentMarkerImg from "../../images/icon24x24.svg";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
+import {productsPropTypes} from "../../utils/prop-types";
 
 function Component({ component }) {
   return (
@@ -25,10 +26,8 @@ function Component({ component }) {
 }
 
 Component.propTypes = {
-  name: PropTypes.string,
-  price: PropTypes.number,
-  image: PropTypes.string
-}; 
+  component:productsPropTypes.isRequired
+};
 
 function BurgerConstructorComponents({ components }) {
   return (
@@ -65,10 +64,6 @@ function BurgerConstructorComponents({ components }) {
   );
 }
 
-BurgerConstructorComponents.propTypes = {
-  _id: PropTypes.string,
-}; 
-
 function InfoAndOrder(props) {
   const [popupOpen, setPopupOpen] = React.useState(false);
   return (
@@ -85,16 +80,18 @@ function InfoAndOrder(props) {
       >
         Оформить заказ
       </Button>
-      <Modal open={popupOpen} onClose={() => setPopupOpen(false)}>
-        <OrderDetails />
-      </Modal>
+      {popupOpen && (
+        <Modal onClose={() => setPopupOpen(false)}>
+          <OrderDetails />
+        </Modal>
+      )}
     </div>
   );
 }
 
 InfoAndOrder.propTypes = {
-  tolalPrice: PropTypes.number
-}; 
+  tolalPrice: PropTypes.number.isRequired
+};
 
 export default function BurgerConstructor(props) {
   return (
@@ -104,3 +101,7 @@ export default function BurgerConstructor(props) {
     </section>
   );
 }
+
+BurgerConstructor.propTypes = {
+  products:PropTypes.arrayOf(productsPropTypes).isRequired
+};
