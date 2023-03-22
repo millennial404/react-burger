@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import {
   Button,
   ConstructorElement,
@@ -10,7 +10,9 @@ import CurrencyIconTotalPrice from "../../images/CurrencyIcon36x36.svg";
 import componentMarkerImg from "../../images/icon24x24.svg";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import {productsPropTypes} from "../../utils/prop-types";
+import { productsPropTypes } from "../../utils/prop-types";
+import { BurgerConstructorContext } from "../services/BurgerConstructorContext";
+import { placeAnOrder } from "../../utils/burger-api";
 
 function Component({ component }) {
   return (
@@ -26,14 +28,15 @@ function Component({ component }) {
 }
 
 Component.propTypes = {
-  component:productsPropTypes.isRequired
+  component: productsPropTypes.isRequired,
 };
 
-function BurgerConstructorComponents({ components }) {
+function BurgerConstructorComponents() {
+  const components = React.useContext(BurgerConstructorContext);
   return (
     <>
       <div className={`${styles.bugrgerComponents} mt-25 mb-10 ml-4`}>
-        <div className={styles.componentTop}>
+        <div className={styles.component}>
           <ConstructorElement
             type="top"
             isLocked={true}
@@ -50,7 +53,7 @@ function BurgerConstructorComponents({ components }) {
               )
           )}
         </ul>
-        <div className={styles.componentBottom}>
+        <div className={styles.component}>
           <ConstructorElement
             type="bottom"
             isLocked={true}
@@ -64,44 +67,55 @@ function BurgerConstructorComponents({ components }) {
   );
 }
 
-function InfoAndOrder(props) {
+function InfoAndOrder() {
+  const components = React.useContext(BurgerConstructorContext);
   const [popupOpen, setPopupOpen] = React.useState(false);
+  const [idOrder, setIdOrder] = React.useState(null);
   return (
     <div className={styles.order}>
       <span className="text text_type_digits-medium mr-2">
-        {props.tolalPrice}
+        {components.reduce((totalSum, component) => {
+          return totalSum + ("main" === component.type && component.price);
+        }, 0)}
       </span>
       <img className="mr-10" src={CurrencyIconTotalPrice} alt="" />
       <Button
         htmlType="button"
         type="primary"
         size="large"
-        onClick={() => setPopupOpen(true)}
+        onClick={() => {
+          placeAnOrder(components.map((component) => component._id))
+            .then((res) => setIdOrder(res.order.number))
+            .then(() => setPopupOpen(true))
+            .catch((err) => {
+              console.log(err);
+            });
+        }}
       >
         Оформить заказ
       </Button>
       {popupOpen && (
         <Modal onClose={() => setPopupOpen(false)}>
-          <OrderDetails />
+          <OrderDetails idOrder={idOrder} />
         </Modal>
       )}
     </div>
   );
 }
 
-InfoAndOrder.propTypes = {
-  tolalPrice: PropTypes.number.isRequired
-};
+// InfoAndOrder.propTypes = {
+//   tolalPrice: PropTypes.number.isRequired
+// };
 
-export default function BurgerConstructor(props) {
+export default function BurgerConstructor() {
   return (
     <section className={styles.BurgerConstructorContainer}>
-      <BurgerConstructorComponents components={props.products} />
-      <InfoAndOrder tolalPrice={610} />
+      <BurgerConstructorComponents />
+      <InfoAndOrder />
     </section>
   );
 }
 
-BurgerConstructor.propTypes = {
-  products:PropTypes.arrayOf(productsPropTypes).isRequired
-};
+// BurgerConstructor.propTypes = {
+//   products:PropTypes.arrayOf(productsPropTypes).isRequired
+// };

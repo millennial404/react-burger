@@ -44,14 +44,6 @@
   margin: 0;
 }
 
-.componentTop {
-  composes: component;
-}
-.componentBottom{
-  composes: component;
-
-}
-
 .order {
   display: flex;
   align-items: center;
