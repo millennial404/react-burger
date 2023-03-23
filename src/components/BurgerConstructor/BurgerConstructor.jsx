@@ -31,8 +31,9 @@ Component.propTypes = {
   component: productsPropTypes.isRequired,
 };
 
-function BurgerConstructorComponents() {
-  const components = React.useContext(BurgerConstructorContext);
+function BurgerConstructorComponents({burgerOject}) {
+
+  console.log(burgerOject);
   return (
     <>
       <div className={`${styles.bugrgerComponents} mt-25 mb-10 ml-4`}>
@@ -40,13 +41,16 @@ function BurgerConstructorComponents() {
           <ConstructorElement
             type="top"
             isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={200}
-            thumbnail={img}
+            // text="Краторная булка N-200i (верх)"
+            // price={200}
+            // thumbnail={img}
+            text={burgerOject.bun.name}
+            price={burgerOject.bun.price}
+            thumbnail={burgerOject.bun.image}
           />
         </div>
         <ul className={styles.componentsList}>
-          {components.map(
+          {burgerOject.ingridients?.map(
             (component) =>
               "main" === component.type && (
                 <Component key={component._id} component={component} />
@@ -108,9 +112,22 @@ function InfoAndOrder() {
 // };
 
 export default function BurgerConstructor() {
+  const [burgerOject, setBurgerOject] = React.useState({
+    bun: {},
+    ingredients: []
+  });
+  const components = React.useContext(BurgerConstructorContext);
+  React.useEffect(() => {
+    if (components && components.length > 0) {
+      setBurgerOject({
+        bun: components[0],
+        ingridients: [components[2], components[3]],
+      });
+    }
+  }, [components, setBurgerOject]);
   return (
     <section className={styles.BurgerConstructorContainer}>
-      <BurgerConstructorComponents />
+      <BurgerConstructorComponents burgerOject={burgerOject} />
       <InfoAndOrder />
     </section>
   );
