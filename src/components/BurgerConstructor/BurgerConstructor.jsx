@@ -1,17 +1,16 @@
 import React from "react";
-// import PropTypes from "prop-types";
 import {
   Button,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./BurgerConstructor.module.css";
-import img from "../../images/bun-02.svg";
 import CurrencyIconTotalPrice from "../../images/CurrencyIcon36x36.svg";
 import componentMarkerImg from "../../images/icon24x24.svg";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import { productsPropTypes } from "../../utils/prop-types";
+import { productsPropTypes, burgerOjectPropTypes } from "../../utils/prop-types";
 import { BurgerConstructorContext } from "../services/BurgerConstructorContext";
+import { reducer } from "../services/reducer";
 import { placeAnOrder } from "../../utils/burger-api";
 
 function Component({ component }) {
@@ -31,56 +30,61 @@ Component.propTypes = {
   component: productsPropTypes.isRequired,
 };
 
-function BurgerConstructorComponents({burgerOject}) {
-
-  console.log(burgerOject);
+function BurgerConstructorComponents({ burgerOject }) {
   return (
     <>
       <div className={`${styles.bugrgerComponents} mt-25 mb-10 ml-4`}>
-        <div className={styles.component}>
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            // text="Краторная булка N-200i (верх)"
-            // price={200}
-            // thumbnail={img}
-            text={burgerOject.bun.name}
-            price={burgerOject.bun.price}
-            thumbnail={burgerOject.bun.image}
-          />
-        </div>
+        {burgerOject.bun[0] && (
+          <div className={styles.component}>
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={burgerOject.bun[0] ? burgerOject.bun[0].name : ""}
+              price={burgerOject.bun[0] ? burgerOject.bun[0].price : ""}
+              thumbnail={burgerOject.bun[0] ? burgerOject.bun[0].image : ""}
+            />
+          </div>
+        )}
         <ul className={styles.componentsList}>
-          {burgerOject.ingridients?.map(
-            (component) =>
-              "main" === component.type && (
-                <Component key={component._id} component={component} />
+          {burgerOject.ingredients?.map(
+            (component, i) =>
+              component.type && (
+                <Component key={i} component={component} />
               )
           )}
         </ul>
-        <div className={styles.component}>
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text="Краторная булка N-200i (низ)"
-            price={200}
-            thumbnail={img}
-          />
-        </div>
+        {burgerOject.bun[0] && (
+          <div className={styles.component}>
+            <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={burgerOject.bun[0] ? burgerOject.bun[0].name : ""}
+              price={burgerOject.bun[0] ? burgerOject.bun[0].price : ""}
+              thumbnail={burgerOject.bun[0] ? burgerOject.bun[0].image : ""}
+            />
+          </div>
+        )}
       </div>
     </>
   );
 }
 
-function InfoAndOrder() {
-  const components = React.useContext(BurgerConstructorContext);
+BurgerConstructorComponents.propTypes = {
+  burgerOject: burgerOjectPropTypes
+};
+
+function InfoAndOrder({ burgerOject }) {
   const [popupOpen, setPopupOpen] = React.useState(false);
   const [idOrder, setIdOrder] = React.useState(null);
   return (
     <div className={styles.order}>
       <span className="text text_type_digits-medium mr-2">
-        {components.reduce((totalSum, component) => {
-          return totalSum + ("main" === component.type && component.price);
-        }, 0)}
+        {burgerOject.bun
+          .concat(burgerOject.ingredients)
+          .concat(burgerOject.bun)
+          .reduce((totalSum, component) => {
+            return totalSum + component.price;
+          }, 0)}
       </span>
       <img className="mr-10" src={CurrencyIconTotalPrice} alt="" />
       <Button
@@ -88,7 +92,12 @@ function InfoAndOrder() {
         type="primary"
         size="large"
         onClick={() => {
-          placeAnOrder(components.map((component) => component._id))
+          placeAnOrder(
+            burgerOject.bun
+              .concat(burgerOject.ingredients)
+              .concat(burgerOject.bun)
+              .map((component) => component._id)
+          )
             .then((res) => setIdOrder(res.order.number))
             .then(() => setPopupOpen(true))
             .catch((err) => {
@@ -107,32 +116,34 @@ function InfoAndOrder() {
   );
 }
 
-// InfoAndOrder.propTypes = {
-//   tolalPrice: PropTypes.number.isRequired
-// };
+InfoAndOrder.propTypes = {
+  burgerOject: burgerOjectPropTypes
+};
+
+const initBurgerOject = {
+  bun: [],
+  ingredients: [],
+};
 
 export default function BurgerConstructor() {
-  const [burgerOject, setBurgerOject] = React.useState({
-    bun: {},
-    ingredients: []
-  });
   const components = React.useContext(BurgerConstructorContext);
+  const [burgerOject, dispatchBurgerOject] = React.useReducer(
+    reducer,
+    initBurgerOject
+  );
+
   React.useEffect(() => {
     if (components && components.length > 0) {
-      setBurgerOject({
-        bun: components[0],
-        ingridients: [components[2], components[3]],
-      });
+      dispatchBurgerOject({type:"addIngredient", payload: components[3] });
+      dispatchBurgerOject({type:"addIngredient", payload: components[4] });
+      dispatchBurgerOject({type:"addBun", payload: components[0] });
     }
-  }, [components, setBurgerOject]);
+  }, [components]);
+
   return (
     <section className={styles.BurgerConstructorContainer}>
       <BurgerConstructorComponents burgerOject={burgerOject} />
-      <InfoAndOrder />
+      <InfoAndOrder burgerOject={burgerOject} />
     </section>
   );
 }
-
-// BurgerConstructor.propTypes = {
-//   products:PropTypes.arrayOf(productsPropTypes).isRequired
-// };
