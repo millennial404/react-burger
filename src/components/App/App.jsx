@@ -27,8 +27,8 @@ function App() {
     <>
       <AppHeader />
       <main className={style.main}>
-        <BurgerIngredients products={state.products} />
         <BurgerConstructorContext.Provider value={state.products}>
+          <BurgerIngredients products={state.products} />
           <BurgerConstructor />
         </BurgerConstructorContext.Provider>
       </main>

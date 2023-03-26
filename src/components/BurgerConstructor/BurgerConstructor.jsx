@@ -70,11 +70,10 @@ function BurgerConstructorComponents({ burgerOject }) {
 }
 
 BurgerConstructorComponents.propTypes = {
-  burgerOject: burgerOjectPropTypes
+  burgerOject: burgerOjectPropTypes.isRequired
 };
 
 function InfoAndOrder({ burgerOject }) {
-  const [popupOpen, setPopupOpen] = React.useState(false);
   const [idOrder, setIdOrder] = React.useState(null);
   return (
     <div className={styles.order}>
@@ -99,16 +98,15 @@ function InfoAndOrder({ burgerOject }) {
               .map((component) => component._id)
           )
             .then((res) => setIdOrder(res.order.number))
-            .then(() => setPopupOpen(true))
             .catch((err) => {
-              console.log(err);
+              console.error(err);
             });
         }}
       >
         Оформить заказ
       </Button>
-      {popupOpen && (
-        <Modal onClose={() => setPopupOpen(false)}>
+      {idOrder && (
+        <Modal onClose={() => setIdOrder(false)}>
           <OrderDetails idOrder={idOrder} />
         </Modal>
       )}
@@ -117,7 +115,7 @@ function InfoAndOrder({ burgerOject }) {
 }
 
 InfoAndOrder.propTypes = {
-  burgerOject: burgerOjectPropTypes
+  burgerOject: burgerOjectPropTypes.isRequired
 };
 
 const initBurgerOject = {
