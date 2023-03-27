@@ -8,7 +8,10 @@ import CurrencyIconTotalPrice from "../../images/CurrencyIcon36x36.svg";
 import componentMarkerImg from "../../images/icon24x24.svg";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import { productsPropTypes, burgerOjectPropTypes } from "../../utils/prop-types";
+import {
+  productsPropTypes,
+  burgerOjectPropTypes,
+} from "../../utils/prop-types";
 import { BurgerConstructorContext } from "../services/BurgerConstructorContext";
 import { reducer } from "../services/reducer";
 import { placeAnOrder } from "../../utils/burger-api";
@@ -48,9 +51,7 @@ function BurgerConstructorComponents({ burgerOject }) {
         <ul className={styles.componentsList}>
           {burgerOject.ingredients?.map(
             (component, i) =>
-              component.type && (
-                <Component key={i} component={component} />
-              )
+              component.type && <Component key={i} component={component} />
           )}
         </ul>
         {burgerOject.bun[0] && (
@@ -70,33 +71,36 @@ function BurgerConstructorComponents({ burgerOject }) {
 }
 
 BurgerConstructorComponents.propTypes = {
-  burgerOject: burgerOjectPropTypes.isRequired
+  burgerOject: burgerOjectPropTypes.isRequired,
 };
 
+function concatBurgerOject(obj) {
+  return obj.bun.concat(obj.ingredients).concat(obj.bun);
+}
+
+function totalSum(obj) {
+  return concatBurgerOject(obj).reduce((totalSum, component) => {
+    return totalSum + component.price;
+  }, 0);
+}
+
+function arrayIdIngredients(obj) {
+  return concatBurgerOject(obj).map((component) => component._id);
+}
+
 function InfoAndOrder({ burgerOject }) {
+  const orderSum = React.useMemo(() => totalSum(burgerOject), [burgerOject]);
   const [idOrder, setIdOrder] = React.useState(null);
   return (
     <div className={styles.order}>
-      <span className="text text_type_digits-medium mr-2">
-        {burgerOject.bun
-          .concat(burgerOject.ingredients)
-          .concat(burgerOject.bun)
-          .reduce((totalSum, component) => {
-            return totalSum + component.price;
-          }, 0)}
-      </span>
+      <span className="text text_type_digits-medium mr-2">{orderSum}</span>
       <img className="mr-10" src={CurrencyIconTotalPrice} alt="" />
       <Button
         htmlType="button"
         type="primary"
         size="large"
         onClick={() => {
-          placeAnOrder(
-            burgerOject.bun
-              .concat(burgerOject.ingredients)
-              .concat(burgerOject.bun)
-              .map((component) => component._id)
-          )
+          placeAnOrder(arrayIdIngredients(burgerOject))
             .then((res) => setIdOrder(res.order.number))
             .catch((err) => {
               console.error(err);
@@ -115,7 +119,7 @@ function InfoAndOrder({ burgerOject }) {
 }
 
 InfoAndOrder.propTypes = {
-  burgerOject: burgerOjectPropTypes.isRequired
+  burgerOject: burgerOjectPropTypes.isRequired,
 };
 
 const initBurgerOject = {
@@ -132,9 +136,9 @@ export default function BurgerConstructor() {
 
   React.useEffect(() => {
     if (components && components.length > 0) {
-      dispatchBurgerOject({type:"addIngredient", payload: components[3] });
-      dispatchBurgerOject({type:"addIngredient", payload: components[4] });
-      dispatchBurgerOject({type:"addBun", payload: components[0] });
+      dispatchBurgerOject({ type: "addIngredient", payload: components[3] });
+      dispatchBurgerOject({ type: "addIngredient", payload: components[4] });
+      dispatchBurgerOject({ type: "addBun", payload: components[0] });
     }
   }, [components]);
 
