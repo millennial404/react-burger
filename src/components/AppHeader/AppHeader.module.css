@@ -1,37 +1,39 @@
 .header {
-  display: flex;
-  margin: 0 auto;
-  max-width: 1920px;
+    display: flex;
+    margin: 0 auto;
+    max-width: 1920px;
 }
+
 .content {
-  display: flex;
-  margin: 0 auto;
-  max-width: 1280px;
-  width: 100%;
-  line-height: 0;
+    display: flex;
+    margin: 0 auto;
+    max-width: 1280px;
+    width: 100%;
+    line-height: 0;
 }
+
 .logo {
-  align-self: center;
-  line-height: 0;
-  margin: 0 auto 0 112px;
+    align-self: center;
+    line-height: 0;
+    margin: 0 auto 0 112px;
 }
 
 .linkContainer {
-  display: flex;
-  line-height: 0;
-  border-radius: 40px;
+    display: flex;
+    line-height: 0;
+    border-radius: 40px;
 }
 
 .link {
-  text-decoration: none;
-  font-family: "JetBrains Mono";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 24px;
-  color: #f2f2f3;
+    text-decoration: none;
+    font-family: "JetBrains Mono";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #f2f2f3;
 }
 
 .link:visited {
-  color: #8585ad;
+    color: #8585ad;
 }

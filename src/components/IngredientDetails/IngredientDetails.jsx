@@ -1,10 +1,10 @@
 import {productsPropTypes} from "../../utils/prop-types";
 import styles from "./IngredientDetails.module.css";
 
-export default function IngredientDetails({ currentIngredient }) {
+export default function IngredientDetails({currentIngredient}) {
   return (
     <div className={styles.IngredientDetailsContainer}>
-      <img className="mb-4" src={currentIngredient.image_large} alt="" />
+      <img className="mb-4" src={currentIngredient.image_large} alt=""/>
       <p className="text text_type_main-medium mb-8">
         {currentIngredient.name}
       </p>
@@ -39,5 +39,5 @@ export default function IngredientDetails({ currentIngredient }) {
 }
 
 IngredientDetails.propTypes = {
-  currentIngredient:productsPropTypes.isRequired
+  currentIngredient: productsPropTypes.isRequired
 };

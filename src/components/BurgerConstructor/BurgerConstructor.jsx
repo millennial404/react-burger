@@ -12,14 +12,13 @@ import {
   productsPropTypes,
   burgerOjectPropTypes,
 } from "../../utils/prop-types";
-import { BurgerConstructorContext } from "../services/BurgerConstructorContext";
-import { reducer } from "../services/reducer";
-import { placeAnOrder } from "../../utils/burger-api";
+import {placeAnOrder} from "../../utils/burger-api";
+import {useSelector} from "react-redux";
 
-function Component({ component }) {
+function Component({component}) {
   return (
     <li className={styles.component}>
-      <img className="mr-2" src={componentMarkerImg} alt="" />
+      <img className="mr-2" src={componentMarkerImg} alt=""/>
       <ConstructorElement
         text={component.name}
         price={component.price}
@@ -33,7 +32,7 @@ Component.propTypes = {
   component: productsPropTypes.isRequired,
 };
 
-function BurgerConstructorComponents({ burgerOject }) {
+function BurgerConstructorComponents({burgerOject}) {
   return (
     <>
       <div className={`${styles.bugrgerComponents} mt-25 mb-10 ml-4`}>
@@ -51,7 +50,7 @@ function BurgerConstructorComponents({ burgerOject }) {
         <ul className={styles.componentsList}>
           {burgerOject.ingredients?.map(
             (component, i) =>
-              component.type && <Component key={i} component={component} />
+              component.type && <Component key={i} component={component}/>
           )}
         </ul>
         {burgerOject.bun[0] && (
@@ -88,13 +87,13 @@ function arrayIdIngredients(obj) {
   return concatBurgerOject(obj).map((component) => component._id);
 }
 
-function InfoAndOrder({ burgerOject }) {
+function InfoAndOrder({burgerOject}) {
   const orderSum = React.useMemo(() => totalSum(burgerOject), [burgerOject]);
   const [idOrder, setIdOrder] = React.useState(null);
   return (
     <div className={styles.order}>
       <span className="text text_type_digits-medium mr-2">{orderSum}</span>
-      <img className="mr-10" src={CurrencyIconTotalPrice} alt="" />
+      <img className="mr-10" src={CurrencyIconTotalPrice} alt=""/>
       <Button
         htmlType="button"
         type="primary"
@@ -111,7 +110,7 @@ function InfoAndOrder({ burgerOject }) {
       </Button>
       {idOrder && (
         <Modal onClose={() => setIdOrder(false)}>
-          <OrderDetails idOrder={idOrder} />
+          <OrderDetails idOrder={idOrder}/>
         </Modal>
       )}
     </div>
@@ -122,30 +121,14 @@ InfoAndOrder.propTypes = {
   burgerOject: burgerOjectPropTypes.isRequired,
 };
 
-const initBurgerOject = {
-  bun: [],
-  ingredients: [],
-};
-
 export default function BurgerConstructor() {
-  const components = React.useContext(BurgerConstructorContext);
-  const [burgerOject, dispatchBurgerOject] = React.useReducer(
-    reducer,
-    initBurgerOject
-  );
 
-  React.useEffect(() => {
-    if (components && components.length > 0) {
-      dispatchBurgerOject({ type: "addIngredient", payload: components[3] });
-      dispatchBurgerOject({ type: "addIngredient", payload: components[4] });
-      dispatchBurgerOject({ type: "addBun", payload: components[0] });
-    }
-  }, [components]);
+  const {components} = useSelector(state => state.components);
 
   return (
     <section className={styles.BurgerConstructorContainer}>
-      <BurgerConstructorComponents burgerOject={burgerOject} />
-      <InfoAndOrder burgerOject={burgerOject} />
+      <BurgerConstructorComponents burgerOject={components}/>
+      <InfoAndOrder burgerOject={components}/>
     </section>
   );
 }
