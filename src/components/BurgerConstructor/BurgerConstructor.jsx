@@ -10,7 +10,7 @@ import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import {
   productsPropTypes,
-  burgerOjectPropTypes,
+  burgerObjectPropTypes,
 } from "../../utils/prop-types";
 import {placeAnOrder} from "../../utils/burger-api";
 import {useSelector} from "react-redux";
@@ -32,35 +32,35 @@ Component.propTypes = {
   component: productsPropTypes.isRequired,
 };
 
-function BurgerConstructorComponents({burgerOject}) {
+function BurgerConstructorComponents({burgerObject}) {
   return (
     <>
       <div className={`${styles.bugrgerComponents} mt-25 mb-10 ml-4`}>
-        {burgerOject.bun[0] && (
+        {burgerObject.bun[0] && (
           <div className={styles.component}>
             <ConstructorElement
               type="top"
               isLocked={true}
-              text={burgerOject.bun[0] ? burgerOject.bun[0].name : ""}
-              price={burgerOject.bun[0] ? burgerOject.bun[0].price : ""}
-              thumbnail={burgerOject.bun[0] ? burgerOject.bun[0].image : ""}
+              text={burgerObject.bun[0] ? burgerObject.bun[0].name : ""}
+              price={burgerObject.bun[0] ? burgerObject.bun[0].price : ""}
+              thumbnail={burgerObject.bun[0] ? burgerObject.bun[0].image : ""}
             />
           </div>
         )}
         <ul className={styles.componentsList}>
-          {burgerOject.ingredients?.map(
+          {burgerObject.ingredients?.map(
             (component, i) =>
               component.type && <Component key={i} component={component}/>
           )}
         </ul>
-        {burgerOject.bun[0] && (
+        {burgerObject.bun[0] && (
           <div className={styles.component}>
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={burgerOject.bun[0] ? burgerOject.bun[0].name : ""}
-              price={burgerOject.bun[0] ? burgerOject.bun[0].price : ""}
-              thumbnail={burgerOject.bun[0] ? burgerOject.bun[0].image : ""}
+              text={burgerObject.bun[0] ? burgerObject.bun[0].name : ""}
+              price={burgerObject.bun[0] ? burgerObject.bun[0].price : ""}
+              thumbnail={burgerObject.bun[0] ? burgerObject.bun[0].image : ""}
             />
           </div>
         )}
@@ -70,25 +70,25 @@ function BurgerConstructorComponents({burgerOject}) {
 }
 
 BurgerConstructorComponents.propTypes = {
-  burgerOject: burgerOjectPropTypes.isRequired,
+  burgerObject: burgerObjectPropTypes.isRequired,
 };
 
-function concatBurgerOject(obj) {
+function concatBurgerObject(obj) {
   return obj.bun.concat(obj.ingredients).concat(obj.bun);
 }
 
 function totalSum(obj) {
-  return concatBurgerOject(obj).reduce((totalSum, component) => {
-    return totalSum + component.price;
+  return concatBurgerObject(obj).reduce((totalSum, component) => {
+    return component ? totalSum + component.price : 0
   }, 0);
 }
 
 function arrayIdIngredients(obj) {
-  return concatBurgerOject(obj).map((component) => component._id);
+  return concatBurgerObject(obj).map((component) => component ? component._id : false);
 }
 
-function InfoAndOrder({burgerOject}) {
-  const orderSum = React.useMemo(() => totalSum(burgerOject), [burgerOject]);
+function InfoAndOrder({burgerObject}) {
+  const orderSum = React.useMemo(() => totalSum(burgerObject), [burgerObject]);
   const [idOrder, setIdOrder] = React.useState(null);
   return (
     <div className={styles.order}>
@@ -99,11 +99,13 @@ function InfoAndOrder({burgerOject}) {
         type="primary"
         size="large"
         onClick={() => {
-          placeAnOrder(arrayIdIngredients(burgerOject))
+          arrayIdIngredients(burgerObject)[false] ?
+          placeAnOrder(arrayIdIngredients(burgerObject))
             .then((res) => setIdOrder(res.order.number))
             .catch((err) => {
               console.error(err);
-            });
+            })
+            : console.log(arrayIdIngredients(burgerObject))
         }}
       >
         Оформить заказ
@@ -118,17 +120,17 @@ function InfoAndOrder({burgerOject}) {
 }
 
 InfoAndOrder.propTypes = {
-  burgerOject: burgerOjectPropTypes.isRequired,
+  burgerObject: burgerObjectPropTypes.isRequired,
 };
 
 export default function BurgerConstructor() {
 
-  const {components} = useSelector(state => state.components);
+  const components = useSelector(state => state.components);
 
   return (
     <section className={styles.BurgerConstructorContainer}>
-      <BurgerConstructorComponents burgerOject={components}/>
-      <InfoAndOrder burgerOject={components}/>
+      <BurgerConstructorComponents burgerObject={components}/>
+      <InfoAndOrder burgerObject={components}/>
     </section>
   );
 }

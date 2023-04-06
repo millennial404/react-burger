@@ -15,10 +15,10 @@ const productsPropTypes = PropTypes.shape(
     image_large: PropTypes.string.isRequired,
   });
 
-const burgerOjectPropTypes = PropTypes.shape({
+const burgerObjectPropTypes = PropTypes.shape({
   bun: PropTypes.arrayOf(productsPropTypes),
   ingredients: PropTypes.arrayOf(productsPropTypes),
 })
 
 
-export {productsPropTypes, burgerOjectPropTypes}
+export {productsPropTypes, burgerObjectPropTypes}

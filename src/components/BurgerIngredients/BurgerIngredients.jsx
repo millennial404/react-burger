@@ -31,6 +31,7 @@ const TabBurgerIngredients = () => {
 };
 
 function Card({cardData}) {
+  const constructorBurgerData = useSelector(state => state.components)
   const dispatch = useDispatch();
   const [popupOpen, setPopupOpen] = React.useState(false);
   return (
@@ -38,8 +39,9 @@ function Card({cardData}) {
       <li
         className={`${styles.card} ml-4 mr-6 mb-8`}
         onClick={() => {
-          setPopupOpen(true)
-          dispatch(addBurgerComponent(cardData))
+          setPopupOpen(true);
+          dispatch(addBurgerComponent(cardData));
+          console.log(constructorBurgerData)
         }}
       >
         <img
@@ -73,7 +75,7 @@ Card.propTypes = {
   cardData: productsPropTypes.isRequired,
 };
 
-function CardsByTypes({ingridients}) {
+function CardsByTypes({ingredients}) {
   const cardTypes = {
     bun: "Булки",
     sauce: "Соусы",
@@ -88,10 +90,10 @@ function CardsByTypes({ingridients}) {
             {cardTypes[key]}
           </h2>
           <ul className={`${styles.cards} mb-10`}>
-            {ingridients.map(
-              (ingridient) =>
-                key === ingridient.type && (
-                  <Card key={ingridient._id} cardData={ingridient}/>
+            {ingredients.map(
+              (ingredient) =>
+                key === ingredient.type && (
+                  <Card key={ingredient._id} cardData={ingredient}/>
                 )
             )}
           </ul>
@@ -102,7 +104,7 @@ function CardsByTypes({ingridients}) {
 }
 
 CardsByTypes.propTypes = {
-  ingridients: PropTypes.arrayOf(productsPropTypes).isRequired,
+  ingredients: PropTypes.arrayOf(productsPropTypes).isRequired,
 };
 
 export default function BurgerIngredients() {
@@ -131,7 +133,7 @@ export default function BurgerIngredients() {
     <section className={styles.BurgerIngredientsContainer}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
       <TabBurgerIngredients/>
-      <CardsByTypes ingridients={ingredients}/>
+      <CardsByTypes ingredients={ingredients}/>
     </section>
   );
 }
