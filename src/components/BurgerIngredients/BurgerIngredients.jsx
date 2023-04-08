@@ -8,7 +8,8 @@ import {
 import Modal from "../Modal/Modal";
 import styles from "./BurgerIngredients.module.css";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import {productsPropTypes} from "../../utils/prop-types";
+import { productsPropTypes } from "../../utils/prop-types";
+import { BurgerConstructorContext } from "../services/BurgerConstructorContext";
 
 const TabBurgerIngredients = () => {
   const [current, setCurrent] = React.useState("bun");
@@ -63,9 +64,8 @@ function Card({ cardData }) {
 }
 
 Card.propTypes = {
-  cardData:productsPropTypes.isRequired
+  cardData: productsPropTypes.isRequired,
 };
-
 
 function CardsByTypes({ ingridients }) {
   const cardTypes = {
@@ -96,19 +96,16 @@ function CardsByTypes({ ingridients }) {
 }
 
 CardsByTypes.propTypes = {
-  ingridients:PropTypes.arrayOf(productsPropTypes).isRequired
+  ingridients: PropTypes.arrayOf(productsPropTypes).isRequired,
 };
 
-export default function BurgerIngredients(props) {
+export default function BurgerIngredients() {
+  const components = React.useContext(BurgerConstructorContext);
   return (
     <section className={styles.BurgerIngredientsContainer}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
       <TabBurgerIngredients />
-      <CardsByTypes ingridients={props.products} />
+      <CardsByTypes ingridients={components} />
     </section>
   );
 }
-
-BurgerIngredients.propTypes = {
-  products:PropTypes.arrayOf(productsPropTypes).isRequired
-};

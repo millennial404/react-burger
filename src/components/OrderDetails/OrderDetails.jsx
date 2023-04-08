@@ -1,10 +1,11 @@
 import styles from "./OrderDetails.module.css";
 import doneImg from "../../images/done.png";
 
-export default function OrderDetails() {
+export default function OrderDetails(props) {
+  const {idOrder} = props
   return (
     <div className={styles.orderDetailsConteiner}>
-      <p className="text text_type_digits-large mb-8 mt-4">034536</p>
+      <p className="text text_type_digits-large mb-8 mt-4">{idOrder}</p>
       <p className="text text_type_main-medium mb-15">идентификатор заказа</p>
       <img className={`${styles.doneImg} mb-15`} src={doneImg} alt="" />
       <p className="text text_type_main-default mb-2">

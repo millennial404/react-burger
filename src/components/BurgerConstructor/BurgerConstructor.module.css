@@ -16,7 +16,7 @@
   margin: 16px 0;
   padding: 0;
   gap: 16px;
-  height: 464px;
+  max-height: 464px;
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -42,14 +42,6 @@
   width: 100%;
   justify-content: flex-end;
   margin: 0;
-}
-
-.componentTop {
-  composes: component;
-}
-.componentBottom{
-  composes: component;
-
 }
 
 .order {

@@ -3,7 +3,8 @@ import style from "./App.module.css";
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import {getIngridients} from "../../utils/burger-api";
+import { getIngridients } from "../../utils/burger-api";
+import { BurgerConstructorContext } from "../services/BurgerConstructorContext";
 
 function App() {
   const [state, setState] = React.useState({
@@ -26,8 +27,10 @@ function App() {
     <>
       <AppHeader />
       <main className={style.main}>
-        <BurgerIngredients products={state.products} />
-        <BurgerConstructor products={state.products} />
+        <BurgerConstructorContext.Provider value={state.products}>
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </BurgerConstructorContext.Provider>
       </main>
     </>
   );
