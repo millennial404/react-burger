@@ -11,7 +11,9 @@ import Modal from "../Modal/Modal";
 import styles from "./BurgerIngredients.module.css";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {productsPropTypes} from "../../utils/prop-types";
-import {addBurgerComponent} from "../../services/actions/constructorIngredients";
+// import {addBurgerComponent, addBurgerComponentBun} from "../../services/actions/constructorIngredients";
+import {ClearIngredientDelails, ingredientDelails} from "../../services/actions/currentIngredient";
+import { useDrag } from 'react-dnd';
 
 const TabBurgerIngredients = () => {
   const [current, setCurrent] = React.useState("bun");
@@ -31,21 +33,30 @@ const TabBurgerIngredients = () => {
 };
 
 function Card({cardData}) {
-  const constructorBurgerData = useSelector(state => state.components)
   const dispatch = useDispatch();
   const [popupOpen, setPopupOpen] = React.useState(false);
+
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: "ingredient",
+    item: {cardData: cardData},
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }));
+
   return (
     <>
-      <li
-        className={`${styles.card} ml-4 mr-6 mb-8`}
-        onClick={() => {
-          setPopupOpen(true);
-          dispatch(addBurgerComponent(cardData));
-          console.log(constructorBurgerData)
-        }}
+      <li draggable={true}
+          ref={drag}
+          className={`${styles.card} ml-4 mr-6 mb-8`}
+          style={{ border: isDragging ? "1px solid pink" : "0px", boxSizing: isDragging ? "border-box" : "content-box"}}
+          onClick={() => {
+            setPopupOpen(true);
+            dispatch(ingredientDelails({...cardData}))
+          }}
       >
         <img
-          className={`${styles.image} mb-1 ml-4 mr-4`}
+          className= "mb-1 ml-4 mr-4"
           src={cardData.image}
           alt={cardData.name}
         />
@@ -63,8 +74,11 @@ function Card({cardData}) {
         </p>
       </li>
       {popupOpen && (
-        <Modal onClose={() => setPopupOpen(false)} title="Детали ингредиента">
-          <IngredientDetails currentIngredient={cardData}/>
+        <Modal onClose={() => {
+          setPopupOpen(false)
+          dispatch(ClearIngredientDelails())
+        }} title="Детали ингредиента">
+          <IngredientDetails/>
         </Modal>
       )}
     </>
@@ -110,7 +124,7 @@ CardsByTypes.propTypes = {
 export default function BurgerIngredients() {
 
   // Вытаскиваем селектором нужные данные из хранилища
-  const {ingredients, ingredientsRequest, ingredientsFailed} = useSelector(state => state.ingredients);
+  const {ingredients} = useSelector(state => state.ingredients);
 
   // Получаем метод dispatch
   const dispatch = useDispatch();
@@ -119,15 +133,6 @@ export default function BurgerIngredients() {
     // Отправляем экшен-функцию
     dispatch(getIngredients())
   }, [dispatch])
-
-  if (ingredientsFailed) {
-    console.log('Произошла ошибка при получении данных');
-  } else if (ingredientsRequest) {
-    console.log('Загрузка...');
-  } else {
-    console.log(ingredients);
-  }
-
 
   return (
     <section className={styles.BurgerIngredientsContainer}>

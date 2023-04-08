@@ -12,8 +12,10 @@ import {
   productsPropTypes,
   burgerObjectPropTypes,
 } from "../../utils/prop-types";
-import {placeAnOrder} from "../../utils/burger-api";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {clearGetIdOrder, getIdOrder} from "../../services/actions/createdOrder";
+import {addBurgerComponent, addBurgerComponentBun} from "../../services/actions/constructorIngredients";
+import {useDrop} from "react-dnd";
 
 function Component({component}) {
   return (
@@ -33,8 +35,22 @@ Component.propTypes = {
 };
 
 function BurgerConstructorComponents({burgerObject}) {
+  const dispatch = useDispatch();
+
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: "ingredient",
+    drop: (item) => {
+      item.cardData.type === "bun"
+        ? dispatch(addBurgerComponentBun(item.cardData))
+        : dispatch(addBurgerComponent(item.cardData))
+    },
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+    }),
+  }));
+
   return (
-    <>
+    <div ref={drop} style={{border: isOver ? "1px solid pink" : "0px"}}>
       <div className={`${styles.bugrgerComponents} mt-25 mb-10 ml-4`}>
         {burgerObject.bun[0] && (
           <div className={styles.component}>
@@ -48,7 +64,7 @@ function BurgerConstructorComponents({burgerObject}) {
           </div>
         )}
         <ul className={styles.componentsList}>
-          {burgerObject.ingredients?.map(
+          {burgerObject.components?.map(
             (component, i) =>
               component.type && <Component key={i} component={component}/>
           )}
@@ -65,7 +81,7 @@ function BurgerConstructorComponents({burgerObject}) {
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }
 
@@ -74,7 +90,7 @@ BurgerConstructorComponents.propTypes = {
 };
 
 function concatBurgerObject(obj) {
-  return obj.bun.concat(obj.ingredients).concat(obj.bun);
+  return obj.bun.concat(obj.components).concat(obj.bun);
 }
 
 function totalSum(obj) {
@@ -84,12 +100,13 @@ function totalSum(obj) {
 }
 
 function arrayIdIngredients(obj) {
-  return concatBurgerObject(obj).map((component) => component ? component._id : false);
+  return concatBurgerObject(obj).map((component) => component._id);
 }
 
 function InfoAndOrder({burgerObject}) {
+  const idOrder = useSelector(state=> state.orderId.orderId)
+  const dispatch = useDispatch();
   const orderSum = React.useMemo(() => totalSum(burgerObject), [burgerObject]);
-  const [idOrder, setIdOrder] = React.useState(null);
   return (
     <div className={styles.order}>
       <span className="text text_type_digits-medium mr-2">{orderSum}</span>
@@ -99,20 +116,16 @@ function InfoAndOrder({burgerObject}) {
         type="primary"
         size="large"
         onClick={() => {
-          arrayIdIngredients(burgerObject)[false] ?
-          placeAnOrder(arrayIdIngredients(burgerObject))
-            .then((res) => setIdOrder(res.order.number))
-            .catch((err) => {
-              console.error(err);
-            })
-            : console.log(arrayIdIngredients(burgerObject))
+          arrayIdIngredients(burgerObject).length === 0
+            ? console.error("Добавьте компоненты для заказа")
+            : dispatch(getIdOrder(arrayIdIngredients(burgerObject)))
         }}
       >
         Оформить заказ
       </Button>
       {idOrder && (
-        <Modal onClose={() => setIdOrder(false)}>
-          <OrderDetails idOrder={idOrder}/>
+        <Modal onClose={() => dispatch(clearGetIdOrder())} >
+          <OrderDetails />
         </Modal>
       )}
     </div>
@@ -126,7 +139,6 @@ InfoAndOrder.propTypes = {
 export default function BurgerConstructor() {
 
   const components = useSelector(state => state.components);
-
   return (
     <section className={styles.BurgerConstructorContainer}>
       <BurgerConstructorComponents burgerObject={components}/>

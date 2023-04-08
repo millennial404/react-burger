@@ -1,4 +1,4 @@
-import {ADD_BURGER_COMPONENT} from "../actions/constructorIngredients";
+import {ADD_BURGER_COMPONENT, ADD_BURGER_COMPONENT_BUN} from "../actions/constructorIngredients";
 
 
 const initialState = {
@@ -12,6 +12,12 @@ export const componentsReducer = (state = initialState, action) => {
       return {
         ...state,
         components: [...state.components, action.component]
+      }
+    }
+    case ADD_BURGER_COMPONENT_BUN: {
+      return {
+        ...state,
+        bun: [action.component]
       }
     }
     default: {
