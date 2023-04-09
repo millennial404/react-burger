@@ -25,7 +25,7 @@ export function getIdOrder(arrayComponentsId) {
           }
         }
       )
-      .catch(err => {
+      .catch(() => {
         dispatch({
           type: GET_ID_ORDER_FAILED
         })

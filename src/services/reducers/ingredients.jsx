@@ -1,7 +1,9 @@
 import {
+  DECREMENT_INGREDIENT_COUNT,
   GET_INGREDIENTS,
   GET_INGREDIENTS_FAILED,
-  GET_INGREDIENTS_SUCCESS
+  GET_INGREDIENTS_SUCCESS,
+  INCREMENT_INGREDIENT_COUNT
 } from '../actions/ingredients';
 
 const initialState = {
@@ -15,30 +17,53 @@ export const ingredientsReducer = (state = initialState, action) => {
     case GET_INGREDIENTS: {
       return {
         ...state,
-        // Запрос начал выполняться
         ingredientsRequest: true,
-        // Сбрасываем статус наличия ошибок от предыдущего запроса
-        // на случай, если он был и завершился с ошибкой
         ingredientsFailed: false,
       };
     }
     case GET_INGREDIENTS_SUCCESS: {
       return {
         ...state,
-        // Запрос выполнился успешно, помещаем полученные данные в хранилище
         ingredients: action.ingredients,
-        // Запрос закончил своё выполнение
         ingredientsRequest: false
       };
     }
     case GET_INGREDIENTS_FAILED: {
       return {
         ...state,
-        // Запрос выполнился с ошибкой,
-        // выставляем соответствующие значения в хранилище
         ingredientsFailed: true,
-        // Запрос закончил своё выполнение
         ingredientsRequest: false
+      };
+    }
+    case INCREMENT_INGREDIENT_COUNT: {
+      return {
+        ...state,
+
+        ingredients: [...state.ingredients].map(ingredient => {
+          if (action.addedIngredient.type === "bun" && ingredient.type === "bun" && ingredient._id !== action.addedIngredient._id) {
+            return {...ingredient, count: 0}
+          }
+          else if (action.addedIngredient.type === "bun" && ingredient.type === "bun" && ingredient._id === action.addedIngredient._id) {
+            return {...ingredient, count: 2}
+          }
+          else if (ingredient._id === action.addedIngredient._id) {
+            return {...ingredient, count: ingredient.count + 1}
+          } else {
+            return ingredient
+          }
+        })
+      };
+    }
+    case DECREMENT_INGREDIENT_COUNT: {
+      return {
+        ...state,
+        ingredients: [...state.ingredients].map(ingredient => {
+          if (ingredient._id === action.removedIngredient._id) {
+            return {...ingredient, count: ingredient.count - 1}
+          } else {
+            return ingredient
+          }
+        })
       };
     }
     default: {

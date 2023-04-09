@@ -14,10 +14,16 @@ import {
 } from "../../utils/prop-types";
 import {useDispatch, useSelector} from "react-redux";
 import {clearGetIdOrder, getIdOrder} from "../../services/actions/createdOrder";
-import {addBurgerComponent, addBurgerComponentBun} from "../../services/actions/constructorIngredients";
+import {
+  addBurgerComponent,
+  addBurgerComponentBun,
+  deleteBurgerComponent
+} from "../../services/actions/constructorIngredients";
 import {useDrop} from "react-dnd";
+import {decrementIngredient, incrementIngredient} from "../../services/actions/ingredients";
 
-function Component({component}) {
+function Component({component, index}) {
+  const dispatch = useDispatch();
   return (
     <li className={styles.component}>
       <img className="mr-2" src={componentMarkerImg} alt=""/>
@@ -25,6 +31,10 @@ function Component({component}) {
         text={component.name}
         price={component.price}
         thumbnail={component.image}
+        handleClose={() => {
+          dispatch(deleteBurgerComponent(component.uuid))
+          dispatch(decrementIngredient(component))
+        }}
       />
     </li>
   );
@@ -37,12 +47,16 @@ Component.propTypes = {
 function BurgerConstructorComponents({burgerObject}) {
   const dispatch = useDispatch();
 
-  const [{ isOver }, drop] = useDrop(() => ({
+  const [{isOver}, drop] = useDrop(() => ({
     accept: "ingredient",
     drop: (item) => {
-      item.cardData.type === "bun"
-        ? dispatch(addBurgerComponentBun(item.cardData))
-        : dispatch(addBurgerComponent(item.cardData))
+      if (item.cardData.type === "bun") {
+        dispatch(addBurgerComponentBun(item.cardData));
+        dispatch(incrementIngredient(item.cardData));
+      } else {
+        dispatch(addBurgerComponent(item.cardData))
+        dispatch(incrementIngredient(item.cardData))
+      }
     },
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -50,37 +64,36 @@ function BurgerConstructorComponents({burgerObject}) {
   }));
 
   return (
-    <div ref={drop} style={{border: isOver ? "1px solid pink" : "0px"}}>
-      <div className={`${styles.bugrgerComponents} mt-25 mb-10 ml-4`}>
-        {burgerObject.bun[0] && (
-          <div className={styles.component}>
-            <ConstructorElement
-              type="top"
-              isLocked={true}
-              text={burgerObject.bun[0] ? burgerObject.bun[0].name : ""}
-              price={burgerObject.bun[0] ? burgerObject.bun[0].price : ""}
-              thumbnail={burgerObject.bun[0] ? burgerObject.bun[0].image : ""}
-            />
-          </div>
+    <div className={`${styles.bugrgerComponents} mt-25 mb-10 ml-4`} ref={drop}
+         style={{border: isOver ? "1px solid pink" : "0px"}}>
+      {burgerObject.bun[0] && (
+        <div className={styles.component}>
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text={burgerObject.bun[0] ? burgerObject.bun[0].name : ""}
+            price={burgerObject.bun[0] ? burgerObject.bun[0].price : ""}
+            thumbnail={burgerObject.bun[0] ? burgerObject.bun[0].image : ""}
+          />
+        </div>
+      )}
+      <ul className={styles.componentsList}>
+        {burgerObject.components?.map(
+          (component, i) =>
+            component.type && <Component key={component.uuid} component={component} index={i}/>
         )}
-        <ul className={styles.componentsList}>
-          {burgerObject.components?.map(
-            (component, i) =>
-              component.type && <Component key={i} component={component}/>
-          )}
-        </ul>
-        {burgerObject.bun[0] && (
-          <div className={styles.component}>
-            <ConstructorElement
-              type="bottom"
-              isLocked={true}
-              text={burgerObject.bun[0] ? burgerObject.bun[0].name : ""}
-              price={burgerObject.bun[0] ? burgerObject.bun[0].price : ""}
-              thumbnail={burgerObject.bun[0] ? burgerObject.bun[0].image : ""}
-            />
-          </div>
-        )}
-      </div>
+      </ul>
+      {burgerObject.bun[0] && (
+        <div className={styles.component}>
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text={burgerObject.bun[0] ? burgerObject.bun[0].name : ""}
+            price={burgerObject.bun[0] ? burgerObject.bun[0].price : ""}
+            thumbnail={burgerObject.bun[0] ? burgerObject.bun[0].image : ""}
+          />
+        </div>
+      )}
     </div>
   );
 }
@@ -104,7 +117,7 @@ function arrayIdIngredients(obj) {
 }
 
 function InfoAndOrder({burgerObject}) {
-  const idOrder = useSelector(state=> state.orderId.orderId)
+  const idOrder = useSelector(state => state.orderId.orderId)
   const dispatch = useDispatch();
   const orderSum = React.useMemo(() => totalSum(burgerObject), [burgerObject]);
   return (
@@ -124,8 +137,8 @@ function InfoAndOrder({burgerObject}) {
         Оформить заказ
       </Button>
       {idOrder && (
-        <Modal onClose={() => dispatch(clearGetIdOrder())} >
-          <OrderDetails />
+        <Modal onClose={() => dispatch(clearGetIdOrder())}>
+          <OrderDetails/>
         </Modal>
       )}
     </div>

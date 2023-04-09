@@ -13,7 +13,7 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {productsPropTypes} from "../../utils/prop-types";
 // import {addBurgerComponent, addBurgerComponentBun} from "../../services/actions/constructorIngredients";
 import {ClearIngredientDelails, ingredientDelails} from "../../services/actions/currentIngredient";
-import { useDrag } from 'react-dnd';
+import {useDrag} from 'react-dnd';
 
 const TabBurgerIngredients = () => {
   const [current, setCurrent] = React.useState("bun");
@@ -36,7 +36,7 @@ function Card({cardData}) {
   const dispatch = useDispatch();
   const [popupOpen, setPopupOpen] = React.useState(false);
 
-  const [{ isDragging }, drag] = useDrag(() => ({
+  const [{isDragging}, drag] = useDrag(() => ({
     type: "ingredient",
     item: {cardData: cardData},
     collect: (monitor) => ({
@@ -49,20 +49,20 @@ function Card({cardData}) {
       <li draggable={true}
           ref={drag}
           className={`${styles.card} ml-4 mr-6 mb-8`}
-          style={{ border: isDragging ? "1px solid pink" : "0px", boxSizing: isDragging ? "border-box" : "content-box"}}
+          style={{border: isDragging ? "1px solid pink" : "0px", boxSizing: isDragging ? "border-box" : "content-box"}}
           onClick={() => {
             setPopupOpen(true);
             dispatch(ingredientDelails({...cardData}))
           }}
       >
         <img
-          className= "mb-1 ml-4 mr-4"
+          className="mb-1 ml-4 mr-4"
           src={cardData.image}
           alt={cardData.name}
         />
 
-        {cardData._id === "60d3b41abdacab0026a733c6" && (
-          <Counter count={1} size="default" extraClass="m-1"/>
+        {cardData.count > 0 && (
+          <Counter count={cardData.count} size="default" extraClass="m-1"/>
         )}
 
         <div className={`${styles.price} mb-1`}>
@@ -123,14 +123,11 @@ CardsByTypes.propTypes = {
 
 export default function BurgerIngredients() {
 
-  // Вытаскиваем селектором нужные данные из хранилища
   const {ingredients} = useSelector(state => state.ingredients);
 
-  // Получаем метод dispatch
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Отправляем экшен-функцию
     dispatch(getIngredients())
   }, [dispatch])
 
