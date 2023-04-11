@@ -1,7 +1,8 @@
 import {
   ADD_BURGER_COMPONENT,
   ADD_BURGER_COMPONENT_BUN,
-  DELETE_BURGER_COMPONENT
+  DELETE_BURGER_COMPONENT,
+  MOVE_BURGER_COMPONENT
 } from "../actions/constructorIngredients";
 
 
@@ -23,6 +24,12 @@ export const componentsReducer = (state = initialState, action) => {
       return {
         ...state,
         components: [...state.components].filter((item => item.uuid !== action.componentUUID))
+      }
+    }
+    case MOVE_BURGER_COMPONENT: {
+      return {
+        ...state,
+        components: [action.newComponents]
       }
     }
     case ADD_BURGER_COMPONENT_BUN: {
