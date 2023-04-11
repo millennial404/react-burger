@@ -27,9 +27,10 @@ export function deleteBurgerComponent(uuid) {
   }
 }
 
-export function moveBurgerComponent(newComponents) {
+export function moveBurgerComponent(dragIndex, hoverIndex) {
   return {
     type: MOVE_BURGER_COMPONENT,
-    newComponents: [...newComponents]
+    dragIndex: dragIndex,
+    hoverIndex: hoverIndex,
   }
 }

@@ -4,6 +4,7 @@ import {
   DELETE_BURGER_COMPONENT,
   MOVE_BURGER_COMPONENT
 } from "../actions/constructorIngredients";
+import update from 'immutability-helper'
 
 
 const initialState = {
@@ -29,7 +30,7 @@ export const componentsReducer = (state = initialState, action) => {
     case MOVE_BURGER_COMPONENT: {
       return {
         ...state,
-        components: [action.newComponents]
+        components: update(state.components,{$splice: [[action.dragIndex, 1],[action.hoverIndex, 0, state.components[action.dragIndex]],],})
       }
     }
     case ADD_BURGER_COMPONENT_BUN: {
