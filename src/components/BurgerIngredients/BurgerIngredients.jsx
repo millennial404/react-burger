@@ -14,18 +14,32 @@ import {productsPropTypes} from "../../utils/prop-types";
 // import {addBurgerComponent, addBurgerComponentBun} from "../../services/actions/constructorIngredients";
 import {ClearIngredientDelails, ingredientDelails} from "../../services/actions/currentIngredient";
 import {useDrag} from 'react-dnd';
+import { useInView } from 'react-intersection-observer';
 
 const TabBurgerIngredients = () => {
   const [current, setCurrent] = React.useState("bun");
+  const scrollIntoIngredients = (ingredients) => document
+  .querySelector(`#${ingredients}`)
+  .scrollIntoView({block: "start", behavior: "smooth"})
+
   return (
     <div style={{display: "flex"}}>
-      <Tab value="bun" active={current === "bun"} onClick={setCurrent}>
+      <Tab value="bun" active={current === "bun"} onClick={()=>{
+        setCurrent("bun");
+        scrollIntoIngredients("bun")}
+      }>
         Булки
       </Tab>
-      <Tab value="sauce" active={current === "sauce"} onClick={setCurrent}>
+      <Tab value="sauce" active={current === "sauce"} onClick={()=>{
+        setCurrent("sauce");
+        scrollIntoIngredients("sauce")}
+      }>
         Соусы
       </Tab>
-      <Tab value="main" active={current === "main"} onClick={setCurrent}>
+      <Tab value="main" active={current === "main"} onClick={()=>{
+        setCurrent("main");
+        scrollIntoIngredients("main")}
+        }>
         Начинки
       </Tab>
     </div>
@@ -96,12 +110,17 @@ function CardsByTypes({ingredients}) {
     main: "Начинки",
   };
 
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
+
   return (
     <div className={styles.cardsContainer}>
       {Object.keys(cardTypes).map((key) => (
-        <React.Fragment key={key}>
-          <h2 className="text text_type_main-medium mt-10 mb-6">
+        <div key={key}>
+          <h2 ref={ref} id={key} className="text text_type_main-medium mt-10 mb-6">
             {cardTypes[key]}
+            {console.log(inView)}
           </h2>
           <ul className={`${styles.cards} mb-10`}>
             {ingredients.map(
@@ -111,7 +130,7 @@ function CardsByTypes({ingredients}) {
                 )
             )}
           </ul>
-        </React.Fragment>
+        </div>
       ))}
     </div>
   );

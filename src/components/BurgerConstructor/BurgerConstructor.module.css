@@ -36,13 +36,19 @@
     background-color: #2f2f37;
 }
 
-.component {
+.componentBun {
     display: flex;
     max-width: 568px;
     width: 100%;
     justify-content: flex-end;
     margin: 0;
 }
+
+.component {
+    compose: componentBun;
+    cursor: grab;
+}
+
 
 .order {
     display: flex;

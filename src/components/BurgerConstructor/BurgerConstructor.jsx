@@ -12,7 +12,7 @@ import {
   productsPropTypes,
   burgerObjectPropTypes,
 } from "../../utils/prop-types";
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   clearGetIdOrder,
   getIdOrder,
@@ -20,18 +20,19 @@ import {
 import {
   addBurgerComponent,
   addBurgerComponentBun,
-  deleteBurgerComponent, moveBurgerComponent,
+  deleteBurgerComponent,
+  moveBurgerComponent,
 } from "../../services/actions/constructorIngredients";
-import {useDrag, useDrop} from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
 import {
   decrementIngredient,
   incrementIngredient,
 } from "../../services/actions/ingredients";
 
-function Component({component, index, id}) {
+function Component({ component, index, id }) {
   const dispatch = useDispatch();
   const ref = React.useRef(null);
-  const [{handlerId}, drop] = useDrop({
+  const [{ handlerId }, drop] = useDrop({
     accept: "component",
     collect(monitor) {
       return {
@@ -44,54 +45,47 @@ function Component({component, index, id}) {
       }
       const dragIndex = item.index;
       const hoverIndex = index;
-
       if (dragIndex === hoverIndex) {
         return;
       }
-
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
-
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-
       const clientOffset = monitor.getClientOffset();
-
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
-
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
-
       dispatch(moveBurgerComponent(dragIndex, hoverIndex));
-
       item.index = hoverIndex;
     },
   });
 
-  const [{isDragging}, drag] = useDrag({
+  const [{ isDragging }, drag] = useDrag({
     type: "component",
     item: () => {
-      return {id, index};
+      return { id, index };
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });
   const opacity = isDragging ? 0 : 1;
+
   drag(drop(ref));
 
   return (
     <li
+      draggable={true}
       ref={ref}
       className={styles.component}
       style={{opacity}}
       data-handler-id={handlerId}
     >
-      <img className="mr-2" src={componentMarkerImg} alt=""/>
+      <img className="mr-2" src={componentMarkerImg} alt="" />
       <ConstructorElement
         text={component.name}
         price={component.price}
@@ -109,10 +103,10 @@ Component.propTypes = {
   component: productsPropTypes.isRequired,
 };
 
-function BurgerConstructorComponents({burgerObject}) {
+function BurgerConstructorComponents({ burgerObject }) {
   const dispatch = useDispatch();
 
-  const [{isOver}, drop] = useDrop(() => ({
+  const [{ isOver }, drop] = useDrop(() => ({
     accept: "ingredient",
     drop: (item) => {
       if (item.cardData.type === "bun") {
@@ -132,10 +126,10 @@ function BurgerConstructorComponents({burgerObject}) {
     <div
       className={`${styles.bugrgerComponents} mt-25 mb-10 ml-4`}
       ref={drop}
-      style={{border: isOver ? "1px solid pink" : "0px"}}
+      style={{ border: isOver ? "1px solid pink" : "0px" }}
     >
       {burgerObject.bun[0] && (
-        <div className={styles.component}>
+        <div className={styles.componentBun}>
           <ConstructorElement
             type="top"
             isLocked={true}
@@ -159,7 +153,7 @@ function BurgerConstructorComponents({burgerObject}) {
         )}
       </ul>
       {burgerObject.bun[0] && (
-        <div className={styles.component}>
+        <div className={styles.componentBun}>
           <ConstructorElement
             type="bottom"
             isLocked={true}
@@ -191,19 +185,20 @@ function arrayIdIngredients(obj) {
   return concatBurgerObject(obj).map((component) => component._id);
 }
 
-function InfoAndOrder({burgerObject}) {
+function InfoAndOrder({ burgerObject }) {
   const idOrder = useSelector((state) => state.orderId.orderId);
   const dispatch = useDispatch();
   const orderSum = React.useMemo(() => totalSum(burgerObject), [burgerObject]);
   return (
     <div className={styles.order}>
       <span className="text text_type_digits-medium mr-2">{orderSum}</span>
-      <img className="mr-10" src={CurrencyIconTotalPrice} alt=""/>
+      <img className="mr-10" src={CurrencyIconTotalPrice} alt="" />
       <Button
         htmlType="button"
         type="primary"
         size="large"
         onClick={() => {
+          console.log(arrayIdIngredients(burgerObject))
           arrayIdIngredients(burgerObject).length === 0
             ? console.error("Добавьте компоненты для заказа")
             : dispatch(getIdOrder(arrayIdIngredients(burgerObject)));
@@ -213,7 +208,7 @@ function InfoAndOrder({burgerObject}) {
       </Button>
       {idOrder && (
         <Modal onClose={() => dispatch(clearGetIdOrder())}>
-          <OrderDetails/>
+          <OrderDetails />
         </Modal>
       )}
     </div>
@@ -228,8 +223,8 @@ export default function BurgerConstructor() {
   const components = useSelector((state) => state.components);
   return (
     <section className={styles.BurgerConstructorContainer}>
-      <BurgerConstructorComponents burgerObject={components}/>
-      <InfoAndOrder burgerObject={components}/>
+      <BurgerConstructorComponents burgerObject={components} />
+      <InfoAndOrder burgerObject={components} />
     </section>
   );
 }
