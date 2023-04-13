@@ -11,13 +11,11 @@ import Modal from "../Modal/Modal";
 import styles from "./BurgerIngredients.module.css";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {productsPropTypes} from "../../utils/prop-types";
-// import {addBurgerComponent, addBurgerComponentBun} from "../../services/actions/constructorIngredients";
 import {ClearIngredientDelails, ingredientDelails} from "../../services/actions/currentIngredient";
 import {useDrag} from 'react-dnd';
 import { useInView } from 'react-intersection-observer';
 
-const TabBurgerIngredients = () => {
-  const [current, setCurrent] = React.useState("bun");
+const TabBurgerIngredients = ({current, setCurrent}) => {
   const scrollIntoIngredients = (ingredients) => document
   .querySelector(`#${ingredients}`)
   .scrollIntoView({block: "start", behavior: "smooth"})
@@ -103,24 +101,46 @@ Card.propTypes = {
   cardData: productsPropTypes.isRequired,
 };
 
-function CardsByTypes({ingredients}) {
-  const cardTypes = {
-    bun: "Булки",
-    sauce: "Соусы",
-    main: "Начинки",
-  };
+function CardsByTypes({setCurrent,ingredients}) {
 
-  const { ref, inView } = useInView({
-    threshold: 0,
-  });
+  const cardTypes = {
+    bun: {
+      name:"Булки",
+      ref: useInView({
+        root: document.querySelector('#cardsContainer'),
+        rootMargin: '0px 0px -99% 0px',
+        threshold: 0
+      }),
+      onChange: (entry)=> entry.isIntersecting && setCurrent('bun')
+    },
+    sauce: {
+      name:"Соусы",
+      ref: useInView({
+        root: document.querySelector('#cardsContainer'),
+        rootMargin: '0px 0px -99% 0px',
+        threshold: 0
+      }),
+      onChange: (entry)=> entry.isIntersecting && setCurrent('sauce')
+    },
+    main: {
+      name:"Начинки",
+      ref: useInView({
+        root: document.querySelector('#cardsContainer'),
+        rootMargin: '0px 0px -99% 0px',
+        threshold: 0
+      }),
+      onChange: (entry)=> entry.isIntersecting && setCurrent('main')
+    }
+  };
+  
+
 
   return (
-    <div className={styles.cardsContainer}>
+    <div id={'cardsContainer'} className={styles.cardsContainer}>
       {Object.keys(cardTypes).map((key) => (
         <div key={key}>
-          <h2 ref={ref} id={key} className="text text_type_main-medium mt-10 mb-6">
-            {cardTypes[key]}
-            {console.log(inView)}
+          <h2 ref={cardTypes[key].ref.ref} id={key} className="text text_type_main-medium mt-10 mb-6" >
+            {cardTypes[key].name}
           </h2>
           <ul className={`${styles.cards} mb-10`}>
             {ingredients.map(
@@ -141,6 +161,7 @@ CardsByTypes.propTypes = {
 };
 
 export default function BurgerIngredients() {
+  const [current, setCurrent] = React.useState("bun");
 
   const {ingredients} = useSelector(state => state.ingredients);
 
@@ -153,8 +174,8 @@ export default function BurgerIngredients() {
   return (
     <section className={styles.BurgerIngredientsContainer}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
-      <TabBurgerIngredients/>
-      <CardsByTypes ingredients={ingredients}/>
+      <TabBurgerIngredients current={current} setCurrent={setCurrent}/>
+      <CardsByTypes setCurrent={setCurrent} ingredients={ingredients}/>
     </section>
   );
 }
