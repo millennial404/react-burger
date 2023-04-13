@@ -30,7 +30,7 @@ export const componentsReducer = (state = initialState, action) => {
     case MOVE_BURGER_COMPONENT: {
       return {
         ...state,
-        components: update(state.components,{$splice: [[action.dragIndex, 1],[action.hoverIndex, 0, state.components[action.dragIndex]],],})
+        components: update(state.components, {$splice: [[action.dragIndex, 1], [action.hoverIndex, 0, state.components[action.dragIndex]],],})
       }
     }
     case ADD_BURGER_COMPONENT_BUN: {

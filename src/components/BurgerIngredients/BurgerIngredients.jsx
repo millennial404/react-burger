@@ -13,31 +13,34 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {productsPropTypes} from "../../utils/prop-types";
 import {ClearIngredientDelails, ingredientDelails} from "../../services/actions/currentIngredient";
 import {useDrag} from 'react-dnd';
-import { useInView } from 'react-intersection-observer';
+import {useInView} from 'react-intersection-observer';
 
 const TabBurgerIngredients = ({current, setCurrent}) => {
   const scrollIntoIngredients = (ingredients) => document
-  .querySelector(`#${ingredients}`)
-  .scrollIntoView({block: "start", behavior: "smooth"})
+    .querySelector(`#${ingredients}`)
+    .scrollIntoView({block: "start", behavior: "smooth"})
 
   return (
     <div style={{display: "flex"}}>
-      <Tab value="bun" active={current === "bun"} onClick={()=>{
+      <Tab value="bun" active={current === "bun"} onClick={() => {
         setCurrent("bun");
-        scrollIntoIngredients("bun")}
+        scrollIntoIngredients("bun")
+      }
       }>
         Булки
       </Tab>
-      <Tab value="sauce" active={current === "sauce"} onClick={()=>{
+      <Tab value="sauce" active={current === "sauce"} onClick={() => {
         setCurrent("sauce");
-        scrollIntoIngredients("sauce")}
+        scrollIntoIngredients("sauce")
+      }
       }>
         Соусы
       </Tab>
-      <Tab value="main" active={current === "main"} onClick={()=>{
+      <Tab value="main" active={current === "main"} onClick={() => {
         setCurrent("main");
-        scrollIntoIngredients("main")}
-        }>
+        scrollIntoIngredients("main")
+      }
+      }>
         Начинки
       </Tab>
     </div>
@@ -61,7 +64,10 @@ function Card({cardData}) {
       <li draggable={true}
           ref={drag}
           className={`${styles.card} ml-4 mr-6 mb-8`}
-          style={{border: isDragging ? "1px solid pink" : "0px", boxSizing: isDragging ? "border-box" : "content-box"}}
+          style={{
+            border: isDragging ? "1px solid #801ab3" : "0px",
+            boxSizing: isDragging ? "border-box" : "content-box"
+          }}
           onClick={() => {
             setPopupOpen(true);
             dispatch(ingredientDelails({...cardData}))
@@ -101,45 +107,47 @@ Card.propTypes = {
   cardData: productsPropTypes.isRequired,
 };
 
-function CardsByTypes({setCurrent,ingredients}) {
+function CardsByTypes({setCurrent, ingredients}) {
 
   const cardTypes = {
     bun: {
-      name:"Булки",
+      name: "Булки",
       ref: useInView({
         root: document.querySelector('#cardsContainer'),
-        rootMargin: '0px 0px -99% 0px',
-        threshold: 0
-      }),
-      onChange: (entry)=> entry.isIntersecting && setCurrent('bun')
+        rootMargin: '0px 0px -98% 0px',
+        threshold: 0,
+        initialInView: false,
+        onChange: (inView) => inView && setCurrent('bun')
+      })
     },
     sauce: {
-      name:"Соусы",
+      name: "Соусы",
       ref: useInView({
         root: document.querySelector('#cardsContainer'),
-        rootMargin: '0px 0px -99% 0px',
-        threshold: 0
-      }),
-      onChange: (entry)=> entry.isIntersecting && setCurrent('sauce')
+        rootMargin: '0px 0px -98% 0px',
+        threshold: 0,
+        initialInView: false,
+        onChange: (inView) => inView && setCurrent('sauce')
+      })
     },
     main: {
-      name:"Начинки",
+      name: "Начинки",
       ref: useInView({
         root: document.querySelector('#cardsContainer'),
-        rootMargin: '0px 0px -99% 0px',
-        threshold: 0
+        rootMargin: '0px 0px -98% 0px',
+        threshold: 0,
+        initialInView: false,
+        onChange: (inView) => inView && setCurrent('main')
       }),
-      onChange: (entry)=> entry.isIntersecting && setCurrent('main')
     }
   };
-  
 
 
   return (
     <div id={'cardsContainer'} className={styles.cardsContainer}>
       {Object.keys(cardTypes).map((key) => (
         <div key={key}>
-          <h2 ref={cardTypes[key].ref.ref} id={key} className="text text_type_main-medium mt-10 mb-6" >
+          <h2 ref={cardTypes[key].ref.ref} id={key} className="text text_type_main-medium mt-10 mb-6">
             {cardTypes[key].name}
           </h2>
           <ul className={`${styles.cards} mb-10`}>
@@ -158,6 +166,7 @@ function CardsByTypes({setCurrent,ingredients}) {
 
 CardsByTypes.propTypes = {
   ingredients: PropTypes.arrayOf(productsPropTypes).isRequired,
+  setCurrent: PropTypes.func.isRequired
 };
 
 export default function BurgerIngredients() {

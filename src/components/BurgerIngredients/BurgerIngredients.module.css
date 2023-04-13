@@ -48,6 +48,7 @@
     width: 100%;
     min-height: 208px;
     line-height: 0;
+    border-radius: 20px;
     cursor: move;
 }
 

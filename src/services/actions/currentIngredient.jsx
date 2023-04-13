@@ -14,7 +14,7 @@ export function ingredientDelails({name, calories, proteins, fat, carbohydrates,
   }
 }
 
-export function ClearIngredientDelails(){
+export function ClearIngredientDelails() {
   return {
     type: CLEAR_INGREDIENT_DETAILS
   }

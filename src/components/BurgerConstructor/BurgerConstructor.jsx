@@ -12,7 +12,7 @@ import {
   productsPropTypes,
   burgerObjectPropTypes,
 } from "../../utils/prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {
   clearGetIdOrder,
   getIdOrder,
@@ -23,16 +23,16 @@ import {
   deleteBurgerComponent,
   moveBurgerComponent,
 } from "../../services/actions/constructorIngredients";
-import { useDrag, useDrop } from "react-dnd";
+import {useDrag, useDrop} from "react-dnd";
 import {
   decrementIngredient,
   incrementIngredient,
 } from "../../services/actions/ingredients";
 
-function Component({ component, index, id }) {
+function Component({component, index, id}) {
   const dispatch = useDispatch();
   const ref = React.useRef(null);
-  const [{ handlerId }, drop] = useDrop({
+  const [{handlerId}, drop] = useDrop({
     accept: "component",
     collect(monitor) {
       return {
@@ -64,10 +64,10 @@ function Component({ component, index, id }) {
     },
   });
 
-  const [{ isDragging }, drag] = useDrag({
+  const [{isDragging}, drag] = useDrag({
     type: "component",
     item: () => {
-      return { id, index };
+      return {id, index};
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
@@ -85,7 +85,7 @@ function Component({ component, index, id }) {
       style={{opacity}}
       data-handler-id={handlerId}
     >
-      <img className="mr-2" src={componentMarkerImg} alt="" />
+      <img className="mr-2" src={componentMarkerImg} alt=""/>
       <ConstructorElement
         text={component.name}
         price={component.price}
@@ -103,10 +103,10 @@ Component.propTypes = {
   component: productsPropTypes.isRequired,
 };
 
-function BurgerConstructorComponents({ burgerObject }) {
+function BurgerConstructorComponents({burgerObject}) {
   const dispatch = useDispatch();
 
-  const [{ isOver }, drop] = useDrop(() => ({
+  const [{isOver}, drop] = useDrop(() => ({
     accept: "ingredient",
     drop: (item) => {
       if (item.cardData.type === "bun") {
@@ -126,7 +126,7 @@ function BurgerConstructorComponents({ burgerObject }) {
     <div
       className={`${styles.bugrgerComponents} mt-25 mb-10 ml-4`}
       ref={drop}
-      style={{ border: isOver ? "1px solid pink" : "0px" }}
+      style={{border: isOver ? "1px solid #801ab3" : "0px"}}
     >
       {burgerObject.bun[0] && (
         <div className={styles.componentBun}>
@@ -185,20 +185,19 @@ function arrayIdIngredients(obj) {
   return concatBurgerObject(obj).map((component) => component._id);
 }
 
-function InfoAndOrder({ burgerObject }) {
+function InfoAndOrder({burgerObject}) {
   const idOrder = useSelector((state) => state.orderId.orderId);
   const dispatch = useDispatch();
   const orderSum = React.useMemo(() => totalSum(burgerObject), [burgerObject]);
   return (
     <div className={styles.order}>
       <span className="text text_type_digits-medium mr-2">{orderSum}</span>
-      <img className="mr-10" src={CurrencyIconTotalPrice} alt="" />
+      <img className="mr-10" src={CurrencyIconTotalPrice} alt=""/>
       <Button
         htmlType="button"
         type="primary"
         size="large"
         onClick={() => {
-          console.log(arrayIdIngredients(burgerObject))
           arrayIdIngredients(burgerObject).length === 0
             ? console.error("Добавьте компоненты для заказа")
             : dispatch(getIdOrder(arrayIdIngredients(burgerObject)));
@@ -208,7 +207,7 @@ function InfoAndOrder({ burgerObject }) {
       </Button>
       {idOrder && (
         <Modal onClose={() => dispatch(clearGetIdOrder())}>
-          <OrderDetails />
+          <OrderDetails/>
         </Modal>
       )}
     </div>
@@ -223,8 +222,8 @@ export default function BurgerConstructor() {
   const components = useSelector((state) => state.components);
   return (
     <section className={styles.BurgerConstructorContainer}>
-      <BurgerConstructorComponents burgerObject={components} />
-      <InfoAndOrder burgerObject={components} />
+      <BurgerConstructorComponents burgerObject={components}/>
+      <InfoAndOrder burgerObject={components}/>
     </section>
   );
 }
