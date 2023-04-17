@@ -124,7 +124,7 @@ function BurgerConstructorComponents({burgerObject}) {
 
   return (
     <div
-      className={`${styles.bugrgerComponents} mt-25 mb-10 ml-4`}
+      className={`${styles.burgerComponents} mt-25 mb-10 ml-4`}
       ref={drop}
       style={{border: isOver ? "1px solid #801ab3" : "0px"}}
     >
@@ -133,7 +133,7 @@ function BurgerConstructorComponents({burgerObject}) {
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={burgerObject.bun[0] ? burgerObject.bun[0].name : ""}
+            text={burgerObject.bun[0] ? `${burgerObject.bun[0].name} (верх)` : ""}
             price={burgerObject.bun[0] ? burgerObject.bun[0].price : ""}
             thumbnail={burgerObject.bun[0] ? burgerObject.bun[0].image : ""}
           />
@@ -157,7 +157,7 @@ function BurgerConstructorComponents({burgerObject}) {
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={burgerObject.bun[0] ? burgerObject.bun[0].name : ""}
+            text={burgerObject.bun[0] ? `${burgerObject.bun[0].name} (низ)` : ""}
             price={burgerObject.bun[0] ? burgerObject.bun[0].price : ""}
             thumbnail={burgerObject.bun[0] ? burgerObject.bun[0].image : ""}
           />
@@ -187,6 +187,7 @@ function arrayIdIngredients(obj) {
 
 function InfoAndOrder({burgerObject}) {
   const idOrder = useSelector((state) => state.orderId.orderId);
+  const isOrderRequest = useSelector((state) => state.orderId.orderRequest);
   const dispatch = useDispatch();
   const orderSum = React.useMemo(() => totalSum(burgerObject), [burgerObject]);
   return (
@@ -194,17 +195,24 @@ function InfoAndOrder({burgerObject}) {
       <span className="text text_type_digits-medium mr-2">{orderSum}</span>
       <img className="mr-10" src={CurrencyIconTotalPrice} alt=""/>
       <Button
+        disabled={orderSum === 0}
         htmlType="button"
         type="primary"
         size="large"
         onClick={() => {
-          arrayIdIngredients(burgerObject).length === 0
-            ? console.error("Добавьте компоненты для заказа")
-            : dispatch(getIdOrder(arrayIdIngredients(burgerObject)));
+          dispatch(getIdOrder(arrayIdIngredients(burgerObject)));
         }}
       >
         Оформить заказ
       </Button>
+      {isOrderRequest && (
+        <Modal onClose={() => {
+        }}>
+          <p className="text text_type_main-medium mb-20">
+            Получаем номер заказа . . .
+          </p>
+        </Modal>
+      )}
       {idOrder && (
         <Modal onClose={() => dispatch(clearGetIdOrder())}>
           <OrderDetails/>

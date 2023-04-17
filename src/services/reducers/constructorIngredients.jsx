@@ -2,7 +2,8 @@ import {
   ADD_BURGER_COMPONENT,
   ADD_BURGER_COMPONENT_BUN,
   DELETE_BURGER_COMPONENT,
-  MOVE_BURGER_COMPONENT
+  MOVE_BURGER_COMPONENT,
+  CLEAR_BURGER_COMPONENTS
 } from "../actions/constructorIngredients";
 import update from 'immutability-helper'
 
@@ -37,6 +38,13 @@ export const componentsReducer = (state = initialState, action) => {
       return {
         ...state,
         bun: [action.component]
+      }
+    }
+    case CLEAR_BURGER_COMPONENTS: {
+      return {
+        ...state,
+        bun: initialState.bun,
+        components: initialState.components
       }
     }
     default: {

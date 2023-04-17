@@ -1,4 +1,6 @@
 import {placeAnOrder} from "../../utils/burger-api";
+import {clearBurgerComponent} from "./constructorIngredients";
+import {clearIngredientsCount} from "./ingredients";
 
 export const GET_ID_ORDER = 'GET_ID_ORDER';
 export const GET_ID_ORDER_FAILED = 'GET_ID_ORDER_FAILED';
@@ -25,6 +27,10 @@ export function getIdOrder(arrayComponentsId) {
           }
         }
       )
+      .then(() => {
+        dispatch(clearBurgerComponent());
+        dispatch(clearIngredientsCount());
+      })
       .catch(() => {
         dispatch({
           type: GET_ID_ORDER_FAILED

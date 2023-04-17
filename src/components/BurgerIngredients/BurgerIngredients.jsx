@@ -11,9 +11,10 @@ import Modal from "../Modal/Modal";
 import styles from "./BurgerIngredients.module.css";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {productsPropTypes} from "../../utils/prop-types";
-import {ClearIngredientDelails, ingredientDelails} from "../../services/actions/currentIngredient";
+import {clearIngredientDetails, ingredientDetails} from "../../services/actions/currentIngredient";
 import {useDrag} from 'react-dnd';
 import {useInView} from 'react-intersection-observer';
+import {closePopupIngredientDetails, openPopupIngredientDetails} from "../../services/actions/popupIngredientDetails";
 
 const TabBurgerIngredients = ({current, setCurrent}) => {
   const scrollIntoIngredients = (ingredients) => document
@@ -21,7 +22,7 @@ const TabBurgerIngredients = ({current, setCurrent}) => {
     .scrollIntoView({block: "start", behavior: "smooth"})
 
   return (
-    <div style={{display: "flex"}}>
+    <div className={styles.tabBurgerIngredients}>
       <Tab value="bun" active={current === "bun"} onClick={() => {
         setCurrent("bun");
         scrollIntoIngredients("bun")
@@ -49,7 +50,6 @@ const TabBurgerIngredients = ({current, setCurrent}) => {
 
 function Card({cardData}) {
   const dispatch = useDispatch();
-  const [popupOpen, setPopupOpen] = React.useState(false);
 
   const [{isDragging}, drag] = useDrag(() => ({
     type: "ingredient",
@@ -69,8 +69,8 @@ function Card({cardData}) {
             boxSizing: isDragging ? "border-box" : "content-box"
           }}
           onClick={() => {
-            setPopupOpen(true);
-            dispatch(ingredientDelails({...cardData}))
+            dispatch(ingredientDetails({...cardData}))
+            dispatch(openPopupIngredientDetails());
           }}
       >
         <img
@@ -91,14 +91,6 @@ function Card({cardData}) {
           {cardData.name}
         </p>
       </li>
-      {popupOpen && (
-        <Modal onClose={() => {
-          setPopupOpen(false)
-          dispatch(ClearIngredientDelails())
-        }} title="Детали ингредиента">
-          <IngredientDetails/>
-        </Modal>
-      )}
     </>
   );
 }
@@ -170,6 +162,7 @@ CardsByTypes.propTypes = {
 };
 
 export default function BurgerIngredients() {
+  const popupStatus = useSelector(state => state.popup.status)
   const [current, setCurrent] = React.useState("bun");
 
   const {ingredients} = useSelector(state => state.ingredients);
@@ -181,10 +174,20 @@ export default function BurgerIngredients() {
   }, [dispatch])
 
   return (
-    <section className={styles.BurgerIngredientsContainer}>
-      <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
-      <TabBurgerIngredients current={current} setCurrent={setCurrent}/>
-      <CardsByTypes setCurrent={setCurrent} ingredients={ingredients}/>
-    </section>
+    <>
+      <section className={styles.BurgerIngredientsContainer}>
+        <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
+        <TabBurgerIngredients current={current} setCurrent={setCurrent}/>
+        <CardsByTypes setCurrent={setCurrent} ingredients={ingredients}/>
+      </section>
+      {popupStatus && (
+        <Modal onClose={() => {
+          dispatch(closePopupIngredientDetails())
+          dispatch(clearIngredientDetails())
+        }} title="Детали ингредиента">
+          <IngredientDetails/>
+        </Modal>
+      )}
+    </>
   );
 }

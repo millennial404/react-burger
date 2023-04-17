@@ -1,4 +1,5 @@
 import {
+  CLEAR_INGREDIENT_COUNT,
   DECREMENT_INGREDIENT_COUNT,
   GET_INGREDIENTS,
   GET_INGREDIENTS_FAILED,
@@ -61,6 +62,14 @@ export const ingredientsReducer = (state = initialState, action) => {
           } else {
             return ingredient
           }
+        })
+      };
+    }
+    case CLEAR_INGREDIENT_COUNT: {
+      return {
+        ...state,
+        ingredients: [...state.ingredients].map(ingredient => {
+          return {...ingredient, count: 0}
         })
       };
     }

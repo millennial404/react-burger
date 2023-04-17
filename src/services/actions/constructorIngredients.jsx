@@ -4,6 +4,7 @@ export const ADD_BURGER_COMPONENT = 'ADD_BURGER_COMPONENT'
 export const DELETE_BURGER_COMPONENT = 'DELETE_BURGER_COMPONENT'
 export const MOVE_BURGER_COMPONENT = 'MOVE_BURGER_COMPONENT'
 export const ADD_BURGER_COMPONENT_BUN = 'ADD_BURGER_COMPONENT_BUN'
+export const CLEAR_BURGER_COMPONENTS = 'CLEAR_BURGER_COMPONENTS';
 
 
 export function addBurgerComponent(component) {
@@ -32,5 +33,11 @@ export function moveBurgerComponent(dragIndex, hoverIndex) {
     type: MOVE_BURGER_COMPONENT,
     dragIndex: dragIndex,
     hoverIndex: hoverIndex,
+  }
+}
+
+export function clearBurgerComponent() {
+  return {
+    type: CLEAR_BURGER_COMPONENTS
   }
 }

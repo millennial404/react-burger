@@ -2,7 +2,7 @@ export const GET_INGREDIENT_DETAILS = "GET_INGREDIENT_DETAILS";
 
 export const CLEAR_INGREDIENT_DETAILS = "CLEAR_INGREDIENT_DETAILS";
 
-export function ingredientDelails({name, calories, proteins, fat, carbohydrates, image_large}) {
+export function ingredientDetails({name, calories, proteins, fat, carbohydrates, image_large}) {
   return {
     type: GET_INGREDIENT_DETAILS,
     name: name,
@@ -14,7 +14,7 @@ export function ingredientDelails({name, calories, proteins, fat, carbohydrates,
   }
 }
 
-export function ClearIngredientDelails() {
+export function clearIngredientDetails() {
   return {
     type: CLEAR_INGREDIENT_DETAILS
   }

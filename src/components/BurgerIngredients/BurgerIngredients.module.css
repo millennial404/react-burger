@@ -8,6 +8,10 @@
     line-height: 0;
 }
 
+.tabBurgerIngredients {
+    display: flex;
+}
+
 .cardsContainer {
     overflow-y: auto;
     overflow-x: hidden;
@@ -34,9 +38,8 @@
     list-style-type: none;
     width: 600px;
     padding: 0;
-    margin: 0;
+    margin: 0 0 0 -8px;
     line-height: 0;
-    margin-left: -8px;
 }
 
 .card {

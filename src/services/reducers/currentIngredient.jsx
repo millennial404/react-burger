@@ -8,7 +8,7 @@ const initialState = {
   carbohydrates: '',
   image: ''
 }
-export const ingredientDelailsReducer = (state = initialState, action) => {
+export const ingredientDetailsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_INGREDIENT_DETAILS: {
       return {

@@ -1,3 +1,5 @@
+import {BASE_URL} from './constants';
+
 function checkResponse(res) {
   if (res.ok) {
     return res.json();
@@ -5,17 +7,24 @@ function checkResponse(res) {
   return Promise.reject(`Ошибка ${res.status}`);
 }
 
-function request(url, options) {
-  return fetch(url, options).then(checkResponse)
+const checkSuccess = (res) => {
+  if (res && res.success) {
+    return res;
+  }
+  return Promise.reject(`Ответ не success: ${res}`);
+};
+
+function request(endpoint, options) {
+  return fetch(`${BASE_URL}${endpoint}`, options)
+    .then(checkResponse)
+    .then(checkSuccess);
 }
 
 
-export function getIngredientsData(url) {
-  return request(url)
-}
+export const getIngredientsData = () => request("ingredients");
 
 export function placeAnOrder(arrayIngredients) {
-  return request("https://norma.nomoreparties.space/api/orders", {
+  return request("orders", {
     method: 'POST',
     headers: {
       'Content-type': 'application/json; charset=UTF-8',

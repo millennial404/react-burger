@@ -6,7 +6,7 @@ export default function OrderDetails() {
   const idOrder = useSelector(state => state.orderId.orderId)
 
   return (
-    <div className={styles.orderDetailsConteiner}>
+    <div className={styles.orderDetailsContainer}>
       <p className="text text_type_digits-large mb-8 mt-4">{idOrder}</p>
       <p className="text text_type_main-medium mb-15">идентификатор заказа</p>
       <img className={`${styles.doneImg} mb-15`} src={doneImg} alt=""/>

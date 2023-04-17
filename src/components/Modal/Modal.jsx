@@ -14,7 +14,6 @@ export default function Modal(props) {
       onClose();
     }
   };
-
   React.useEffect(() => {
     document.addEventListener("keydown", escapeClose);
     return () => {

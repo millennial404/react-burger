@@ -1,14 +1,16 @@
 import {combineReducers} from 'redux';
 import {ingredientsReducer} from "./ingredients";
 import {componentsReducer} from "./constructorIngredients";
-import {ingredientDelailsReducer} from "../reducers/currentIngredient"
+import {ingredientDetailsReducer} from "./currentIngredient"
 import {createdOrderReducer} from "./createdOrder";
+import {popupIngredientDetailsReducer} from "./popupIngredientDetails";
 
 // Корневой редьюсер
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   components: componentsReducer,
-  ingredientDetails: ingredientDelailsReducer,
-  orderId: createdOrderReducer
+  ingredientDetails: ingredientDetailsReducer,
+  orderId: createdOrderReducer,
+  popup: popupIngredientDetailsReducer
 
 })
