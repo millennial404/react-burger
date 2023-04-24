@@ -1,43 +1,40 @@
-import {productsPropTypes} from "../../utils/prop-types";
 import styles from "./IngredientDetails.module.css";
+import {useSelector} from "react-redux";
 
-export default function IngredientDetails({ currentIngredient }) {
+export default function IngredientDetails() {
+  const ingredientDetails = useSelector(state => state.ingredientDetails)
   return (
     <div className={styles.IngredientDetailsContainer}>
-      <img className="mb-4" src={currentIngredient.image_large} alt="" />
+      <img className="mb-4" src={ingredientDetails.image_large} alt=""/>
       <p className="text text_type_main-medium mb-8">
-        {currentIngredient.name}
+        {ingredientDetails.name}
       </p>
       <ul className={`${styles.nutritionValue} mb-15`}>
         <li className={`${styles.value} mr-5`}>
           <p className="text text_type_main-default text_color_inactive mb-2">Калории,ккал</p>
           <p className="text text_type_digits-default text_color_inactive">
-            {currentIngredient.calories}
+            {ingredientDetails.calories}
           </p>
         </li>
         <li className={`${styles.value} mr-5`}>
           <p className="text text_type_main-default text_color_inactive mb-2">Белки, г</p>
           <p className="text text_type_digits-default text_color_inactive">
-            {currentIngredient.proteins}
+            {ingredientDetails.proteins}
           </p>
         </li>
         <li className={`${styles.value} mr-5`}>
           <p className="text text_type_main-default text_color_inactive mb-2">Жиры, г</p>
           <p className="text text_type_digits-default text_color_inactive">
-            {currentIngredient.fat}
+            {ingredientDetails.fat}
           </p>
         </li>
         <li className={`${styles.value} mr-5`}>
           <p className="text text_type_main-default text_color_inactive mb-2">Углеводы, г</p>
           <p className="text text_type_digits-default text_color_inactive">
-            {currentIngredient.carbohydrates}
+            {ingredientDetails.carbohydrates}
           </p>
         </li>
       </ul>
     </div>
   );
 }
-
-IngredientDetails.propTypes = {
-  currentIngredient:productsPropTypes.isRequired
-};

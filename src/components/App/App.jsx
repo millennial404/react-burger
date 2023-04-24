@@ -3,35 +3,20 @@ import style from "./App.module.css";
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import { getIngridients } from "../../utils/burger-api";
-import { BurgerConstructorContext } from "../services/BurgerConstructorContext";
+import {DndProvider} from "react-dnd";
+import {HTML5Backend} from "react-dnd-html5-backend";
 
 function App() {
-  const [state, setState] = React.useState({
-    products: [],
-    loading: true,
-  });
-  const urlApi = "https://norma.nomoreparties.space/api/ingredients";
-
-  React.useEffect(() => {
-    getIngridients(urlApi)
-      .then((productsData) => {
-        setState({ products: productsData.data, loading: false });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   return (
     <>
-      <AppHeader />
-      <main className={style.main}>
-        <BurgerConstructorContext.Provider value={state.products}>
-          <BurgerIngredients />
-          <BurgerConstructor />
-        </BurgerConstructorContext.Provider>
-      </main>
+      <AppHeader/>
+      <DndProvider backend={HTML5Backend}>
+        <main className={style.main}>
+          <BurgerIngredients/>
+          <BurgerConstructor/>
+        </main>
+      </DndProvider>
     </>
   );
 }

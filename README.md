@@ -1,6 +1,7 @@
 # Проект: Stellar Burgers на React
 
 ### Обзор
+
 * О проекте
 * Figma
 * Github-pages
