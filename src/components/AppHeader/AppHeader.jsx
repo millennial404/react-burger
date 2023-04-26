@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import {
   Logo,
   BurgerIcon,
@@ -6,6 +5,7 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./AppHeader.module.css";
+import { Link } from "react-router-dom";
 
 export default function AppHeader() {
 
@@ -14,16 +14,16 @@ export default function AppHeader() {
       <div className={`${styles.content} pb-4 pt-4`}>
         <div className={`${styles.linkContainer} pl-5 pr-5 pt-4 pb-4 mr-2`}>
           <BurgerIcon type="primary"/>
-          <a href="#" className={`${styles.link} ml-2`}>
+          <Link to="/" className={`${styles.link} ml-2`}>
             Конструктор
-          </a>
+          </Link>
         </div>
 
         <div className={`${styles.linkContainer} pl-5 pr-5 pt-4 pb-4`}>
           <ListIcon type="primary"/>
-          <a href="#" className={`${styles.link} ml-2`}>
+          <Link to="/" className={`${styles.link} ml-2`}>
             Лента заказов
-          </a>
+          </Link>
         </div>
 
         <div className={styles.logo}>
@@ -32,9 +32,9 @@ export default function AppHeader() {
 
         <div className={`${styles.linkContainer} pl-5 pr-5 pt-4 pb-4`}>
           <ProfileIcon type="primary"/>
-          <a href="#" className={`${styles.link} ml-2`}>
+          <Link to="/login" className={`${styles.link} ml-2`}>
             Личный кабинет
-          </a>
+          </Link>
         </div>
       </div>
     </header>
