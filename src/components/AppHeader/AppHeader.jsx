@@ -21,7 +21,7 @@ export default function AppHeader() {
 
         <div className={`${styles.linkContainer} pl-5 pr-5 pt-4 pb-4`}>
           <ListIcon type="primary"/>
-          <Link to="/" className={`${styles.link} ml-2`}>
+          <Link to="/profile" className={`${styles.link} ml-2`}>
             Лента заказов
           </Link>
         </div>
