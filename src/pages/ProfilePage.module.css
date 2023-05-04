@@ -9,12 +9,7 @@
     display: flex;
     flex-direction: column;
     align-items: start;
-    margin: 120px auto 0;
-}
-
-.inputsContainer {
-    display: flex;
-    flex-direction: column;
+    margin: 120px 0 0 0;
 }
 
 .links {
@@ -25,12 +20,11 @@
 
 .navContainer{
     max-width: 320px;
-    padding: 0 0 0 16px;
 }
 
 .navList{
     list-style-type: none;
-    margin: 140px 0 0 0;
+    margin: 144px 0 0 0;
     padding: 0;
 }
 
@@ -39,4 +33,17 @@
     max-width: 320px;
     min-height: 64px;
     align-items: center;
+}
+
+.navButton{
+    background: none;
+    cursor: pointer;
+    color: #8585AD;
+    border: none;
+    font-size: 24px;
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.25;
+    padding: 0;
 }
