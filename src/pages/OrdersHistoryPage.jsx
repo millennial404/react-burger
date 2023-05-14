@@ -1,4 +1,4 @@
-import styles from "./ProfilePage.module.css";
+import styles from "./OrdersHistoryPage.module.css";
 import {
   EmailInput,
   Button,
@@ -8,13 +8,13 @@ import {
 import React from "react";
 import {Link, matchPath, useLocation, useMatch, useNavigate} from "react-router-dom";
 
-export function ProfilePage() {
+export function OrdersHistoryPage() {
   const [value, setValue] = React.useState("");
   const onChange = (e) => {
     setValue(e.target.value);
   };
   let location = useLocation();
-  const match = matchPath('/profile',`${location.pathname}`)
+  const match = matchPath('/profile/orders',`${location.pathname}`)
   const navigate = useNavigate();
   return (
     <>
@@ -22,10 +22,10 @@ export function ProfilePage() {
         <div className={`${styles.navContainer} ml-5 mr-15`}>
           <ul className={styles.navList}>
             <li className={styles.navItem}>
-              <button onClick={()=>navigate('/profile')} className={match ? styles.navButtonActive : styles.navButton}>Профиль</button>
+              <button onClick={()=>navigate('/profile')} className={styles.navButton}>Профиль</button>
             </li>
             <li className={styles.navItem}>
-              <button onClick={()=>navigate('/profile/orders')} className={styles.navButton}>История заказов</button>
+              <button onClick={()=>navigate('/profile/orders')} className={match ? styles.navButtonActive : styles.navButton}>История заказов</button>
             </li>
             <li className={styles.navItem}>
               <button className={styles.navButton}>Выход</button>

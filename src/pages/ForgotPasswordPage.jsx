@@ -1,14 +1,12 @@
 import styles from './ForgotPasswordPage.module.css'
-import {EmailInput, Button, PasswordInput, Input} from '@ya.praktikum/react-developer-burger-ui-components'
+import {Button, Input} from '@ya.praktikum/react-developer-burger-ui-components'
 import React from "react";
-import { useNavigate, Link  } from "react-router-dom";
+import {useNavigate, Link} from "react-router-dom";
+import {passwordReset} from "../utils/burger-api";
 
 export function ForgotPasswordPage() {
   const [value, setValue] = React.useState('')
   const navigate = useNavigate();
-  const onChange = e => {
-    setValue(e.target.value)
-  }
   return (
     <div className={styles.formContainer}>
       <h3 className="text text_type_main-medium">Восстановление пароля</h3>
@@ -25,7 +23,12 @@ export function ForgotPasswordPage() {
           extraClass="mb-6 mt-6"
         />
       </div>
-      <Button htmlType="button" type="primary" size="medium" extraClass="mb-20" onClick={()=> navigate('/reset-password')}>
+      <Button htmlType="button" type="primary" size="medium" extraClass="mb-20"
+              onClick={() => {
+                passwordReset(value)
+                  .then(res=>console.log(res))
+                  .then(()=>navigate('/reset-password'))
+              }}>
         Восстановить
       </Button>
       <p className="text text_type_main-default text_color_inactive">

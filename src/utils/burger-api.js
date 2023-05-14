@@ -34,3 +34,60 @@ export function placeAnOrder(arrayIngredients) {
     })
   })
 }
+
+export function passwordReset(email) {
+  return request("password-reset", {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
+    body: JSON.stringify({
+      "email": email
+    })
+  })
+}
+
+export function confirmationPasswordReset(password,token) {
+  return request("password-reset/reset", {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
+    body: JSON.stringify({
+      "password": password,
+      "token": token
+    })
+  })
+}
+
+export function registerUser (password,email,name) {
+  return request("password-reset/reset", {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json; charset=UTF-8',
+    },
+    body: JSON.stringify({
+      "email": email,
+      "password": password,
+      "name": name
+    })
+  })
+}
+
+export function loginRequest(password,email) {
+  return request("auth/login", {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify({
+      "email": email,
+      "password": password
+    })
+  });
+};
