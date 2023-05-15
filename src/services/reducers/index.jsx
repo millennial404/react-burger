@@ -4,6 +4,7 @@ import {componentsReducer} from "./constructorIngredients";
 import {ingredientDetailsReducer} from "./currentIngredient"
 import {createdOrderReducer} from "./createdOrder";
 import {popupIngredientDetailsReducer} from "./popupIngredientDetails";
+import {userRegistrationReducer} from "./registerUser";
 
 // Корневой редьюсер
 export const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ export const rootReducer = combineReducers({
   components: componentsReducer,
   ingredientDetails: ingredientDetailsReducer,
   orderId: createdOrderReducer,
-  popup: popupIngredientDetailsReducer
+  popup: popupIngredientDetailsReducer,
+  registration: userRegistrationReducer,
 
 })

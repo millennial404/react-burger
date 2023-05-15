@@ -60,8 +60,8 @@ export function confirmationPasswordReset(password,token) {
   })
 }
 
-export function registerUser (password,email,name) {
-  return request("password-reset/reset", {
+export function registerUser ({password, email, name}) {
+  return request("auth/register", {
     method: 'POST',
     headers: {
       'Content-type': 'application/json; charset=UTF-8',

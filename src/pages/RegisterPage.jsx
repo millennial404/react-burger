@@ -2,12 +2,27 @@ import styles from './RegisterPage.module.css'
 import {EmailInput, Button, PasswordInput, Input} from '@ya.praktikum/react-developer-burger-ui-components'
 import React from "react";
 import { Link } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {setUserFormValue, register} from "../services/actions/registerUser";
 
 export function RegisterPage() {
-  const [value, setValue] = React.useState('')
-  const onChange = e => {
-    setValue(e.target.value)
+  const {
+    name,
+    email,
+    password
+  } = useSelector(state => state.registration.form);
+
+  const { registrationRequest } = useSelector(state => state.registration)
+
+  const onFormSubmit = () => {
+    dispatch(register())
   }
+
+  const dispatch = useDispatch();
+  const onFormChange = (e) => {
+    dispatch(setUserFormValue(e.target.name, e.target.value))
+  }
+
   return (
     <div className={styles.formContainer}>
       <h3 className="text text_type_main-medium">Регистрация</h3>
@@ -15,8 +30,8 @@ export function RegisterPage() {
         <Input
           type={'text'}
           placeholder={'Имя'}
-          onChange={e => setValue(e.target.value)}
-          value={value}
+          onChange={onFormChange}
+          value={name}
           name={'name'}
           error={false}
           errorText={'Ошибка'}
@@ -24,20 +39,20 @@ export function RegisterPage() {
           extraClass="mb-6 mt-6"
         />
         <EmailInput
-          onChange={onChange}
-          value={value}
+          onChange={onFormChange}
+          value={email}
           name={'email'}
           isIcon={false}
           extraClass="mb-6"
         />
         <PasswordInput
-          onChange={onChange}
-          value={value}
+          onChange={onFormChange}
+          value={password}
           name={'password'}
           extraClass="mb-6"
         />
       </div>
-      <Button htmlType="button" type="primary" size="medium" extraClass="mb-20">
+      <Button disabled={registrationRequest} onClick={onFormSubmit} htmlType="button" type="primary" size="medium" extraClass="mb-20">
         Зарегистрироваться
       </Button>
       <p className="text text_type_main-default text_color_inactive">
