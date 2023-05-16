@@ -1,6 +1,5 @@
 import styles from './RegisterPage.module.css'
 import {EmailInput, Button, PasswordInput, Input} from '@ya.praktikum/react-developer-burger-ui-components'
-import React from "react";
 import { Link } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {setUserFormValue, register} from "../services/actions/registerUser";
@@ -52,7 +51,7 @@ export function RegisterPage() {
           extraClass="mb-6"
         />
       </div>
-      <Button disabled={registrationRequest} onClick={onFormSubmit} htmlType="button" type="primary" size="medium" extraClass="mb-20">
+      <Button disabled={!name || !email || !password || registrationRequest} onClick={onFormSubmit} htmlType="button" type="primary" size="medium" extraClass="mb-20">
         Зарегистрироваться
       </Button>
       <p className="text text_type_main-default text_color_inactive">
