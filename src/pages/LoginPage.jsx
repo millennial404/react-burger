@@ -9,6 +9,7 @@ export function LoginPage() {
   const auth = useSelector(state => state.auth)
   const dispatch = useDispatch()
   let navigate = useNavigate();
+  
   const login = () => {
     dispatch(signIn())
   }
