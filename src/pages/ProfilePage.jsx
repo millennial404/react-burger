@@ -5,8 +5,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState, useRef } from "react";
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
-import { signOut } from "../services/actions/auth";
-import {useDispatch} from "react-redux"
 
 export function ProfilePage() {
   const [value, setValue] = useState("");
@@ -21,11 +19,6 @@ export function ProfilePage() {
   const [inputLoginStatus, setInputLoginStatus] = useState(true);
   const inputNameRef = useRef(null);
   const inputLoginRef = useRef(null);
-  const dispatch = useDispatch();
-  const logout = () => {
-    dispatch(signOut())
-    navigate('/login', {replace: true});
-  }
 
   return (
     <>
@@ -49,7 +42,7 @@ export function ProfilePage() {
               </button>
             </li>
             <li className={styles.navItem}>
-              <button onClick={logout} className={styles.navButton}>Выход</button>
+              <button onClick={()=>{}} className={styles.navButton}>Выход</button>
             </li>
           </ul>
           <p className="text text_type_main-default text_color_inactive mt-20">

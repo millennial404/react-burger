@@ -3,17 +3,20 @@ import {EmailInput, Button, PasswordInput} from '@ya.praktikum/react-developer-b
 import React, {useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {signIn} from "../services/actions/auth";
+import {setLoginFormValue, login} from "../services/actions/auth";
 
 export function LoginPage() {
+  const {
+    email,
+    password
+  } = useSelector(state => state.auth.form);
   const auth = useSelector(state => state.auth)
   const dispatch = useDispatch()
   let navigate = useNavigate();
-  
-  const login = () => {
-    dispatch(signIn())
-  }
 
+  const onFormChange = (e) => {
+    dispatch(setLoginFormValue(e.target.name, e.target.value))
+  }
   useEffect(() => {
     if (auth.userData) {
       navigate("/", {replace: true});
@@ -26,22 +29,20 @@ export function LoginPage() {
       <h3 className="text text_type_main-medium">Вход</h3>
       <div className={styles.inputsContainer}>
         <EmailInput
-          onChange={() => {
-          }}
-          value={"value"}
+          onChange={onFormChange}
+          value={email}
           name={'email'}
           isIcon={false}
           extraClass="mb-6 mt-6"
         />
         <PasswordInput
-          onChange={() => {
-          }}
-          value={'value'}
+          onChange={onFormChange}
+          value={password}
           name={'password'}
           extraClass="mb-6"
         />
       </div>
-      <Button htmlType="button" type="primary" size="medium" extraClass="mb-20" onClick={login}>
+      <Button htmlType="button" type="primary" size="medium" extraClass="mb-20" onClick={()=>{dispatch(login())}}>
         Войти
       </Button>
       <p className="text text_type_main-default text_color_inactive">

@@ -74,7 +74,7 @@ export function registerUser ({password, email, name}) {
   })
 }
 
-export function loginRequest(password,email) {
+export function loginRequest({password,email}) {
   return request("auth/login", {
     method: 'POST',
     mode: 'cors',
