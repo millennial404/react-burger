@@ -3,14 +3,14 @@ import {EmailInput, Button, PasswordInput} from '@ya.praktikum/react-developer-b
 import React, {useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {setLoginFormValue, login} from "../services/actions/auth";
+import {setLoginFormValue, login, getLoginData} from "../services/actions/auth";
 
 export function LoginPage() {
   const {
     email,
     password
   } = useSelector(state => state.auth.form);
-  const auth = useSelector(state => state.auth)
+  const auth = useSelector(state => state.auth.isAuthenticated)
   const dispatch = useDispatch()
   let navigate = useNavigate();
 
@@ -18,7 +18,8 @@ export function LoginPage() {
     dispatch(setLoginFormValue(e.target.name, e.target.value))
   }
   useEffect(() => {
-    if (auth.userData) {
+    dispatch(getLoginData())
+    if (auth) {
       navigate("/", {replace: true});
     }
   },[auth, navigate])

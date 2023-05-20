@@ -1,4 +1,6 @@
 import {
+  GET_LOGIN_STATUS,
+  GET_LOGIN_STATUS_FAILED, GET_LOGIN_STATUS_SUCCESS,
   SIGN_IN_FORM_SET_VALUE,
   SIGN_IN_FORM_SUBMIT,
   SIGN_IN_FORM_SUBMIT_FAILED,
@@ -10,6 +12,9 @@ import {
 const initialState = {
   loginRequest: false,
   loginFailed: false,
+  loginStatusRequest: false,
+  loginStatusFailed: false,
+  isAuthenticated: false,
   form: {
     email: '',
     password: '',
@@ -40,6 +45,7 @@ export const authReducer = (state = initialState, action) => {
         form: {
           ...initialState.form
         },
+        isAuthenticated: action.isAuthenticated,
         loginRequest: false
       };
     }
@@ -50,11 +56,31 @@ export const authReducer = (state = initialState, action) => {
         loginRequest: false
       };
     }
-    case SIGN_OUT:{
+    case GET_LOGIN_STATUS: {
       return {
         ...state,
-        userData: action.userData,
-        isAuthenticated: false,
+        loginStatusRequest: true,
+        loginStatusFailed: false,
+      };
+    }
+    case GET_LOGIN_STATUS_SUCCESS: {
+      return {
+        ...state,
+        isAuthenticated: action.isAuthenticated,
+        loginStatusRequest: false
+      };
+    }
+    case GET_LOGIN_STATUS_FAILED: {
+      return {
+        ...state,
+        loginStatusFailed: true,
+        loginStatusRequest: false
+      };
+    }
+
+    case SIGN_OUT:{
+      return {
+        ...initialState
       }
     }
     default: {

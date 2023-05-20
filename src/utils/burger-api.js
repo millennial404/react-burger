@@ -1,4 +1,5 @@
 import {BASE_URL} from './constants';
+import Cookies from 'js-cookie';
 
 function checkResponse(res) {
   if (res.ok) {
@@ -90,4 +91,37 @@ export function loginRequest({password,email}) {
       "password": password
     })
   });
-};
+}
+
+export function updateUserData({password,email}) {
+  return request("auth/user", {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify({
+      "email": email,
+      "password": password
+    })
+  });
+}
+
+export function getUserData() {
+  return request("auth/user", {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: Cookies.get('accessToken')
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer'
+  });
+}

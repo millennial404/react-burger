@@ -1,24 +1,28 @@
 import styles from "./ProfilePage.module.css";
 import {
   PasswordInput,
-  Input,
+  Input, EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState, useRef } from "react";
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {setProfileDataFormValue} from "../services/actions/profileData";
+import {logout} from "../services/actions/auth";
 
 export function ProfilePage() {
-  const [value, setValue] = useState("");
-  const onChange = (e) => {
-    setValue(e.target.value);
-  };
+  const {
+    name,
+    email
+  } = useSelector(state => state.profileData.form);
+  const dispatch = useDispatch();
+  const onFormChange = (e) => {
+    dispatch(setProfileDataFormValue(e.target.name, e.target.value))
+  }
   let location = useLocation();
   const match = matchPath("/profile", `${location.pathname}`);
   const navigate = useNavigate();
-
   const [inputNameStatus, setInputNameStatus] = useState(true);
-  const [inputLoginStatus, setInputLoginStatus] = useState(true);
   const inputNameRef = useRef(null);
-  const inputLoginRef = useRef(null);
 
   return (
     <>
@@ -42,7 +46,7 @@ export function ProfilePage() {
               </button>
             </li>
             <li className={styles.navItem}>
-              <button onClick={()=>{}} className={styles.navButton}>Выход</button>
+              <button onClick={()=>dispatch(logout())} className={styles.navButton}>Выход</button>
             </li>
           </ul>
           <p className="text text_type_main-default text_color_inactive mt-20">
@@ -56,8 +60,8 @@ export function ProfilePage() {
             type={"text"}
             placeholder={"Имя"}
             icon="EditIcon"
-            onChange={onChange}
-            value={value}
+            onChange={onFormChange}
+            value={name}
             name={"name"}
             error={false}
             errorText={"Ошибка"}
@@ -69,30 +73,19 @@ export function ProfilePage() {
             }}
             extraClass="mb-6 mt-6"
           />
-          <Input
-            disabled={inputLoginStatus}
-            onBlur={() => setInputLoginStatus(true)}
-            type={"text"}
-            placeholder={"Логин"}
-            onChange={onChange}
-            icon={"EditIcon"}
-            value={value}
-            name={"login"}
-            error={false}
-            ref={inputLoginRef}
-            onIconClick={() => {
-              setInputLoginStatus(false);
-              setTimeout(() => inputLoginRef.current.focus(), 0);
-            }}
-            errorText={"Ошибка"}
-            size={"default"}
+          <EmailInput
+            onChange={onFormChange}
+            value={email}
+            name={'email'}
+            placeholder="Логин"
+            isIcon={true}
             extraClass="mb-6"
           />
           <PasswordInput
-            onChange={onChange}
+            onChange={onFormChange}
             placeholder={"Пароль"}
             icon="EditIcon"
-            value={value}
+            value={''}
             name={"password"}
             extraClass="mb-6"
           />

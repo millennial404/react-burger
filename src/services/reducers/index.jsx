@@ -6,6 +6,7 @@ import {createdOrderReducer} from "./createdOrder";
 import {popupIngredientDetailsReducer} from "./popupIngredientDetails";
 import {userRegistrationReducer} from "./registerUser";
 import {authReducer} from "./auth";
+import {profileDataReducer} from "./profileData";
 
 // Корневой редьюсер
 export const rootReducer = combineReducers({
@@ -15,6 +16,7 @@ export const rootReducer = combineReducers({
   orderId: createdOrderReducer,
   popup: popupIngredientDetailsReducer,
   registration: userRegistrationReducer,
-  auth: authReducer
+  auth: authReducer,
+  profileData: profileDataReducer
 
 })
