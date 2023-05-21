@@ -1,18 +1,19 @@
 import styles from "./ProfilePage.module.css";
 import {
   PasswordInput,
-  Input, EmailInput,
+  Input, EmailInput, Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, useRef } from "react";
-import { matchPath, useLocation, useNavigate } from "react-router-dom";
+import React, {useState, useRef} from "react";
+import {matchPath, useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {setProfileDataFormValue} from "../services/actions/profileData";
-import {logout} from "../services/actions/auth";
+import {setProfileDataFormValue, updateProfileData} from "../services/actions/profileData";
+import {getLoginData, logout} from "../services/actions/auth";
 
 export function ProfilePage() {
   const {
     name,
-    email
+    login,
+    password
   } = useSelector(state => state.profileData.form);
   const dispatch = useDispatch();
   const onFormChange = (e) => {
@@ -46,7 +47,7 @@ export function ProfilePage() {
               </button>
             </li>
             <li className={styles.navItem}>
-              <button onClick={()=>dispatch(logout())} className={styles.navButton}>Выход</button>
+              <button onClick={() => dispatch(logout())} className={styles.navButton}>Выход</button>
             </li>
           </ul>
           <p className="text text_type_main-default text_color_inactive mt-20">
@@ -75,8 +76,8 @@ export function ProfilePage() {
           />
           <EmailInput
             onChange={onFormChange}
-            value={email}
-            name={'email'}
+            value={login}
+            name={'login'}
             placeholder="Логин"
             isIcon={true}
             extraClass="mb-6"
@@ -85,10 +86,18 @@ export function ProfilePage() {
             onChange={onFormChange}
             placeholder={"Пароль"}
             icon="EditIcon"
-            value={''}
+            value={password}
             name={"password"}
-            extraClass="mb-6"
+            extraClass="mb-15"
           />
+          {(<div className={styles.buttons}>
+            <Button htmlType="button" type="secondary" size="medium" onClick={()=>dispatch(getLoginData())}>
+              Отмена
+            </Button>
+            <Button htmlType="button" type="primary" size="medium" onClick={()=>dispatch(updateProfileData())}>
+              Сохранить
+            </Button>
+          </div>)}
         </div>
       </div>
     </>

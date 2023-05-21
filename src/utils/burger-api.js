@@ -5,7 +5,7 @@ function checkResponse(res) {
   if (res.ok) {
     return res.json();
   }
-  return Promise.reject(`Ошибка ${res.status}`);
+  return Promise.reject(res.status);
 }
 
 const checkSuccess = (res) => {
@@ -93,19 +93,21 @@ export function loginRequest({password,email}) {
   });
 }
 
-export function updateUserData({password,email}) {
+export function updateUserData({name, login, password}) {
   return request("auth/user", {
-    method: 'POST',
+    method: 'PATCH',
     mode: 'cors',
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: Cookies.get('accessToken')
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
     body: JSON.stringify({
-      "email": email,
+      "name": name,
+      "email": login,
       "password": password
     })
   });
@@ -123,5 +125,39 @@ export function getUserData() {
     },
     redirect: 'follow',
     referrerPolicy: 'no-referrer'
+  });
+}
+
+export function refreshToken() {
+  return request("auth/token", {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify({
+    "token": Cookies.get('refreshToken')
+    })
+  });
+}
+
+export function logoutRequest() {
+  return request("auth/logout ", {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer',
+    body: JSON.stringify({
+      "token": Cookies.get('refreshToken')
+    })
   });
 }

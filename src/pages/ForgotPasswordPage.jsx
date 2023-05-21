@@ -1,12 +1,26 @@
 import styles from './ForgotPasswordPage.module.css'
 import {Button, Input} from '@ya.praktikum/react-developer-burger-ui-components'
-import React from "react";
+import React, {useEffect} from "react";
 import {useNavigate, Link} from "react-router-dom";
-import {passwordReset} from "../utils/burger-api";
+import {useDispatch, useSelector} from "react-redux";
+import {getLoginData} from "../services/actions/auth";
+import {resetPass} from "../services/actions/resetPass";
 
 export function ForgotPasswordPage() {
   const [value, setValue] = React.useState('')
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const auth = useSelector(state => state.auth.isAuthenticated)
+  const isMail = useSelector(state => state.resetPass.isMail)
+  useEffect(() => {
+    dispatch(getLoginData())
+    if (auth) {
+      navigate("/", {replace: true});
+    }
+    if (isMail) {
+      navigate("/reset-password", {replace: true});
+    }
+  }, [auth, dispatch, isMail, navigate])
   return (
     <div className={styles.formContainer}>
       <h3 className="text text_type_main-medium">Восстановление пароля</h3>
@@ -24,11 +38,7 @@ export function ForgotPasswordPage() {
         />
       </div>
       <Button htmlType="button" type="primary" size="medium" extraClass="mb-20"
-              onClick={() => {
-                passwordReset(value)
-                  .then(res=>console.log(res))
-                  .then(()=>navigate('/reset-password'))
-              }}>
+              onClick={()=>dispatch(resetPass(value))}>
         Восстановить
       </Button>
       <p className="text text_type_main-default text_color_inactive">

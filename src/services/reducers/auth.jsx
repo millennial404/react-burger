@@ -5,13 +5,15 @@ import {
   SIGN_IN_FORM_SUBMIT,
   SIGN_IN_FORM_SUBMIT_FAILED,
   SIGN_IN_FORM_SUBMIT_SUCCESS,
-  SIGN_OUT
+  SIGN_OUT, SIGN_OUT_FAILED, SIGN_OUT_SUCCESS
 } from "../actions/auth";
 
 
 const initialState = {
   loginRequest: false,
   loginFailed: false,
+  logoutRequest: false,
+  logoutFailed: false,
   loginStatusRequest: false,
   loginStatusFailed: false,
   isAuthenticated: false,
@@ -77,8 +79,21 @@ export const authReducer = (state = initialState, action) => {
         loginStatusRequest: false
       };
     }
-
     case SIGN_OUT:{
+      return {
+        ...state,
+        logoutRequest: true,
+        logoutFailed: false,
+      }
+    }
+    case SIGN_OUT_FAILED:{
+      return {
+        ...state,
+        logoutRequest: false,
+        logoutFailed: true,
+      }
+    }
+    case SIGN_OUT_SUCCESS:{
       return {
         ...initialState
       }

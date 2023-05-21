@@ -10,7 +10,7 @@ const initialState = {
   profileEditFailed: false,
   form: {
     name: '',
-    email: '',
+    login: '',
     password: '',
   }
 }
@@ -29,8 +29,9 @@ export const profileDataReducer = (state = initialState, action) => {
       return {
         ...state,
         form: {
+          ...state.form,
           name: action.name,
-          email: action.email
+          login: action.login
         },
       }
     }
@@ -45,7 +46,8 @@ export const profileDataReducer = (state = initialState, action) => {
       return {
         ...state,
         form: {
-          ...initialState.form
+          ...state.form,
+          password: ''
         },
         registrationRequest: false
       };

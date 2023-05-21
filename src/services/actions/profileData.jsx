@@ -1,4 +1,5 @@
-import {USER_REGISTER_FORM_SET_VALUE} from "./registerUser";
+import {updateUserData} from "../../utils/burger-api";
+
 
 export const SET_PROFILE_DATA = "SET_PROFILE_DATA";
 export const SET_PROFILE_DATA_FORM_VALUE = "SET_PROFILE_DATA_FORM_VALUE";
@@ -11,10 +12,34 @@ export const setProfileDataFormValue = (field, value) => ({
   field,
   value
 })
-export const setProfileData = ( email, name ) => {
+export const setProfileData = (login, name) => {
   return {
     type: SET_PROFILE_DATA,
     name: name,
-    email: email
+    login: login
   }
 }
+
+export const updateProfileData = () => (dispatch, getState) => {
+  dispatch({
+    type: PROFILE_DATA_FORM_SUBMIT
+  });
+  updateUserData(getState().profileData.form)
+    .then((res) => {
+      if (res) {
+        dispatch({
+          type: PROFILE_DATA_FORM_SUBMIT_SUCCESS
+        });
+        dispatch(setProfileData(res.user.email, res.user.name))
+      } else {
+        dispatch({
+          type: PROFILE_DATA_FORM_SUBMIT_FAILED
+        });
+      }
+    })
+    .catch(() => {
+      dispatch({
+        type: PROFILE_DATA_FORM_SUBMIT_FAILED
+      });
+    });
+};

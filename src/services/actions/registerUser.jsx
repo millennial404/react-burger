@@ -1,4 +1,6 @@
 import {registerUser} from "../../utils/burger-api";
+import Cookies from "js-cookie";
+import {setProfileData} from "./profileData";
 
 export const USER_REGISTER_FORM_SET_VALUE = 'USER_REGISTER_FORM_SET_VALUE';
 export const USER_REGISTER_FORM_SUBMIT = 'USER_REGISTER_FORM_SUBMIT';
@@ -20,8 +22,10 @@ export const register = () => (dispatch, getState) => {
       if (res) {
         dispatch({
           type: USER_REGISTER_FORM_SUBMIT_SUCCESS,
-          res
         })
+        Cookies.set('accessToken', res.accessToken)
+        Cookies.set('refreshToken', res.refreshToken)
+        dispatch(setProfileData(res.user.email, res.user.name))
       } else {
         dispatch({
           type: USER_REGISTER_FORM_SUBMIT_FAILED

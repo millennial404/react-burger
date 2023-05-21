@@ -22,7 +22,7 @@ export default function AppHeader() {
         <div className={`${styles.linkContainer} pl-5 pr-5 pt-4 pb-4`}>
           <ListIcon type="primary"/>
           <NavLink
-            to={{pathname: "/login"}}
+            to={{pathname: "/"}}
             className={`${styles.link} ml-2`}>
             Лента заказов
           </NavLink>

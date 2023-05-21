@@ -22,7 +22,7 @@ export function LoginPage() {
     if (auth) {
       navigate("/", {replace: true});
     }
-  },[auth, navigate])
+  },[auth, dispatch, navigate])
 
 
   return (
