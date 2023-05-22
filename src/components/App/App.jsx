@@ -8,8 +8,10 @@ import {ProfilePage} from "../../pages/ProfilePage";
 import {NotFoundPage} from "../../pages/NotFoundPage";
 import {OrdersHistoryPage} from "../../pages/OrdersHistoryPage";
 import {ProtectedRouteElement} from "../ProtectedRouteElement";
+import IngredientPage from "../../pages/IngredientPage";
 
-function App() {
+
+export default function App() {
   return (
       <Router>
         <AppHeader/>
@@ -21,10 +23,9 @@ function App() {
           <Route path="/reset-password" element={<ResetPasswordPage/>}/>
           <Route path="/profile" element={<ProtectedRouteElement element={<ProfilePage/>}/>}/>
           <Route path="/profile/orders" element={<ProtectedRouteElement element={<OrdersHistoryPage/>}/>}/>
+          <Route path="/ingredients/:id" element={<IngredientPage/>}/>
           <Route path="/*" element={<NotFoundPage/>}/>
         </Routes>
       </Router>
   );
 }
-
-export default App;

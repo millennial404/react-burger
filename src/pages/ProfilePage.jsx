@@ -18,11 +18,13 @@ export function ProfilePage() {
   const dispatch = useDispatch();
   const onFormChange = (e) => {
     dispatch(setProfileDataFormValue(e.target.name, e.target.value))
+    setInputChange(true)
   }
   let location = useLocation();
   const match = matchPath("/profile", `${location.pathname}`);
   const navigate = useNavigate();
   const [inputNameStatus, setInputNameStatus] = useState(true);
+  const [inputChange, setInputChange] = useState(false);
   const inputNameRef = useRef(null);
 
   return (
@@ -90,11 +92,17 @@ export function ProfilePage() {
             name={"password"}
             extraClass="mb-15"
           />
-          {(<div className={styles.buttons}>
-            <Button htmlType="button" type="secondary" size="medium" onClick={()=>dispatch(getLoginData())}>
+          {inputChange && (<div className={styles.buttons}>
+            <Button htmlType="button" type="secondary" size="medium" onClick={()=> {
+              dispatch(getLoginData())
+              setInputChange(false)
+            }}>
               Отмена
             </Button>
-            <Button htmlType="button" type="primary" size="medium" onClick={()=>dispatch(updateProfileData())}>
+            <Button htmlType="button" type="primary" size="medium" onClick={()=> {
+              dispatch(updateProfileData())
+              setInputChange(false)
+            }}>
               Сохранить
             </Button>
           </div>)}
