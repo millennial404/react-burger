@@ -45,7 +45,7 @@ const TabBurgerIngredients = ({current, setCurrent}) => {
 };
 
 function Card({cardData}) {
-  let location = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
 
   const [{isDragging}, drag] = useDrag(() => ({

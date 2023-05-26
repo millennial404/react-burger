@@ -6,7 +6,7 @@ import {useDispatch} from "react-redux";
 
 export function OrdersHistoryPage() {
   const dispatch = useDispatch()
-  let location = useLocation();
+  const location = useLocation();
   const match = matchPath('/profile/orders', `${location.pathname}`)
   const navigate = useNavigate();
   return (

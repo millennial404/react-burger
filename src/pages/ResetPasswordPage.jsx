@@ -4,7 +4,6 @@ import React, {useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {confirmationPasswordReset} from "../utils/burger-api";
 import {useDispatch, useSelector} from "react-redux";
-import {getLoginData} from "../services/actions/auth";
 import {CLEAR_RESET_PASS_STATE} from "../services/actions/resetPass";
 
 export function ResetPasswordPage() {
@@ -22,7 +21,6 @@ export function ResetPasswordPage() {
   const auth = useSelector(state => state.auth.isAuthenticated)
   const isMail = useSelector(state => state.resetPass.isMail)
   useEffect(() => {
-    dispatch(getLoginData())
     if (auth) {
       navigate("/", {replace: true});
     }

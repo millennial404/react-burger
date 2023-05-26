@@ -3,7 +3,6 @@ import {ingredientsReducer} from "./ingredients";
 import {componentsReducer} from "./constructorIngredients";
 import {ingredientDetailsReducer} from "./currentIngredient"
 import {createdOrderReducer} from "./createdOrder";
-import {popupIngredientDetailsReducer} from "./popupIngredientDetails";
 import {userRegistrationReducer} from "./registerUser";
 import {authReducer} from "./auth";
 import {profileDataReducer} from "./profileData";
@@ -15,7 +14,6 @@ export const rootReducer = combineReducers({
   components: componentsReducer,
   ingredientDetails: ingredientDetailsReducer,
   orderId: createdOrderReducer,
-  popup: popupIngredientDetailsReducer,
   registration: userRegistrationReducer,
   auth: authReducer,
   profileData: profileDataReducer,

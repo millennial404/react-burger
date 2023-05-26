@@ -20,7 +20,7 @@ export function ProfilePage() {
     dispatch(setProfileDataFormValue(e.target.name, e.target.value))
     setInputChange(true)
   }
-  let location = useLocation();
+  const location = useLocation();
   const match = matchPath("/profile", `${location.pathname}`);
   const navigate = useNavigate();
   const [inputNameStatus, setInputNameStatus] = useState(true);

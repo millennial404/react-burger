@@ -3,17 +3,15 @@ import {Button, Input} from '@ya.praktikum/react-developer-burger-ui-components'
 import React, {useEffect} from "react";
 import {useNavigate, Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {getLoginData} from "../services/actions/auth";
 import {resetPass} from "../services/actions/resetPass";
 
 export function ForgotPasswordPage() {
-  const [value, setValue] = React.useState('')
+  const [email, setEmail] = React.useState('')
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth.isAuthenticated)
   const isMail = useSelector(state => state.resetPass.isMail)
   useEffect(() => {
-    dispatch(getLoginData())
     if (auth) {
       navigate("/", {replace: true});
     }
@@ -28,8 +26,8 @@ export function ForgotPasswordPage() {
         <Input
           type={'text'}
           placeholder={'Укажите e-mail'}
-          onChange={e => setValue(e.target.value)}
-          value={value}
+          onChange={e => setEmail(e.target.value)}
+          value={email}
           name={'name'}
           error={false}
           errorText={'Ошибка'}
@@ -37,8 +35,8 @@ export function ForgotPasswordPage() {
           extraClass="mb-6 mt-6"
         />
       </div>
-      <Button htmlType="button" type="primary" size="medium" extraClass="mb-20"
-              onClick={()=>dispatch(resetPass(value))}>
+      <Button disabled={!email} htmlType="button" type="primary" size="medium" extraClass="mb-20"
+              onClick={()=>dispatch(resetPass(email))}>
         Восстановить
       </Button>
       <p className="text text_type_main-default text_color_inactive">

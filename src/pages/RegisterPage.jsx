@@ -5,7 +5,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {setUserFormValue, register} from "../services/actions/registerUser";
 import Cookies from 'js-cookie';
 import {useEffect} from "react";
-import {getLoginData} from "../services/actions/auth";
 
 export function RegisterPage() {
   const navigate = useNavigate();
@@ -32,7 +31,6 @@ export function RegisterPage() {
   }
   const auth = useSelector(state => state.auth.isAuthenticated)
   useEffect(() => {
-    dispatch(getLoginData())
     if (auth) {
       navigate("/", {replace: true});
     }

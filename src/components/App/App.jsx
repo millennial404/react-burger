@@ -13,11 +13,13 @@ import {IngredientDetailsModal} from "../../pages/IngredientDetailsModal";
 import {useEffect} from "react";
 import {getIngredients} from "../../services/actions/ingredients";
 import {useDispatch} from "react-redux";
+import {getLoginData} from "../../services/actions/auth";
 
 
 export default function App() {
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(getLoginData())
     dispatch(getIngredients())
   }, [dispatch])
   const location = useLocation();
