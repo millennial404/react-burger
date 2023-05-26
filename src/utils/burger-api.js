@@ -29,6 +29,7 @@ export function placeAnOrder(arrayIngredients) {
     method: 'POST',
     headers: {
       'Content-type': 'application/json; charset=UTF-8',
+      Authorization: Cookies.get('accessToken')
     },
     body: JSON.stringify({
       ingredients: arrayIngredients

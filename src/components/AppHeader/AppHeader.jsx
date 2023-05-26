@@ -5,7 +5,7 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./AppHeader.module.css";
-import {Link, NavLink} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 export default function AppHeader() {
 
@@ -14,16 +14,18 @@ export default function AppHeader() {
       <div className={`${styles.content} pb-4 pt-4`}>
         <div className={`${styles.linkContainer} pl-5 pr-5 pt-4 pb-4 mr-2`}>
           <BurgerIcon type="primary"/>
-          <Link to="/" className={`${styles.link} ml-2`}>
+          <NavLink to="/" className={({isActive}) => isActive ? `${styles.activeLink} ml-2` : `${styles.link} ml-2`}
+          >
             Конструктор
-          </Link>
+          </NavLink>
         </div>
 
         <div className={`${styles.linkContainer} pl-5 pr-5 pt-4 pb-4`}>
           <ListIcon type="primary"/>
           <NavLink
-            to={{pathname: "/"}}
-            className={`${styles.link} ml-2`}>
+            to={{pathname: "/feed"}}
+            className={({isActive}) => isActive ? `${styles.activeLink} ml-2` : `${styles.link} ml-2`}
+          >
             Лента заказов
           </NavLink>
         </div>
@@ -36,7 +38,7 @@ export default function AppHeader() {
           <ProfileIcon type="primary"/>
           <NavLink
             to="/profile"
-            className={({isActive})=> isActive ? `${styles.activeLink} ml-2` : `${styles.link} ml-2`}
+            className={({isActive}) => isActive ? `${styles.activeLink} ml-2` : `${styles.link} ml-2`}
           >
             Личный кабинет
           </NavLink>

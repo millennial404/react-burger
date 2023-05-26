@@ -12,7 +12,7 @@ export function LoginPage() {
   } = useSelector(state => state.auth.form);
   const auth = useSelector(state => state.auth.isAuthenticated)
   const dispatch = useDispatch()
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const onFormChange = (e) => {
     dispatch(setLoginFormValue(e.target.name, e.target.value))
