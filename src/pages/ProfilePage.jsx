@@ -26,6 +26,11 @@ export function ProfilePage() {
   const [inputNameStatus, setInputNameStatus] = useState(true);
   const [inputChange, setInputChange] = useState(false);
   const inputNameRef = useRef(null);
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    dispatch(updateProfileData())
+    setInputChange(false)
+  }
 
   return (
     <>
@@ -56,7 +61,7 @@ export function ProfilePage() {
             В этом разделе вы можете изменить свои персональные данные
           </p>
         </div>
-        <div className={styles.formContainer}>
+        <form onSubmit={onFormSubmit} className={styles.formContainer}>
           <Input
             disabled={inputNameStatus}
             onBlur={() => setInputNameStatus(true)}
@@ -99,14 +104,11 @@ export function ProfilePage() {
             }}>
               Отмена
             </Button>
-            <Button htmlType="button" type="primary" size="medium" onClick={()=> {
-              dispatch(updateProfileData())
-              setInputChange(false)
-            }}>
+            <Button htmlType="submit" type="primary" size="medium" >
               Сохранить
             </Button>
           </div>)}
-        </div>
+        </form>
       </div>
     </>
   );

@@ -1,4 +1,4 @@
-import {getUserData, loginRequest, logoutRequest, refreshToken} from "../../utils/burger-api";
+import {getUserData, loginRequest, logoutRequest} from "../../utils/burger-api";
 import {setProfileData} from "./profileData";
 import Cookies from 'js-cookie';
 
@@ -12,6 +12,7 @@ export const SIGN_OUT_FAILED = "SIGN_OUT_FAILED";
 export const GET_LOGIN_STATUS = "GET_LOGIN_STATUS";
 export const GET_LOGIN_STATUS_FAILED = "GET_LOGIN_STATUS_FAILED";
 export const GET_LOGIN_STATUS_SUCCESS = "GET_LOGIN_STATUS_SUCCESS";
+export const SIGN_IN = "SIGN_IN"
 
 export const setLoginFormValue = (field, value) => ({
   type: SIGN_IN_FORM_SET_VALUE,
@@ -19,6 +20,11 @@ export const setLoginFormValue = (field, value) => ({
   value,
 });
 
+export const onAuthenticated = ()=>{
+  return {
+    type: SIGN_IN
+  }
+}
 export const login = () => (dispatch, getState) => {
   dispatch({
     type: SIGN_IN_FORM_SUBMIT
@@ -63,21 +69,10 @@ export const getLoginData = () => (dispatch) => {
       });
     }
   })
-    .catch((err) => {
-      if (err === 403) {
-        refreshToken()
-          .then((data) => {
-            Cookies.set('accessToken', data.accessToken)
-            Cookies.set('refreshToken', data.refreshToken)
-            dispatch({
-              type: GET_LOGIN_STATUS_SUCCESS,
-            });
-          })
-      } else {
-        dispatch({
-          type: GET_LOGIN_STATUS_FAILED
-        })
-      }
+    .catch(() => {
+      dispatch({
+        type: GET_LOGIN_STATUS_FAILED
+      })
     });
 }
 export const logout = () => (dispatch) => {

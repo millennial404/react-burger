@@ -29,10 +29,20 @@ export function ResetPasswordPage() {
     }
   }, [auth, dispatch, isMail, navigate])
 
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    confirmationPasswordReset(newPass, token)
+      .then((res) => {
+        if (res.message === "Password successfully reset") {
+          dispatch({type: CLEAR_RESET_PASS_STATE})
+        }
+      })
+  }
+
   return (
     <div className={styles.formContainer}>
       <h3 className="text text_type_main-medium">Восстановление пароля</h3>
-      <div className={styles.inputsContainer}>
+      <form onSubmit={onFormSubmit} className={styles.inputsContainer}>
         <PasswordInput
           placeholder={'Введите новый пароль'}
           onChange={onChangePass}
@@ -51,16 +61,10 @@ export function ResetPasswordPage() {
           size={'default'}
           extraClass="mb-6"
         />
-      </div>
-      <Button htmlType="button" type="primary" size="medium" extraClass="mb-20"
-              onClick={() => confirmationPasswordReset(newPass, token)
-                .then((res) => {
-                  if (res.message === "Password successfully reset") {
-                    dispatch({type: CLEAR_RESET_PASS_STATE})
-                  }
-                })}>
-        Сохранить
-      </Button>
+        <Button htmlType="submit" type="primary" size="medium" extraClass={`${styles.submitButton} mb-20`}>
+          Сохранить
+        </Button>
+      </form>
       <p className="text text_type_main-default text_color_inactive">
         Вспомнили пароль? <Link className={styles.links} to="/login">Войти</Link>
       </p>

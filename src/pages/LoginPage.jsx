@@ -21,13 +21,17 @@ export function LoginPage() {
     if (auth) {
       navigate("/", {replace: true});
     }
-  },[auth, dispatch, navigate])
+  }, [auth, dispatch, navigate])
 
+  const onFormSubmit = (e) => {
+    e.preventDefault();
+    dispatch(login());
+  }
 
   return (
     <div className={styles.formContainer}>
       <h3 className="text text_type_main-medium">Вход</h3>
-      <div className={styles.inputsContainer}>
+      <form onSubmit={onFormSubmit} className={styles.inputsContainer}>
         <EmailInput
           onChange={onFormChange}
           value={email}
@@ -41,10 +45,11 @@ export function LoginPage() {
           name={'password'}
           extraClass="mb-6"
         />
-      </div>
-      <Button disabled={!email || !password} htmlType="button" type="primary" size="medium" extraClass="mb-20" onClick={()=>{dispatch(login())}}>
-        Войти
-      </Button>
+        <Button disabled={!email || !password} htmlType="submit" type="primary" size="medium"
+                extraClass={`${styles.submitButton} mb-20`}>
+          Войти
+        </Button>
+      </form>
       <p className="text text_type_main-default text_color_inactive">
         Вы — новый пользователь? <Link className={styles.links} to="/register">Зарегистрироваться</Link>
       </p>

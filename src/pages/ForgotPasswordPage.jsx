@@ -11,6 +11,12 @@ export function ForgotPasswordPage() {
   const dispatch = useDispatch();
   const auth = useSelector(state => state.auth.isAuthenticated)
   const isMail = useSelector(state => state.resetPass.isMail)
+
+  const onFormSubmit =(e)=>{
+    e.preventDefault();
+    dispatch(resetPass(email))
+  }
+
   useEffect(() => {
     if (auth) {
       navigate("/", {replace: true});
@@ -22,7 +28,7 @@ export function ForgotPasswordPage() {
   return (
     <div className={styles.formContainer}>
       <h3 className="text text_type_main-medium">Восстановление пароля</h3>
-      <div className={styles.inputsContainer}>
+      <form onSubmit={onFormSubmit} className={styles.inputsContainer}>
         <Input
           type={'text'}
           placeholder={'Укажите e-mail'}
@@ -34,11 +40,10 @@ export function ForgotPasswordPage() {
           size={'default'}
           extraClass="mb-6 mt-6"
         />
-      </div>
-      <Button disabled={!email} htmlType="button" type="primary" size="medium" extraClass="mb-20"
-              onClick={()=>dispatch(resetPass(email))}>
-        Восстановить
-      </Button>
+        <Button disabled={!email} htmlType="submit" type="primary" size="medium" extraClass={`${styles.submitButton} mb-20`} >
+          Восстановить
+        </Button>
+      </form>
       <p className="text text_type_main-default text_color_inactive">
         Вспомнили пароль? <Link className={styles.links} to="/login">Войти</Link>
       </p>

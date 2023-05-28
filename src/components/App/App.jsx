@@ -14,12 +14,15 @@ import {useEffect} from "react";
 import {getIngredients} from "../../services/actions/ingredients";
 import {useDispatch} from "react-redux";
 import {getLoginData} from "../../services/actions/auth";
+import Cookies from 'js-cookie';
 
 
 export default function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getLoginData())
+    if (Cookies.get('accessToken')) {
+      dispatch(getLoginData())
+    }
     dispatch(getIngredients())
   }, [dispatch])
   const location = useLocation();
@@ -41,7 +44,7 @@ export default function App() {
 
       {state?.backgroundLocation && (
         <Routes>
-          <Route path="/ingredients/:id" element={<IngredientDetailsModal/>} />
+          <Route path="/ingredients/:id" element={<IngredientDetailsModal/>}/>
         </Routes>
       )}
     </>

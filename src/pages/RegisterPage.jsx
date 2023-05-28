@@ -3,7 +3,6 @@ import {EmailInput, Button, PasswordInput, Input} from '@ya.praktikum/react-deve
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {setUserFormValue, register} from "../services/actions/registerUser";
-import Cookies from 'js-cookie';
 import {useEffect} from "react";
 
 export function RegisterPage() {
@@ -16,29 +15,28 @@ export function RegisterPage() {
 
   const {registrationRequest} = useSelector(state => state.registration)
 
-  const onFormSubmit = () => {
+  const onFormSubmit = (e) => {
+    e.preventDefault();
     dispatch(register())
   }
 
   const dispatch = useDispatch();
   const onFormChange = (e) => {
     dispatch(setUserFormValue(e.target.name, e.target.value))
-    setTimeout(() => {
-      if (Cookies.get('accessToken')) {
-        navigate("/", {replace: true});
-      }
-    }, 0)
+
   }
   const auth = useSelector(state => state.auth.isAuthenticated)
+
   useEffect(() => {
     if (auth) {
       navigate("/", {replace: true});
     }
   }, [auth, dispatch, navigate])
+
   return (
     <div className={styles.formContainer}>
       <h3 className="text text_type_main-medium">Регистрация</h3>
-      <div className={styles.inputsContainer}>
+      <form onSubmit={onFormSubmit} className={styles.inputsContainer}>
         <Input
           type={'text'}
           placeholder={'Имя'}
@@ -63,11 +61,11 @@ export function RegisterPage() {
           name={'password'}
           extraClass="mb-6"
         />
-      </div>
-      <Button disabled={!name || !email || !password || registrationRequest} onClick={onFormSubmit} htmlType="button"
-              type="primary" size="medium" extraClass="mb-20">
-        Зарегистрироваться
-      </Button>
+        <Button disabled={!name || !email || !password || registrationRequest} htmlType="submit"
+                type="primary" size="medium" extraClass={`${styles.submitButton} mb-20`}>
+          Зарегистрироваться
+        </Button>
+      </form>
       <p className="text text_type_main-default text_color_inactive">
         Уже зарегистрированы? <Link className={styles.links} to="/login">Войти</Link>
       </p>

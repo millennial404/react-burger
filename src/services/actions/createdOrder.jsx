@@ -15,7 +15,7 @@ export function getIdOrder(arrayComponentsId) {
     })
     placeAnOrder(arrayComponentsId)
       .then((res) => {
-          if (res && res.success) {
+          if (res) {
             dispatch({
               type: GET_ID_ORDER_SUCCESS,
               orderId: res.order.number

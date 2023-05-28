@@ -1,12 +1,25 @@
 import {BASE_URL} from './constants';
 import Cookies from 'js-cookie';
 
-function checkResponse(res) {
-  if (res.ok) {
-    return res.json();
+const checkResponse = (res) => {
+  return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+};
+
+const fetchWithRefresh = async (endpoint, options) => {
+  try {
+    return await request(endpoint, options); //делаем запрос
+  } catch (err) {
+    if (err.message === "jwt expired") {
+      const refreshData = await refreshToken(); //обновляем токен
+      Cookies.set("refreshToken", refreshData.refreshToken);
+      Cookies.set("accessToken", refreshData.accessToken); //(или в cookies)
+      options.headers.authorization = refreshData.accessToken;
+      return await request(endpoint, options); //вызываем перезапрос данных
+    } else {
+      return Promise.reject(err);
+    }
   }
-  return Promise.reject(res.status);
-}
+};
 
 const checkSuccess = (res) => {
   if (res && res.success) {
@@ -25,7 +38,7 @@ function request(endpoint, options) {
 export const getIngredientsData = () => request("ingredients");
 
 export function placeAnOrder(arrayIngredients) {
-  return request("orders", {
+  return fetchWithRefresh("orders", {
     method: 'POST',
     headers: {
       'Content-type': 'application/json; charset=UTF-8',
@@ -95,7 +108,7 @@ export function loginRequest({password,email}) {
 }
 
 export function updateUserData({name, login, password}) {
-  return request("auth/user", {
+  return fetchWithRefresh("auth/user", {
     method: 'PATCH',
     mode: 'cors',
     cache: 'no-cache',
@@ -115,7 +128,7 @@ export function updateUserData({name, login, password}) {
 }
 
 export function getUserData() {
-  return request("auth/user", {
+  return fetchWithRefresh("auth/user", {
     method: 'GET',
     mode: 'cors',
     cache: 'no-cache',

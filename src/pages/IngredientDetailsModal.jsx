@@ -9,13 +9,15 @@ import {getIngredientById} from "../utils/card";
 export const IngredientDetailsModal = () => {
   const {id} = useParams();
   const ingredients = useSelector(state => state.ingredients.ingredients);
-  getIngredientById(id, ingredients)
+
   const navigate = useNavigate()
   const dispatch = useDispatch();
+
   useEffect(() => {
     const ingredient = getIngredientById(id, ingredients)
     dispatch(ingredientDetails({...ingredient}))
   }, [dispatch, id, ingredients])
+
   return (
     <Modal onClose={() => {
       navigate(-1);
