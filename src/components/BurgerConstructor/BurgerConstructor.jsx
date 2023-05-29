@@ -28,6 +28,7 @@ import {
   decrementIngredient,
   incrementIngredient,
 } from "../../services/actions/ingredients";
+import {useNavigate} from "react-router-dom";
 
 function Component({component, index, id}) {
   const dispatch = useDispatch();
@@ -186,10 +187,13 @@ function arrayIdIngredients(obj) {
 }
 
 function InfoAndOrder({burgerObject}) {
+  const auth = useSelector(state => state.auth.isAuthenticated)
+  const navigate = useNavigate();
   const idOrder = useSelector((state) => state.orderId.orderId);
   const isOrderRequest = useSelector((state) => state.orderId.orderRequest);
   const dispatch = useDispatch();
   const orderSum = React.useMemo(() => totalSum(burgerObject), [burgerObject]);
+
   return (
     <div className={styles.order}>
       <span className="text text_type_digits-medium mr-2">{orderSum}</span>
@@ -200,7 +204,11 @@ function InfoAndOrder({burgerObject}) {
         type="primary"
         size="large"
         onClick={() => {
-          dispatch(getIdOrder(arrayIdIngredients(burgerObject)));
+          if (!auth) {
+            navigate("/login", {replace: true});
+          } else {
+            dispatch(getIdOrder(arrayIdIngredients(burgerObject)));
+          }
         }}
       >
         Оформить заказ

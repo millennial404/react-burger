@@ -1,20 +1,16 @@
-import React, {useEffect} from "react";
 import PropTypes from "prop-types";
-import {useSelector, useDispatch} from 'react-redux';
-import {getIngredients} from "../../services/actions/ingredients";
+import {useSelector} from 'react-redux';
 import {
   Counter,
   Tab,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import Modal from "../Modal/Modal";
 import styles from "./BurgerIngredients.module.css";
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import {productsPropTypes} from "../../utils/prop-types";
-import {clearIngredientDetails, ingredientDetails} from "../../services/actions/currentIngredient";
 import {useDrag} from 'react-dnd';
 import {useInView} from 'react-intersection-observer';
-import {closePopupIngredientDetails, openPopupIngredientDetails} from "../../services/actions/popupIngredientDetails";
+import {useLocation, useNavigate} from "react-router-dom";
+import {useState} from "react";
 
 const TabBurgerIngredients = ({current, setCurrent}) => {
   const scrollIntoIngredients = (ingredients) => document
@@ -49,7 +45,8 @@ const TabBurgerIngredients = ({current, setCurrent}) => {
 };
 
 function Card({cardData}) {
-  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const [{isDragging}, drag] = useDrag(() => ({
     type: "ingredient",
@@ -69,8 +66,7 @@ function Card({cardData}) {
             boxSizing: isDragging ? "border-box" : "content-box"
           }}
           onClick={() => {
-            dispatch(ingredientDetails({...cardData}))
-            dispatch(openPopupIngredientDetails());
+            navigate(`/ingredients/${cardData._id}`, {state: {backgroundLocation: location}})
           }}
       >
         <img
@@ -162,16 +158,8 @@ CardsByTypes.propTypes = {
 };
 
 export default function BurgerIngredients() {
-  const popupStatus = useSelector(state => state.popup.status)
-  const [current, setCurrent] = React.useState("bun");
-
+  const [current, setCurrent] = useState("bun");
   const {ingredients} = useSelector(state => state.ingredients);
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getIngredients())
-  }, [dispatch])
 
   return (
     <>
@@ -180,14 +168,6 @@ export default function BurgerIngredients() {
         <TabBurgerIngredients current={current} setCurrent={setCurrent}/>
         <CardsByTypes setCurrent={setCurrent} ingredients={ingredients}/>
       </section>
-      {popupStatus && (
-        <Modal onClose={() => {
-          dispatch(closePopupIngredientDetails())
-          dispatch(clearIngredientDetails())
-        }} title="Детали ингредиента">
-          <IngredientDetails/>
-        </Modal>
-      )}
     </>
   );
 }

@@ -46,7 +46,7 @@
 }
 
 .component {
-    compose: componentBun;
+    composes: componentBun;
     cursor: grab;
 }
 

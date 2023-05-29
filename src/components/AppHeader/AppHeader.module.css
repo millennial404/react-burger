@@ -2,6 +2,8 @@
     display: flex;
     margin: 0 auto;
     max-width: 1920px;
+    background: #1C1C21;
+    box-shadow: 0 24px 32px rgba(0, 0, 0, 0.04), 0 16px 24px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.04), 0 0 1px rgba(0, 0, 0, 0.04);
 }
 
 .content {
@@ -36,4 +38,14 @@
 
 .link:visited {
     color: #8585ad;
+}
+
+.activeLink {
+    text-decoration: none;
+    font-family: "JetBrains Mono", serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    color: #f2f2f3;
 }

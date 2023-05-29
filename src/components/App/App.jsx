@@ -1,24 +1,52 @@
-import React from "react";
-import style from "./App.module.css";
+import {Routes, Route, useLocation} from "react-router-dom";
 import AppHeader from "../AppHeader/AppHeader";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import {DndProvider} from "react-dnd";
-import {HTML5Backend} from "react-dnd-html5-backend";
+import {HomePage, LoginPage} from "../../pages";
+import {RegisterPage} from "../../pages/RegisterPage";
+import {ForgotPasswordPage} from "../../pages/ForgotPasswordPage";
+import {ResetPasswordPage} from "../../pages/ResetPasswordPage";
+import {ProfilePage} from "../../pages/ProfilePage";
+import {NotFoundPage} from "../../pages/NotFoundPage";
+import {OrdersHistoryPage} from "../../pages/OrdersHistoryPage";
+import {ProtectedRouteElement} from "../ProtectedRouteElement";
+import IngredientPage from "../../pages/IngredientPage";
+import {IngredientDetailsModal} from "../../pages/IngredientDetailsModal";
+import {useEffect} from "react";
+import {getIngredients} from "../../services/actions/ingredients";
+import {useDispatch} from "react-redux";
+import {getLoginData} from "../../services/actions/auth";
+import Cookies from 'js-cookie';
 
-function App() {
 
+export default function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (Cookies.get('accessToken')) {
+      dispatch(getLoginData())
+    }
+    dispatch(getIngredients())
+  }, [dispatch])
+  const location = useLocation();
+  const state = location.state
   return (
     <>
       <AppHeader/>
-      <DndProvider backend={HTML5Backend}>
-        <main className={style.main}>
-          <BurgerIngredients/>
-          <BurgerConstructor/>
-        </main>
-      </DndProvider>
+      <Routes location={state?.backgroundLocation || location}>
+        <Route path="/" element={<HomePage/>}/>
+        <Route path="/login" element={<LoginPage/>}/>
+        <Route path="/register" element={<RegisterPage/>}/>
+        <Route path="/forgot-password" element={<ForgotPasswordPage/>}/>
+        <Route path="/reset-password" element={<ResetPasswordPage/>}/>
+        <Route path="/profile" element={<ProtectedRouteElement element={<ProfilePage/>}/>}/>
+        <Route path="/profile/orders" element={<ProtectedRouteElement element={<OrdersHistoryPage/>}/>}/>
+        <Route path="/ingredients/:id" element={<IngredientPage/>}/>
+        <Route path="/*" element={<NotFoundPage/>}/>
+      </Routes>
+
+      {state?.backgroundLocation && (
+        <Routes>
+          <Route path="/ingredients/:id" element={<IngredientDetailsModal/>}/>
+        </Routes>
+      )}
     </>
   );
 }
-
-export default App;

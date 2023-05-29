@@ -1,0 +1,55 @@
+.profileContainer{
+    max-width: 1280px;
+    display: flex;
+    margin: auto;
+}
+
+.formContainer {
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 120px 0 0 0;
+}
+
+.links {
+    color: #4C4CFF;
+    text-decoration: none;
+    font-family: "JetBrains Mono", serif;
+}
+
+.navContainer{
+    max-width: 320px;
+}
+
+.navList{
+    list-style-type: none;
+    margin: 144px 0 0 0;
+    padding: 0;
+}
+
+.navItem{
+    display: flex;
+    max-width: 320px;
+    min-height: 64px;
+    align-items: center;
+}
+
+.navButton{
+    background: none;
+    cursor: pointer;
+    color: #8585AD;
+    border: none;
+    font-size: 24px;
+    font-family: 'JetBrains Mono', serif;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 1.25;
+    padding: 0;
+}
+
+.navButtonActive{
+    composes: navButton;
+    color: #f2f2f3;
+
+}
