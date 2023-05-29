@@ -1,0 +1,57 @@
+.main {
+    max-width: 1240px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 608px 626px;
+    grid-template-rows: auto 852px;
+}
+
+.feedContainer {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.orderCard {
+    background: #1C1C21;
+    border-radius: 40px;
+
+}
+
+.orderNumber {
+    display: flex;
+    justify-content: space-between;
+}
+
+.componentsAndPrice {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.price {
+    display: flex;
+}
+
+.components {
+    display: flex;
+    list-style-type: none;
+    padding-left: 0;
+    width: 100%;
+
+}
+
+.component {
+    max-width: 64px;
+    width: 100%;
+    border-radius: 100%;
+    background: #131316;
+    overflow: hidden;
+    margin-right: -20px;
+}
+
+.componentsImg {
+    width: 112px;
+    margin-left: -24px;
+
+}
