@@ -13,7 +13,7 @@ const fetchWithRefresh = async (endpoint, options) => {
       const refreshData = await refreshToken(); //обновляем токен
       Cookies.set("refreshToken", refreshData.refreshToken);
       Cookies.set("accessToken", refreshData.accessToken); //(или в cookies)
-      options.headers.authorization = refreshData.accessToken;
+      options.headers.Authorization = refreshData.accessToken;
       return await request(endpoint, options); //вызываем перезапрос данных
     } else {
       return Promise.reject(err);
