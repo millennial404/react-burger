@@ -20,7 +20,10 @@ const OrderCard = () => {
           <li className={style.component}><img className={style.componentsImg}
                                                src="https://code.s3.yandex.net/react/code/meat-02.png" alt=""/></li>
           <li className={style.component}><img className={style.componentsImg}
+                                               src="https://code.s3.yandex.net/react/code/meat-03.png" alt=""/></li>
+          <li className={style.component}><img className={style.componentsImg}
                                                src="https://code.s3.yandex.net/react/code/bun-02.png" alt=""/></li>
+
         </ul>
         <div className={style.price}><span className="text text_type_digits-default mr-2">460 </span> <CurrencyIcon
           type="primary"/></div>
@@ -37,7 +40,7 @@ export const FeedPage = () => {
         Лента заказов
       </h2>
       <div></div>
-      <ul className={style.feedContainer}>
+      <ul className={`${style.feedContainer} pr-2`}>
         <OrderCard/>
         <OrderCard/>
         <OrderCard/>
