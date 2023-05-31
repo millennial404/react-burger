@@ -4,11 +4,13 @@
     display: grid;
     grid-template-columns: 608px 626px;
     grid-template-rows: auto 852px;
+    row-gap: 20px;
 }
 
 .feedContainer {
     list-style-type: none;
     padding-left: 0;
+    margin: 0;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -52,7 +54,7 @@
 
 .components {
     display: flex;
-    flex-direction: row-reverse;
+    transform: rotate(180deg);
     justify-content: flex-end;
     list-style-type: none;
     padding-left: 0;
@@ -61,6 +63,7 @@
 }
 
 .component {
+    transform: rotate(180deg);
     display: flex;
     box-sizing: border-box;
     max-width: 64px;
@@ -69,7 +72,7 @@
     border-radius: 100%;
     background: #131316;
     overflow: hidden;
-    margin-right: -18px;
+    margin-left: -18px;
     border: 2px solid #801ab3;
 }
 
@@ -80,5 +83,64 @@
 .componentsImg {
     width: 112px;
     margin: 0 0 0 -25px;
+
+}
+
+.orderBoardContainer {
+
+}
+
+.shadow {
+    text-shadow: 0 0 16px rgba(51, 51, 255, 0.25), 0 0 8px rgba(51, 51, 255, 0.25), 0 4px 32px rgba(51, 51, 255, 0.5);
+
+}
+
+.readyOrderNumber {
+
+}
+
+.ordersReady:nth-child(5n) {
+    margin-bottom: 0;
+}
+
+.ordersStatus {
+    display: flex;
+}
+
+.ordersReadyElements {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    list-style-type: none;
+    padding-left: 0;
+    color: #00CCCC;
+    height: 152px;
+}
+
+.ordersInWorkElements {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    list-style-type: none;
+    padding-left: 0;
+    height: 152px;
+
+}
+
+.ordersReadyContainer {
+    max-width: 272px;
+    width: 100%;
+}
+
+.ordersInWorkContainer {
+    max-width: 272px;
+    width: 100%;
+}
+
+.ordersReadyElement {
+
+}
+
+.ordersInWorkElement {
 
 }
