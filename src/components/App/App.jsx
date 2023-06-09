@@ -11,9 +11,9 @@ import {ProtectedRouteElement} from "../ProtectedRouteElement";
 import IngredientPage from "../../pages/IngredientPage";
 import {IngredientDetailsModal} from "../../pages/IngredientDetailsModal";
 import {useEffect} from "react";
-import {getIngredients} from "../../services/actions/ingredients";
+import {getIngredients} from "../../services/redux/actions/ingredients";
 import {useDispatch} from "react-redux";
-import {getLoginData} from "../../services/actions/auth";
+import {getLoginData} from "../../services/redux/actions/auth";
 import Cookies from 'js-cookie';
 import {FeedPage} from "../../pages/FeedPage";
 

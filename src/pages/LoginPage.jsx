@@ -3,7 +3,7 @@ import {EmailInput, Button, PasswordInput} from '@ya.praktikum/react-developer-b
 import React, {useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {setLoginFormValue, login} from "../services/actions/auth";
+import {setLoginFormValue, login} from "../services/redux/actions/auth";
 
 export function LoginPage() {
   const {

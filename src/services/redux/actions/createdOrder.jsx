@@ -1,4 +1,4 @@
-import {placeAnOrder} from "../../utils/burger-api";
+import {placeAnOrder} from "../../../utils/burger-api";
 import {clearBurgerComponent} from "./constructorIngredients";
 import {clearIngredientsCount} from "./ingredients";
 

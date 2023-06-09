@@ -1,7 +1,7 @@
 import styles from "./OrdersHistoryPage.module.css";
 import React from "react";
 import {matchPath, useLocation, useNavigate} from "react-router-dom";
-import {logout} from "../services/actions/auth";
+import {logout} from "../services/redux/actions/auth";
 import {useDispatch} from "react-redux";
 
 export function OrdersHistoryPage() {

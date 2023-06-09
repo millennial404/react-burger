@@ -39,6 +39,7 @@
 .orderNumber {
     display: flex;
     justify-content: space-between;
+
 }
 
 .componentsAndPrice {
@@ -76,10 +77,6 @@
     border: 2px solid #801ab3;
 }
 
-.component {
-
-}
-
 .componentsImg {
     width: 112px;
     margin: 0 0 0 -25px;
@@ -87,16 +84,16 @@
 }
 
 .orderBoardContainer {
-
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .shadow {
     text-shadow: 0 0 16px rgba(51, 51, 255, 0.25), 0 0 8px rgba(51, 51, 255, 0.25), 0 4px 32px rgba(51, 51, 255, 0.5);
-
 }
 
 .readyOrderNumber {
-
+    margin-right: 8px;
 }
 
 .ordersReady:nth-child(5n) {
@@ -105,42 +102,45 @@
 
 .ordersStatus {
     display: flex;
+    flex-wrap: wrap;
+    max-width: 580px;
+    row-gap: 30px;
 }
 
 .ordersReadyElements {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+    width: 100%;
+    display: grid;
+    grid-template: repeat(10,1fr)/auto;
+    grid-auto-flow: column;
     list-style-type: none;
     padding-left: 0;
+    margin: 0;
     color: #00CCCC;
-    height: 152px;
+    min-height: 152px;
+    max-height: 350px;
 }
 
 .ordersInWorkElements {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
+    width: 100%;
+    display: grid;
+    grid-template: repeat(10,1fr)/auto;
+    grid-auto-flow: column;
     list-style-type: none;
     padding-left: 0;
-    height: 152px;
-
+    margin: 0;
+    min-height: 152px;
+    max-height: 350px;
 }
 
 .ordersReadyContainer {
-    max-width: 272px;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    min-width: 206px;
 }
 
 .ordersInWorkContainer {
-    max-width: 272px;
-    width: 100%;
-}
-
-.ordersReadyElement {
-
-}
-
-.ordersInWorkElement {
-
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }

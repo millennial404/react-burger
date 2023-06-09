@@ -1,4 +1,4 @@
-import {updateUserData} from "../../utils/burger-api";
+import {updateUserData} from "../../../utils/burger-api";
 
 
 export const SET_PROFILE_DATA = "SET_PROFILE_DATA";

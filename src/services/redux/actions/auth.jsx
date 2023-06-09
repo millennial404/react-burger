@@ -1,4 +1,4 @@
-import {getUserData, loginRequest, logoutRequest} from "../../utils/burger-api";
+import {getUserData, loginRequest, logoutRequest} from "../../../utils/burger-api";
 import {setProfileData} from "./profileData";
 import Cookies from 'js-cookie';
 

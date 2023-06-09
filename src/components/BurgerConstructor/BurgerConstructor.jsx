@@ -16,18 +16,18 @@ import {useDispatch, useSelector} from "react-redux";
 import {
   clearGetIdOrder,
   getIdOrder,
-} from "../../services/actions/createdOrder";
+} from "../../services/redux/actions/createdOrder";
 import {
   addBurgerComponent,
   addBurgerComponentBun,
   deleteBurgerComponent,
   moveBurgerComponent,
-} from "../../services/actions/constructorIngredients";
+} from "../../services/redux/actions/constructorIngredients";
 import {useDrag, useDrop} from "react-dnd";
 import {
   decrementIngredient,
   incrementIngredient,
-} from "../../services/actions/ingredients";
+} from "../../services/redux/actions/ingredients";
 import {useNavigate} from "react-router-dom";
 
 function Component({component, index, id}) {

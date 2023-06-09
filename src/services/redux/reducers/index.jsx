@@ -7,6 +7,7 @@ import {userRegistrationReducer} from "./registerUser";
 import {authReducer} from "./auth";
 import {profileDataReducer} from "./profileData";
 import {resetPassReducer} from "./resetPass";
+import {wsReducer} from "./ws";
 
 // Корневой редьюсер
 export const rootReducer = combineReducers({
@@ -17,6 +18,8 @@ export const rootReducer = combineReducers({
   registration: userRegistrationReducer,
   auth: authReducer,
   profileData: profileDataReducer,
-  resetPass: resetPassReducer
+  resetPass: resetPassReducer,
+  feed: wsReducer
+
 
 })

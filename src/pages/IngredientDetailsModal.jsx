@@ -1,4 +1,4 @@
-import {clearIngredientDetails, ingredientDetails} from "../services/actions/currentIngredient";
+import {clearIngredientDetails, ingredientDetails} from "../services/redux/actions/currentIngredient";
 import IngredientDetails from "../components/IngredientDetails/IngredientDetails";
 import Modal from "../components/Modal/Modal";
 import React, {useEffect} from "react";

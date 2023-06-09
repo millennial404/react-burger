@@ -3,7 +3,7 @@ import {Button, Input} from '@ya.praktikum/react-developer-burger-ui-components'
 import React, {useEffect} from "react";
 import {useNavigate, Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {resetPass} from "../services/actions/resetPass";
+import {resetPass} from "../services/redux/actions/resetPass";
 
 export function ForgotPasswordPage() {
   const [email, setEmail] = React.useState('')

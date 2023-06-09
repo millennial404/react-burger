@@ -1,4 +1,4 @@
-import {passwordReset} from "../../utils/burger-api";
+import {passwordReset} from "../../../utils/burger-api";
 
 export const RESET_PASS_FAILED = 'GET_ID_ORDER_FAILED';
 export const RESET_PASS_SUCCESS = 'RESET_PASS_SUCCESS';
