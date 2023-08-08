@@ -9,6 +9,7 @@ import {
   WS_CONNECTION_SUCCESS, WS_GET_MESSAGE,
   WS_SEND_MESSAGE
 } from "./actions/ws";
+import {configureStore} from "@reduxjs/toolkit";
 
 const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
 
@@ -21,12 +22,17 @@ const wsActions = {
   onMessage: WS_GET_MESSAGE
 };
 
-const composeEnhancers =
-  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-    : compose;
+// const composeEnhancers =
+//   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+//     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+//     : compose;
+//
+// const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsActions)));
+//
+// export const initStore = () =>
+//   createStore(rootReducer, enhancer);
 
-const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsUrl, wsActions)));
+export const store = configureStore({
+  reducer: rootReducer,
 
-export const initStore = () =>
-  createStore(rootReducer, enhancer);
+})

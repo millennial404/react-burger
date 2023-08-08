@@ -3,6 +3,7 @@ import {CurrencyIcon, FormattedDate} from '@ya.praktikum/react-developer-burger-
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {WS_CONNECTION_START} from "../services/redux/actions/ws";
+import {useNavigate} from "react-router-dom";
 
 
 const ImageIngredient = (ingredient) => {
@@ -15,9 +16,14 @@ const ImageIngredient = (ingredient) => {
            alt=""/>
     </li>)
 }
-const OrderCard = ({number, name, price, createdAt, ingredients}) => {
+const OrderCard = (props) => {
+  const {_id, number, name, createdAt, ingredients} = props.order;
+  const price = props.price
+  const navigate = useNavigate();
   return (
-    <li className={`${style.orderCard} p-6 mb-4`}>
+    <li className={`${style.orderCard} p-6 mb-4`} onClick={() => {
+      navigate(`/feed/${_id}`)
+    }}>
       <div className={style.orderNumber}><span className="text text_type_digits-default mb-6">{`#${number}`}</span>
         <span className="text text_type_main-default text_color_inactive">
           <FormattedDate date={new Date(createdAt)}/> i-GMT+3
@@ -51,8 +57,8 @@ const OrdersBoard = () => {
           <h3 className="text text_type_main-medium mb-6">Готовы:</h3>
           <ul className={`${style.ordersReadyElements}`}>
             {ordersData.orders?.map(order => {
-                return order.status === "done" && (<li key={order.number}><p
-                  className={`${style.readyOrderNumber} text text_type_digits-default mb-2`}>{order.number}</p></li>)
+              return order.status === "done" && (<li key={order.number}><p
+                className={`${style.readyOrderNumber} text text_type_digits-default mb-2`}>{order.number}</p></li>)
             })}
           </ul>
         </div>
@@ -60,8 +66,8 @@ const OrdersBoard = () => {
           <h3 className="text text_type_main-medium mb-6">В работе:</h3>
           <ul className={`${style.ordersInWorkElements}`}>
             {ordersData.orders?.map((order) => {
-                return order.status === "pending" &&(
-                  <li key={order.number}><p className="text text_type_digits-default mb-2">{order.number}</p></li>)
+              return order.status === "pending" && (
+                <li key={order.number}><p className="text text_type_digits-default mb-2">{order.number}</p></li>)
             })}
           </ul>
         </div>
@@ -74,7 +80,7 @@ const OrdersBoard = () => {
   )
 }
 
-const priceOrder = (menuIngredients, arrayIdsOrderIngredients) => {
+export const priceOrder = (menuIngredients, arrayIdsOrderIngredients) => {
   return arrayIdsOrderIngredients.reduce((totalSum, componentId) => {
     return componentId ? totalSum + menuIngredients.find(element => element._id === componentId).price : 0;
   }, 0);
@@ -85,9 +91,9 @@ export const FeedPage = () => {
   const ordersData = useSelector(state => state.feed.orders)
   const dispatch = useDispatch()
   useEffect(() => {
-      dispatch({type: WS_CONNECTION_START})
+      dispatch({type: WS_CONNECTION_START, payload:'wss://norma.nomoreparties.space/orders/all'})
     },
-    [dispatch] // eslint-disable-line react-hooks/exhaustive-deps
+    [dispatch]
   );
   return (
     <main className={style.main}>
@@ -97,7 +103,7 @@ export const FeedPage = () => {
       <div></div>
       <ul className={`${style.feedContainer} pr-2`}>
         {ordersData.orders?.map((order) => {
-          return (<OrderCard {...order} key={order._id} price={priceOrder(ingredients, order.ingredients)}/>)
+          return (<OrderCard key={order._id} order={{...order}} price={priceOrder(ingredients, order.ingredients)}/>)
         })}
       </ul>
       <OrdersBoard/>

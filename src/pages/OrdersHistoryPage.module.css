@@ -1,15 +1,32 @@
-.profileContainer{
+.profileContainer {
     max-width: 1280px;
     display: flex;
     margin: auto;
 }
 
 .formContainer {
-    max-width: 480px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin: 120px 0 0 0;
+    height: 916px;
+    max-width: 844px;
+    list-style-type: none;
+    padding-left: 0;
+    margin: 40px 0 0 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.formContainer::-webkit-scrollbar {
+    width: 8px;
+    background-color: #2F2F37;
+}
+
+.formContainer::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+
+.formContainer::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background-color: #2F2F37;
 }
 
 .links {
@@ -18,24 +35,24 @@
     font-family: "JetBrains Mono", serif;
 }
 
-.navContainer{
+.navContainer {
     max-width: 320px;
 }
 
-.navList{
+.navList {
     list-style-type: none;
     margin: 144px 0 0 0;
     padding: 0;
 }
 
-.navItem{
+.navItem {
     display: flex;
     max-width: 320px;
     min-height: 64px;
     align-items: center;
 }
 
-.navButton{
+.navButton {
     background: none;
     cursor: pointer;
     color: #8585AD;
@@ -48,8 +65,175 @@
     padding: 0;
 }
 
-.navButtonActive{
+.navButtonActive {
     composes: navButton;
     color: #f2f2f3;
 
+}
+
+
+/*___________________________*/
+
+.main {
+    max-width: 1240px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 608px 626px;
+    grid-template-rows: auto 852px;
+    row-gap: 20px;
+}
+
+.feedContainer {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.feedContainer::-webkit-scrollbar {
+    width: 8px;
+    background-color: #2F2F37;
+}
+
+.feedContainer::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+
+.feedContainer::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background-color: #2F2F37;
+}
+
+.orderCard {
+    background: #1C1C21;
+    border-radius: 40px;
+    cursor: pointer;
+
+}
+
+.orderNumber {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.componentsAndPrice {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.price {
+    display: flex;
+}
+
+.components {
+    display: flex;
+    transform: rotate(180deg);
+    justify-content: flex-end;
+    list-style-type: none;
+    padding-left: 0;
+    width: 100%;
+
+}
+
+.component {
+    transform: rotate(180deg);
+    display: flex;
+    box-sizing: border-box;
+    max-width: 64px;
+    min-height: 64px;
+    width: 100%;
+    border-radius: 100%;
+    background: #131316;
+    overflow: hidden;
+    margin-left: -18px;
+    border: 2px solid #801ab3;
+}
+
+.componentsImg {
+    width: 112px;
+    margin: 0 0 0 -25px;
+
+}
+
+.orderBoardContainer {
+    width: 580px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.orderBoardContainer::-webkit-scrollbar {
+    width: 8px;
+    background-color: #2F2F37;
+}
+
+.orderBoardContainer::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+
+.orderBoardContainer::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background-color: #2F2F37;
+}
+
+.shadow {
+    text-shadow: 0 0 16px rgba(51, 51, 255, 0.25), 0 0 8px rgba(51, 51, 255, 0.25), 0 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+.readyOrderNumber {
+    margin-right: 8px;
+}
+
+.ordersReady:nth-child(5n) {
+    margin-bottom: 0;
+}
+
+.ordersStatus {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 580px;
+    row-gap: 30px;
+}
+
+.ordersReadyElements {
+    width: 100%;
+    display: grid;
+    grid-template: repeat(10, 1fr)/auto;
+    grid-auto-flow: column;
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+    color: #00CCCC;
+    min-height: 152px;
+    max-height: 350px;
+}
+
+.ordersInWorkElements {
+    width: 100%;
+    display: grid;
+    grid-template: repeat(10, 1fr)/auto;
+    grid-auto-flow: column;
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+    min-height: 152px;
+    max-height: 350px;
+}
+
+.ordersReadyContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    min-width: 206px;
+}
+
+.ordersInWorkContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
 }

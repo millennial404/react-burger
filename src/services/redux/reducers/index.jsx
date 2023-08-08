@@ -8,6 +8,7 @@ import {authReducer} from "./auth";
 import {profileDataReducer} from "./profileData";
 import {resetPassReducer} from "./resetPass";
 import {wsReducer} from "./ws";
+import {currentOrderReducer} from "./currentOrder";
 
 // Корневой редьюсер
 export const rootReducer = combineReducers({
@@ -19,7 +20,8 @@ export const rootReducer = combineReducers({
   auth: authReducer,
   profileData: profileDataReducer,
   resetPass: resetPassReducer,
-  feed: wsReducer
+  feed: wsReducer,
+  currentOrder: currentOrderReducer
 
 
 })

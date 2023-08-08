@@ -16,6 +16,7 @@ import {useDispatch} from "react-redux";
 import {getLoginData} from "../../services/redux/actions/auth";
 import Cookies from 'js-cookie';
 import {FeedPage} from "../../pages/FeedPage";
+import {OrderPage} from "../../pages/OrderPage";
 
 
 export default function App() {
@@ -41,6 +42,7 @@ export default function App() {
         <Route path="/profile/orders" element={<ProtectedRouteElement element={<OrdersHistoryPage/>}/>}/>
         <Route path="/ingredients/:id" element={<IngredientPage/>}/>
         <Route path="/feed" element={<FeedPage/>}/>
+        <Route path="/feed/:id" element={<OrderPage/>}/>
         <Route path="/*" element={<NotFoundPage/>}/>
       </Routes>
 

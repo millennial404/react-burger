@@ -1,13 +1,13 @@
-export const socketMiddleware = (wsUrl, wsActions) => {
+export const socketMiddleware = (wsActions) => {
   return store => {
     let socket = null;
 
     return next => action => {
       const { dispatch } = store;
-      const { type, payload } = action;
+      const { type } = action;
       const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
       if (type === wsInit) {
-        socket = new WebSocket(wsUrl);
+        socket = new WebSocket(action.payload);
       }
       if (socket) {
         socket.onopen = event => {
@@ -31,8 +31,7 @@ export const socketMiddleware = (wsUrl, wsActions) => {
         };
 
         if (type === wsSendMessage) {
-          const message = { ...payload};
-          socket.send(JSON.stringify(message));
+          socket.send(JSON.stringify(action.payload));
         }
       }
       next(action);
