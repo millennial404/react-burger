@@ -6,12 +6,14 @@ export const socketMiddleware = (wsActions) => {
       const { dispatch } = store;
       const { type } = action;
       const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
+
       if (type === wsInit) {
         socket = new WebSocket(action.payload);
       }
+
       if (socket) {
         socket.onopen = event => {
-          dispatch({ type: onOpen, payload: event });
+          dispatch({ type: onOpen});
         };
 
         socket.onerror = event => {
@@ -27,7 +29,7 @@ export const socketMiddleware = (wsActions) => {
         };
 
         socket.onclose = event => {
-          dispatch({ type: onClose, payload: event });
+          dispatch({ type: onClose});
         };
 
         if (type === wsSendMessage) {

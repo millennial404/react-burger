@@ -10,28 +10,33 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { USER_ORDERS_WS_CONNECTION_START } from "../services/redux/actions/wsUserOrders";
 import Cookies from "js-cookie";
-import { wsUrlAllOrders } from "../utils/constants";
+import { wsUrlUserOrders} from "../utils/constants";
+import style from "./FeedPage.module.css";
 
-const ImageIngredient = (ingredient) => {
+const ImageIngredient = ({ingredient, index, digit}) => {
   const allIngredients = useSelector((state) => state.ingredients.ingredients);
   const img = allIngredients.find(
-    (element) => element._id === ingredient.ingredient
+    (element) => element._id === ingredient
   ).image;
   return (
-    <li className={styles.component}>
-      <img className={styles.componentsImg} src={img} alt="" />
+    <li className={`${style.component} `}>
+      <img className={`${style.componentsImg} ${index === 5 && digit > 0 && style.opacity}`} src={img} alt="" />
+      {index === 5 && <p className={`${style.digit} text text_type_digits-default`}
+      >{digit > 0 && `+${digit}`}</p>}
     </li>
   );
 };
 const OrderCard = (props) => {
   const { _id, number, name, createdAt, ingredients } = props.order;
+  const firstSixIngredients = ingredients.slice(0,6)
   const price = props.price;
   const navigate = useNavigate();
+  const digit = ingredients.length - 6
   return (
     <li
       className={`${styles.orderCard} p-6 mb-4`}
       onClick={() => {
-        navigate(`/feed/${_id}`);
+        navigate(`/profile/orders/${_id}`);
       }}
     >
       <div className={styles.orderNumber}>
@@ -43,9 +48,9 @@ const OrderCard = (props) => {
       <p className="text text_type_main-medium mb-6">{name}</p>
       <div className={styles.componentsAndPrice}>
         <ul className={styles.components}>
-          {ingredients
+          {firstSixIngredients
             ?.map((ingredient, i) => {
-              return <ImageIngredient ingredient={ingredient} key={i} />;
+              return <ImageIngredient ingredient={ingredient} digit={digit} index={i} key={i} />;
             })
             .reverse()}
         </ul>
@@ -60,7 +65,9 @@ const OrderCard = (props) => {
 
 export function OrdersHistoryPage() {
   const ingredients = useSelector((state) => state.ingredients.ingredients);
-  const ordersData = useSelector((state) => state.userFeed.orders);
+  const ordersData = useSelector((state) => state.userFeed.orders.orders);
+  const reverseOrdersData = ordersData ? [...ordersData] : []
+  reverseOrdersData?.reverse()
   const dispatch = useDispatch();
   const location = useLocation();
   const match = matchPath("/profile/orders", `${location.pathname}`);
@@ -70,10 +77,10 @@ export function OrdersHistoryPage() {
   useEffect(() => {
     dispatch({
       type: USER_ORDERS_WS_CONNECTION_START,
-      payload: `${wsUrlAllOrders}/all/?token=${accessToken}`,
+      payload: `${wsUrlUserOrders}?token=${accessToken}`,
     });
   }, [accessToken, dispatch]);
-  console.log(accessToken);
+
   return (
     <>
       <div className={styles.profileContainer}>
@@ -105,11 +112,11 @@ export function OrdersHistoryPage() {
             </li>
           </ul>
           <p className="text text_type_main-default text_color_inactive mt-20">
-            В этом разделе вы можете изменить свои персональные данные
+            В этом разделе вы можете просмотреть свою историю заказов
           </p>
         </div>
         <ul className={`${styles.formContainer} pr-2`}>
-          {ordersData.orders?.map((order) => {
+          {reverseOrdersData?.map((order) => {
             return (
               <OrderCard
                 key={order._id}

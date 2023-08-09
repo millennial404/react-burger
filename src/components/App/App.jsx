@@ -17,6 +17,7 @@ import {getLoginData} from "../../services/redux/actions/auth";
 import Cookies from 'js-cookie';
 import {FeedPage} from "../../pages/FeedPage";
 import {OrderPage} from "../../pages/OrderPage";
+import {UserOrderPage} from "../../pages/UserOrderPage";
 
 
 export default function App() {
@@ -40,6 +41,7 @@ export default function App() {
         <Route path="/reset-password" element={<ResetPasswordPage/>}/>
         <Route path="/profile" element={<ProtectedRouteElement element={<ProfilePage/>}/>}/>
         <Route path="/profile/orders" element={<ProtectedRouteElement element={<OrdersHistoryPage/>}/>}/>
+        <Route path="/profile/orders/:id" element={<ProtectedRouteElement element={<UserOrderPage/>}/>}/>
         <Route path="/ingredients/:id" element={<IngredientPage/>}/>
         <Route path="/feed" element={<FeedPage/>}/>
         <Route path="/feed/:id" element={<OrderPage/>}/>

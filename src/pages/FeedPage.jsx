@@ -9,21 +9,25 @@ import { ALL_ORDERS_WS_CONNECTION_START } from "../services/redux/actions/wsAllO
 import { useNavigate } from "react-router-dom";
 import { wsUrlAllOrders } from "../utils/constants";
 
-const ImageIngredient = (ingredient) => {
+const ImageIngredient = ({ingredient, index, digit}) => {
   const allIngredients = useSelector((state) => state.ingredients.ingredients);
   const img = allIngredients.find(
-    (element) => element._id === ingredient.ingredient
+    (element) => element._id === ingredient
   ).image;
   return (
-    <li className={style.component}>
-      <img className={style.componentsImg} src={img} alt="" />
+    <li className={`${style.component} `}>
+      <img className={`${style.componentsImg} ${index === 5 && digit > 0 && style.opacity}`} src={img} alt="" />
+      {index === 5 && <p className={`${style.digit} text text_type_digits-default`}
+      >{digit > 0 && `+${digit}`}</p>}
     </li>
   );
 };
 const OrderCard = (props) => {
   const { _id, number, name, createdAt, ingredients } = props.order;
+  const firstSixIngredients = ingredients.slice(0,6)
   const price = props.price;
   const navigate = useNavigate();
+  const digit = ingredients.length - 6
   return (
     <li
       className={`${style.orderCard} p-6 mb-4`}
@@ -40,9 +44,9 @@ const OrderCard = (props) => {
       <p className="text text_type_main-medium mb-6">{name}</p>
       <div className={style.componentsAndPrice}>
         <ul className={style.components}>
-          {ingredients
+          {firstSixIngredients
             ?.map((ingredient, i) => {
-              return <ImageIngredient ingredient={ingredient} key={i} />;
+              return <ImageIngredient ingredient={ingredient} digit={digit} index={i} key={i} />;
             })
             .reverse()}
         </ul>

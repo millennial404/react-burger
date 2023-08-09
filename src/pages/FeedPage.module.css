@@ -55,6 +55,7 @@
 }
 
 .components {
+    position: relative;
     display: flex;
     transform: rotate(180deg);
     justify-content: flex-end;
@@ -66,21 +67,39 @@
 
 .component {
     transform: rotate(180deg);
-    display: flex;
-    box-sizing: border-box;
-    max-width: 64px;
-    min-height: 64px;
-    width: 100%;
-    border-radius: 100%;
-    background: #131316;
-    overflow: hidden;
-    margin-left: -18px;
-    border: 2px solid #801ab3;
+    display: inline-block;
+    max-width: 70px;
+    min-height: 70px;
+    border-radius: 50%;
+    background: #080809;
+    margin:  0 0 0 -18px;
+    aspect-ratio: 1;
+    position: relative;
+    z-index: 0;
+
+}
+
+.component:before{
+    content:"";
+    position:absolute;
+    z-index:-1;
+    inset: 0;
+    background: linear-gradient(45deg, #a917b7, #2124be);
+    padding: 3px;
+    border-radius: 50%;
+    mask:
+            linear-gradient(#fff 0 0) content-box,
+            linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+}
+
+.opacity{
+    filter: opacity(30%);
 }
 
 .componentsImg {
     width: 112px;
-    margin: 0 0 0 -25px;
+    margin: 8px 0 0 -20px;
 
 }
 
@@ -127,7 +146,7 @@
 .ordersReadyElements {
     width: 100%;
     display: grid;
-    grid-template: repeat(10,1fr)/auto;
+    grid-template: repeat(10, 1fr)/auto;
     grid-auto-flow: column;
     list-style-type: none;
     padding-left: 0;
@@ -140,7 +159,7 @@
 .ordersInWorkElements {
     width: 100%;
     display: grid;
-    grid-template: repeat(10,1fr)/auto;
+    grid-template: repeat(10, 1fr)/auto;
     grid-auto-flow: column;
     list-style-type: none;
     padding-left: 0;
@@ -160,4 +179,10 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+}
+
+.digit{
+    position: absolute;
+    top: 22px;
+    left: 20px;
 }
