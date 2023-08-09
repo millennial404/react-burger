@@ -1,38 +1,47 @@
-import {applyMiddleware, compose, createStore} from "redux";
-import thunk from "redux-thunk";
-import { socketMiddleware } from './middleware';
-import {rootReducer} from "./reducers";
+import { socketMiddleware } from "./middleware";
+import { rootReducer } from "./reducers";
 import {
-  WS_CONNECTION_CLOSED,
-  WS_CONNECTION_ERROR,
-  WS_CONNECTION_START,
-  WS_CONNECTION_SUCCESS, WS_GET_MESSAGE,
-  WS_SEND_MESSAGE
-} from "./actions/ws";
-import {configureStore} from "@reduxjs/toolkit";
+  ALL_ORDERS_WS_CONNECTION_CLOSED,
+  ALL_ORDERS_WS_CONNECTION_ERROR,
+  ALL_ORDERS_WS_CONNECTION_START,
+  ALL_ORDERS_WS_CONNECTION_SUCCESS,
+  ALL_ORDERS_WS_GET_MESSAGE,
+  ALL_ORDERS_WS_SEND_MESSAGE,
+} from "./actions/wsAllOrders";
+import {
+  USER_ORDERS_WS_CONNECTION_CLOSED,
+  USER_ORDERS_WS_CONNECTION_ERROR,
+  USER_ORDERS_WS_CONNECTION_START,
+  USER_ORDERS_WS_CONNECTION_SUCCESS,
+  USER_ORDERS_WS_GET_MESSAGE,
+  USER_ORDERS_WS_SEND_MESSAGE,
+} from "./actions/wsUserOrders";
+import { configureStore } from "@reduxjs/toolkit";
 
-const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
+const allOrdersMiddleware = socketMiddleware({
+  wsInit: ALL_ORDERS_WS_CONNECTION_START,
+  wsSendMessage: ALL_ORDERS_WS_SEND_MESSAGE,
+  onOpen: ALL_ORDERS_WS_CONNECTION_SUCCESS,
+  onClose: ALL_ORDERS_WS_CONNECTION_CLOSED,
+  onError: ALL_ORDERS_WS_CONNECTION_ERROR,
+  onMessage: ALL_ORDERS_WS_GET_MESSAGE,
+});
 
-const wsActions = {
-  wsInit: WS_CONNECTION_START,
-  wsSendMessage: WS_SEND_MESSAGE,
-  onOpen: WS_CONNECTION_SUCCESS,
-  onClose: WS_CONNECTION_CLOSED,
-  onError: WS_CONNECTION_ERROR,
-  onMessage: WS_GET_MESSAGE
-};
-
-// const composeEnhancers =
-//   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-//     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
-//     : compose;
-//
-// const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsActions)));
-//
-// export const initStore = () =>
-//   createStore(rootReducer, enhancer);
+const userOrdersMiddleware = socketMiddleware({
+  wsInit: USER_ORDERS_WS_CONNECTION_START,
+  wsSendMessage: USER_ORDERS_WS_SEND_MESSAGE,
+  onOpen: USER_ORDERS_WS_CONNECTION_SUCCESS,
+  onClose: USER_ORDERS_WS_CONNECTION_CLOSED,
+  onError: USER_ORDERS_WS_CONNECTION_ERROR,
+  onMessage: USER_ORDERS_WS_GET_MESSAGE,
+});
 
 export const store = configureStore({
   reducer: rootReducer,
-
-})
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(
+      allOrdersMiddleware,
+      userOrdersMiddleware
+    );
+  },
+});

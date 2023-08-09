@@ -1,17 +1,16 @@
-import {combineReducers} from 'redux';
-import {ingredientsReducer} from "./ingredients";
-import {componentsReducer} from "./constructorIngredients";
-import {ingredientDetailsReducer} from "./currentIngredient"
-import {createdOrderReducer} from "./createdOrder";
-import {userRegistrationReducer} from "./registerUser";
-import {authReducer} from "./auth";
-import {profileDataReducer} from "./profileData";
-import {resetPassReducer} from "./resetPass";
-import {wsReducer} from "./ws";
-import {currentOrderReducer} from "./currentOrder";
+import { ingredientsReducer } from "./ingredients";
+import { componentsReducer } from "./constructorIngredients";
+import { ingredientDetailsReducer } from "./currentIngredient";
+import { createdOrderReducer } from "./createdOrder";
+import { userRegistrationReducer } from "./registerUser";
+import { authReducer } from "./auth";
+import { profileDataReducer } from "./profileData";
+import { resetPassReducer } from "./resetPass";
+import { wsAllOrdersReducer } from "./wsAllOrders";
+import { currentOrderReducer } from "./currentOrder";
+import { wsUserOrderReducer } from "./wsUserOrders";
 
-// Корневой редьюсер
-export const rootReducer = combineReducers({
+export const rootReducer = {
   ingredients: ingredientsReducer,
   components: componentsReducer,
   ingredientDetails: ingredientDetailsReducer,
@@ -20,8 +19,7 @@ export const rootReducer = combineReducers({
   auth: authReducer,
   profileData: profileDataReducer,
   resetPass: resetPassReducer,
-  feed: wsReducer,
-  currentOrder: currentOrderReducer
-
-
-})
+  feed: wsAllOrdersReducer,
+  userFeed: wsUserOrderReducer,
+  currentOrder: currentOrderReducer,
+};
