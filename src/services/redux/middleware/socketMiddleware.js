@@ -12,7 +12,7 @@ export const socketMiddleware = (wsActions) => {
       }
 
       if (socket) {
-        socket.onopen = event => {
+        socket.onopen = () => {
           dispatch({ type: onOpen});
         };
 
@@ -28,7 +28,7 @@ export const socketMiddleware = (wsActions) => {
           dispatch({ type: onMessage, payload: restParsedData });
         };
 
-        socket.onclose = event => {
+        socket.onclose = () => {
           dispatch({ type: onClose});
         };
 
