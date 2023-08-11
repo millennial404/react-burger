@@ -8,35 +8,17 @@ export const USER_ORDERS_WS_CONNECTION_CLOSED =
   "USER_ORDERS_WS_CONNECTION_CLOSED";
 export const USER_ORDERS_WS_GET_MESSAGE = "USER_ORDERS_WS_GET_MESSAGE";
 export const USER_ORDERS_WS_SEND_MESSAGE = "USER_ORDERS_WS_SEND_MESSAGE";
+export const USER_ORDERS_WS_CONNECTION_STOP = "USER_ORDERS_WS_CONNECTION_STOP"
 
-export const wsConnectionSuccess = () => {
+export const wsConnectUserOrders = (url) => {
   return {
-    type: USER_ORDERS_WS_CONNECTION_SUCCESS,
+    type: USER_ORDERS_WS_CONNECTION_START,
+    payload: url,
   };
 };
 
-export const wsConnectionError = () => {
+export const wsDisconnectUserOrders = () => {
   return {
-    type: USER_ORDERS_WS_CONNECTION_ERROR,
-  };
-};
-
-export const wsConnectionClosed = () => {
-  return {
-    type: USER_ORDERS_WS_CONNECTION_CLOSED,
-  };
-};
-
-export const wsGetMessage = (message) => {
-  return {
-    type: USER_ORDERS_WS_GET_MESSAGE,
-    payload: message,
-  };
-};
-
-export const wsSendMessage = (message) => {
-  return {
-    type: USER_ORDERS_WS_SEND_MESSAGE,
-    payload: message,
+    type: USER_ORDERS_WS_CONNECTION_STOP,
   };
 };

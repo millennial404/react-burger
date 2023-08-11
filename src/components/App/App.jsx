@@ -18,6 +18,8 @@ import Cookies from 'js-cookie';
 import {FeedPage} from "../../pages/FeedPage";
 import {OrderPage} from "../../pages/OrderPage";
 import {UserOrderPage} from "../../pages/UserOrderPage";
+import {OrderPageModal} from "../../pages/OrderPageModal";
+import {UserOrderPageModal} from "../../pages/UserOrderPageModal";
 
 
 export default function App() {
@@ -51,6 +53,8 @@ export default function App() {
       {state?.backgroundLocation && (
         <Routes>
           <Route path="/ingredients/:id" element={<IngredientDetailsModal/>}/>
+          <Route path="/feed/:id" element={<OrderPageModal/>}/>
+          <Route path="/profile/orders/:id" element={<ProtectedRouteElement element={<UserOrderPageModal/>}/>}/>
         </Routes>
       )}
     </>
