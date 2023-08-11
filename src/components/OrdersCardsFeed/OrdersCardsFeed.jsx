@@ -1,6 +1,5 @@
 import {useSelector} from "react-redux";
 import style from "./OrdersCardsFeed.module.css";
-import {useNavigate} from "react-router-dom";
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {priceOrder} from "./utils";
 
@@ -19,11 +18,10 @@ const ImageIngredient = ({ingredient, index, digit}) => {
 };
 export const OrdersCardsFeed = (props) => {
   const menuIngredients = useSelector((state) => state.ingredients.ingredients);
-  const {_id, number, name, createdAt, ingredients} = props.order;
+  const {number, name, createdAt, ingredients} = props.order;
   const onClick = props.onClick
   const firstSixIngredients = ingredients.slice(0, 6)
   const price = priceOrder(menuIngredients, ingredients);
-  const navigate = useNavigate();
   const digit = ingredients.length - 6
   return (
     <li
