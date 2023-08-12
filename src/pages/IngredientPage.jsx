@@ -4,7 +4,7 @@ import React, {useEffect} from "react";
 import IngredientDetails from "../components/IngredientDetails/IngredientDetails";
 import {useParams} from "react-router-dom";
 import {getIngredientById} from "../utils/card";
-import {ingredientDetails} from "../services/actions/currentIngredient";
+import {ingredientDetails} from "../services/redux/actions/currentIngredient";
 
 
 export default function IngredientPage() {

@@ -1,4 +1,4 @@
-import {registerUser} from "../../utils/burger-api";
+import {registerUser} from "../../../utils/burger-api";
 import Cookies from "js-cookie";
 import {setProfileData} from "./profileData";
 import {onAuthenticated} from "./auth";

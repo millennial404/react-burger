@@ -4,7 +4,7 @@ import React, {useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {confirmationPasswordReset} from "../utils/burger-api";
 import {useDispatch, useSelector} from "react-redux";
-import {CLEAR_RESET_PASS_STATE} from "../services/actions/resetPass";
+import {CLEAR_RESET_PASS_STATE} from "../services/redux/actions/resetPass";
 
 export function ResetPasswordPage() {
   const navigate = useNavigate()

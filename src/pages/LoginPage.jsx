@@ -1,11 +1,13 @@
 import styles from './LoginPage.module.css'
 import {EmailInput, Button, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
 import React, {useEffect} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {setLoginFormValue, login} from "../services/actions/auth";
+import {setLoginFormValue, login} from "../services/redux/actions/auth";
 
 export function LoginPage() {
+  const location = useLocation();
+  const fromPage = location.state?.from?.pathname || '/';
   const {
     email,
     password
@@ -19,9 +21,9 @@ export function LoginPage() {
   }
   useEffect(() => {
     if (auth) {
-      navigate("/", {replace: true});
+      navigate(fromPage, { replace: true });
     }
-  }, [auth, dispatch, navigate])
+  }, [auth, dispatch, fromPage, navigate])
 
   const onFormSubmit = (e) => {
     e.preventDefault();
