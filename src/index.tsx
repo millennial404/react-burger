@@ -5,7 +5,7 @@ import App from "./components/App/App";
 import { BrowserRouter } from "react-router-dom";
 import { store } from "./services/redux/store";
 
-const root = ReactDOM.createRoot(document.querySelector("#root"));
+const root = ReactDOM.createRoot(document.querySelector("#root")!);
 root.render(
   <React.StrictMode>
     <Provider store={store}>

@@ -11,7 +11,7 @@ import OrderDetails from "../OrderDetails/OrderDetails";
 import {
   productsPropTypes,
   burgerObjectPropTypes,
-} from "../../utils/prop-types";
+} from "../../utils/types";
 import {useDispatch, useSelector} from "react-redux";
 import {
   clearGetIdOrder,
@@ -30,7 +30,12 @@ import {
 } from "../../services/redux/actions/ingredients";
 import {useNavigate} from "react-router-dom";
 
-function Component({component, index, id}) {
+interface ComponentProps {
+  component: productsPropTypes;
+  index: number;
+  id: string;
+}
+function Component({component, index, id}: ComponentProps) {
   const dispatch = useDispatch();
   const ref = React.useRef(null);
   const [{handlerId}, drop] = useDrop({
@@ -100,11 +105,10 @@ function Component({component, index, id}) {
   );
 }
 
-Component.propTypes = {
-  component: productsPropTypes.isRequired,
-};
-
-function BurgerConstructorComponents({burgerObject}) {
+interface BurgerConstructorComponentsProps {
+  burgerObject: burgerObjectPropTypes;
+}
+function BurgerConstructorComponents({burgerObject}: BurgerConstructorComponentsProps) {
   const dispatch = useDispatch();
 
   const [{isOver}, drop] = useDrop(() => ({
@@ -168,25 +172,24 @@ function BurgerConstructorComponents({burgerObject}) {
   );
 }
 
-BurgerConstructorComponents.propTypes = {
-  burgerObject: burgerObjectPropTypes.isRequired,
-};
-
-function concatBurgerObject(obj) {
+function concatBurgerObject(obj: burgerObjectPropTypes) {
   return obj.bun.concat(obj.components).concat(obj.bun);
 }
 
-function totalSum(obj) {
+function totalSum(obj: burgerObjectPropTypes) {
   return concatBurgerObject(obj).reduce((totalSum, component) => {
     return component ? totalSum + component.price : 0;
   }, 0);
 }
 
-function arrayIdIngredients(obj) {
+function arrayIdIngredients(obj: burgerObjectPropTypes) {
   return concatBurgerObject(obj).map((component) => component._id);
 }
 
-function InfoAndOrder({burgerObject}) {
+interface InfoAndOrderProps {
+  burgerObject: burgerObjectPropTypes;
+}
+function InfoAndOrder({burgerObject}: InfoAndOrderProps) {
   const auth = useSelector(state => state.auth.isAuthenticated)
   const navigate = useNavigate();
   const idOrder = useSelector((state) => state.orderId.orderId);
@@ -229,10 +232,6 @@ function InfoAndOrder({burgerObject}) {
     </div>
   );
 }
-
-InfoAndOrder.propTypes = {
-  burgerObject: burgerObjectPropTypes.isRequired,
-};
 
 export default function BurgerConstructor() {
   const components = useSelector((state) => state.components);

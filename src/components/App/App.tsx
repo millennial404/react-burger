@@ -30,6 +30,7 @@ export default function App() {
     }
     dispatch(getIngredients())
   }, [dispatch])
+
   const location = useLocation();
   const state = location.state
   return (
