@@ -1,4 +1,5 @@
 import React from "react";
+import type { Identifier, XYCoord } from "dnd-core";
 import {
   Button,
   ConstructorElement,
@@ -8,11 +9,8 @@ import CurrencyIconTotalPrice from "../../images/CurrencyIcon36x36.svg";
 import componentMarkerImg from "../../images/icon24x24.svg";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import {
-  productsPropTypes,
-  burgerObjectPropTypes,
-} from "../../utils/types";
-import {useDispatch, useSelector} from "react-redux";
+import { productsPropTypes, burgerObjectPropTypes } from "../../utils/types";
+import { useDispatch, useSelector } from "react-redux";
 import {
   clearGetIdOrder,
   getIdOrder,
@@ -23,29 +21,39 @@ import {
   deleteBurgerComponent,
   moveBurgerComponent,
 } from "../../services/redux/actions/constructorIngredients";
-import {useDrag, useDrop} from "react-dnd";
+import { useDrag, useDrop } from "react-dnd";
 import {
   decrementIngredient,
   incrementIngredient,
 } from "../../services/redux/actions/ingredients";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface ComponentProps {
   component: productsPropTypes;
   index: number;
-  id: string;
+  id: string | undefined;
 }
-function Component({component, index, id}: ComponentProps) {
+
+interface DragItem {
+  index: number;
+  id: string;
+  type: string;
+}
+function Component({ component, index, id }: ComponentProps) {
   const dispatch = useDispatch();
-  const ref = React.useRef(null);
-  const [{handlerId}, drop] = useDrop({
+  const ref = React.useRef<HTMLLIElement>(null);
+  const [{ handlerId }, drop] = useDrop<
+    DragItem,
+    void,
+    { handlerId: Identifier | null }
+  >({
     accept: "component",
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item, monitor) {
+    hover(item: DragItem, monitor) {
       if (!ref.current) {
         return;
       }
@@ -58,7 +66,7 @@ function Component({component, index, id}: ComponentProps) {
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
       }
@@ -70,12 +78,12 @@ function Component({component, index, id}: ComponentProps) {
     },
   });
 
-  const [{isDragging}, drag] = useDrag({
+  const [{ isDragging }, drag] = useDrag({
     type: "component",
     item: () => {
-      return {id, index};
+      return { id, index };
     },
-    collect: (monitor) => ({
+    collect: (monitor: any) => ({
       isDragging: monitor.isDragging(),
     }),
   });
@@ -88,10 +96,10 @@ function Component({component, index, id}: ComponentProps) {
       draggable={true}
       ref={ref}
       className={styles.component}
-      style={{opacity}}
+      style={{ opacity }}
       data-handler-id={handlerId}
     >
-      <img className="mr-2" src={componentMarkerImg} alt=""/>
+      <img className="mr-2" src={componentMarkerImg} alt="" />
       <ConstructorElement
         text={component.name}
         price={component.price}
@@ -108,12 +116,14 @@ function Component({component, index, id}: ComponentProps) {
 interface BurgerConstructorComponentsProps {
   burgerObject: burgerObjectPropTypes;
 }
-function BurgerConstructorComponents({burgerObject}: BurgerConstructorComponentsProps) {
+function BurgerConstructorComponents({
+  burgerObject,
+}: BurgerConstructorComponentsProps) {
   const dispatch = useDispatch();
 
-  const [{isOver}, drop] = useDrop(() => ({
+  const [{ isOver }, drop] = useDrop(() => ({
     accept: "ingredient",
-    drop: (item) => {
+    drop: (item: any) => {
       if (item.cardData.type === "bun") {
         dispatch(addBurgerComponentBun(item.cardData));
         dispatch(incrementIngredient(item.cardData));
@@ -122,7 +132,7 @@ function BurgerConstructorComponents({burgerObject}: BurgerConstructorComponents
         dispatch(incrementIngredient(item.cardData));
       }
     },
-    collect: (monitor) => ({
+    collect: (monitor: any) => ({
       isOver: !!monitor.isOver(),
     }),
   }));
@@ -131,15 +141,17 @@ function BurgerConstructorComponents({burgerObject}: BurgerConstructorComponents
     <div
       className={`${styles.burgerComponents} mt-25 mb-10 ml-4`}
       ref={drop}
-      style={{border: isOver ? "1px solid #801ab3" : "0px"}}
+      style={{ border: isOver ? "1px solid #801ab3" : "0px" }}
     >
       {burgerObject.bun[0] && (
         <div className={styles.componentBun}>
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={burgerObject.bun[0] ? `${burgerObject.bun[0].name} (верх)` : ""}
-            price={burgerObject.bun[0] ? burgerObject.bun[0].price : ""}
+            text={
+              burgerObject.bun[0] ? `${burgerObject.bun[0].name} (верх)` : ""
+            }
+            price={burgerObject.bun[0] ? burgerObject.bun[0].price : 0}
             thumbnail={burgerObject.bun[0] ? burgerObject.bun[0].image : ""}
           />
         </div>
@@ -162,8 +174,10 @@ function BurgerConstructorComponents({burgerObject}: BurgerConstructorComponents
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={burgerObject.bun[0] ? `${burgerObject.bun[0].name} (низ)` : ""}
-            price={burgerObject.bun[0] ? burgerObject.bun[0].price : ""}
+            text={
+              burgerObject.bun[0] ? `${burgerObject.bun[0].name} (низ)` : ""
+            }
+            price={burgerObject.bun[0] ? burgerObject.bun[0].price : 0}
             thumbnail={burgerObject.bun[0] ? burgerObject.bun[0].image : ""}
           />
         </div>
@@ -189,8 +203,8 @@ function arrayIdIngredients(obj: burgerObjectPropTypes) {
 interface InfoAndOrderProps {
   burgerObject: burgerObjectPropTypes;
 }
-function InfoAndOrder({burgerObject}: InfoAndOrderProps) {
-  const auth = useSelector(state => state.auth.isAuthenticated)
+function InfoAndOrder({ burgerObject }: InfoAndOrderProps) {
+  const auth = useSelector((state) => state.auth.isAuthenticated);
   const navigate = useNavigate();
   const idOrder = useSelector((state) => state.orderId.orderId);
   const isOrderRequest = useSelector((state) => state.orderId.orderRequest);
@@ -200,7 +214,7 @@ function InfoAndOrder({burgerObject}: InfoAndOrderProps) {
   return (
     <div className={styles.order}>
       <span className="text text_type_digits-medium mr-2">{orderSum}</span>
-      <img className="mr-10" src={CurrencyIconTotalPrice} alt=""/>
+      <img className="mr-10" src={CurrencyIconTotalPrice} alt="" />
       <Button
         disabled={orderSum === 0}
         htmlType="button"
@@ -208,7 +222,7 @@ function InfoAndOrder({burgerObject}: InfoAndOrderProps) {
         size="large"
         onClick={() => {
           if (!auth) {
-            navigate("/login", {replace: true});
+            navigate("/login", { replace: true });
           } else {
             dispatch(getIdOrder(arrayIdIngredients(burgerObject)));
           }
@@ -217,8 +231,7 @@ function InfoAndOrder({burgerObject}: InfoAndOrderProps) {
         Оформить заказ
       </Button>
       {isOrderRequest && (
-        <Modal onClose={() => {
-        }}>
+        <Modal onClose={() => {}}>
           <p className="text text_type_main-medium mb-20">
             Получаем номер заказа . . .
           </p>
@@ -226,7 +239,7 @@ function InfoAndOrder({burgerObject}: InfoAndOrderProps) {
       )}
       {idOrder && (
         <Modal onClose={() => dispatch(clearGetIdOrder())}>
-          <OrderDetails/>
+          <OrderDetails />
         </Modal>
       )}
     </div>
@@ -237,8 +250,8 @@ export default function BurgerConstructor() {
   const components = useSelector((state) => state.components);
   return (
     <section className={styles.BurgerConstructorContainer}>
-      <BurgerConstructorComponents burgerObject={components}/>
-      <InfoAndOrder burgerObject={components}/>
+      <BurgerConstructorComponents burgerObject={components} />
+      <InfoAndOrder burgerObject={components} />
     </section>
   );
 }
