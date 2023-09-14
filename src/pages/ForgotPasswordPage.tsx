@@ -12,7 +12,7 @@ export function ForgotPasswordPage() {
   const auth = useSelector(state => state.auth.isAuthenticated)
   const isMail = useSelector(state => state.resetPass.isMail)
 
-  const onFormSubmit =(e)=>{
+  const onFormSubmit =(e: React.SyntheticEvent)=>{
     e.preventDefault();
     dispatch(resetPass(email))
   }

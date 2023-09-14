@@ -11,9 +11,20 @@ export type productsPropTypes = {
   image_mobile: string;
   image_large: string;
   uuid?: string;
+  count: number;
 };
 
 export type burgerObjectPropTypes = {
   bun: Array<productsPropTypes>;
   components: Array<productsPropTypes>;
+};
+
+export type TOrder ={
+  _id: string;
+  ingredients: string[];
+  status: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
 };

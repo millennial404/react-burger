@@ -3,7 +3,7 @@ import {EmailInput, Button, PasswordInput, Input} from '@ya.praktikum/react-deve
 import {Link, useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {setUserFormValue, register} from "../services/redux/actions/registerUser";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 
 export function RegisterPage() {
   const navigate = useNavigate();
@@ -15,13 +15,13 @@ export function RegisterPage() {
 
   const {registrationRequest} = useSelector(state => state.registration)
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(register())
   }
 
   const dispatch = useDispatch();
-  const onFormChange = (e) => {
+  const onFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setUserFormValue(e.target.name, e.target.value))
 
   }

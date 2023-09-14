@@ -28,13 +28,13 @@ import {
 } from "../../services/redux/actions/ingredients";
 import { useNavigate } from "react-router-dom";
 
-interface ComponentProps {
+type ComponentProps = {
   component: productsPropTypes;
   index: number;
   id: string | undefined;
 }
 
-interface DragItem {
+type DragItem = {
   index: number;
   id: string;
   type: string;
@@ -113,7 +113,7 @@ function Component({ component, index, id }: ComponentProps) {
   );
 }
 
-interface BurgerConstructorComponentsProps {
+type BurgerConstructorComponentsProps = {
   burgerObject: burgerObjectPropTypes;
 }
 function BurgerConstructorComponents({
@@ -200,7 +200,7 @@ function arrayIdIngredients(obj: burgerObjectPropTypes) {
   return concatBurgerObject(obj).map((component) => component._id);
 }
 
-interface InfoAndOrderProps {
+type InfoAndOrderProps = {
   burgerObject: burgerObjectPropTypes;
 }
 function InfoAndOrder({ burgerObject }: InfoAndOrderProps) {

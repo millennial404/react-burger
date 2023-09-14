@@ -7,6 +7,15 @@ import {OrdersBoard} from "../components/OdersBoard/OdersBoard";
 import {OrdersCardsFeed} from "../components/OrdersCardsFeed/OrdersCardsFeed";
 import {useLocation, useNavigate} from "react-router-dom";
 
+type TOrder = {
+  _id: string;
+  ingredients: string[];
+  status: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+}
 export const FeedPage = () => {
   const location = useLocation();
   const ordersData = useSelector((state) => state.feed.orders.orders);
@@ -24,7 +33,7 @@ export const FeedPage = () => {
       <h2 className="text text_type_main-large mt-10">Лента заказов</h2>
       <div></div>
       <ul className={`${style.feedContainer} pr-2`}>
-        {ordersData?.map((order) => {
+        {ordersData?.map((order: TOrder) => {
           return (
             <OrdersCardsFeed
               key={order._id}

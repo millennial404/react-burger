@@ -16,7 +16,7 @@ export function LoginPage() {
   const dispatch = useDispatch()
   const navigate = useNavigate();
 
-  const onFormChange = (e) => {
+  const onFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setLoginFormValue(e.target.name, e.target.value))
   }
   useEffect(() => {
@@ -25,7 +25,7 @@ export function LoginPage() {
     }
   }, [auth, dispatch, fromPage, navigate])
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(login());
   }

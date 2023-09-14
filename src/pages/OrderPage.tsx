@@ -5,12 +5,13 @@ import {wsConnectAllOrders, wsDisconnectAllOrders} from "../services/redux/actio
 import { wsUrlAllOrders } from "../utils/constants";
 import {OrderInfo} from "../components/OrderInfo/OrderInfo";
 import styles from './OrderPage.module.css'
+import { productsPropTypes } from "../utils/types";
 
 export const OrderPage = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const orders = useSelector((state) => state.feed.orders.orders);
-  const order = orders?.find((element) => element._id === id);
+  const order = orders?.find((element: productsPropTypes) => element._id === id);
 
 
   useEffect(() => {

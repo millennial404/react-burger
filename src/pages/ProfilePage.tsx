@@ -16,7 +16,7 @@ export function ProfilePage() {
     password
   } = useSelector(state => state.profileData.form);
   const dispatch = useDispatch();
-  const onFormChange = (e) => {
+  const onFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setProfileDataFormValue(e.target.name, e.target.value))
     setInputChange(true)
   }
@@ -25,8 +25,8 @@ export function ProfilePage() {
   const navigate = useNavigate();
   const [inputNameStatus, setInputNameStatus] = useState(true);
   const [inputChange, setInputChange] = useState(false);
-  const inputNameRef = useRef(null);
-  const onFormSubmit = (e) => {
+  const inputNameRef = useRef<HTMLInputElement | null>(null);
+  const onFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(updateProfileData())
     setInputChange(false)
@@ -77,7 +77,11 @@ export function ProfilePage() {
             ref={inputNameRef}
             onIconClick={() => {
               setInputNameStatus(false);
-              setTimeout(() => inputNameRef.current.focus(), 0);
+              setTimeout(() => {
+                if (inputNameRef.current) {
+                  inputNameRef.current.focus();
+                }
+              }, 0);
             }}
             extraClass="mb-6 mt-6"
           />

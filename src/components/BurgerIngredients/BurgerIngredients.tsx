@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import {
   Counter,
@@ -7,16 +6,20 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./BurgerIngredients.module.css";
 import { useDrag } from "react-dnd";
-import { useInView } from "react-intersection-observer";
+import {InViewHookResponse, useInView} from "react-intersection-observer";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { productsPropTypes } from "../../utils/types";
 
-const TabBurgerIngredients = ({ current, setCurrent }) => {
-  const scrollIntoIngredients = (ingredients) =>
+type TabBurgerIngredientsProps = {
+  current: string;
+  setCurrent: (current: string) => void;
+};
+const TabBurgerIngredients = ({ current, setCurrent }: TabBurgerIngredientsProps) => {
+  const scrollIntoIngredients = (ingredients: string) =>
     document
       .querySelector(`#${ingredients}`)
-      .scrollIntoView({ block: "start", behavior: "smooth" });
+      ?.scrollIntoView({ block: "start", behavior: "smooth" });
 
   return (
     <div className={styles.tabBurgerIngredients}>
@@ -54,8 +57,8 @@ const TabBurgerIngredients = ({ current, setCurrent }) => {
   );
 };
 
-interface CardProps {
-  cardData: productsPropTypes & { count: number };
+type CardProps = {
+  cardData: productsPropTypes;
 }
 
 function Card({ cardData }: CardProps) {
@@ -108,12 +111,17 @@ function Card({ cardData }: CardProps) {
   );
 }
 
-interface CardsByTypesProps {
-  setCurrent: (arg: string) => {};
+type CardsByTypesProps = {
+  setCurrent: (arg: string) => void;
   ingredients: productsPropTypes[];
 }
+
+interface ICardTypes {
+  [key: string]: {name: string; ref: InViewHookResponse};
+}
+
 function CardsByTypes({ setCurrent, ingredients }: CardsByTypesProps) {
-  const cardTypes = {
+  const cardTypes: ICardTypes = {
     bun: {
       name: "Булки",
       ref: useInView({

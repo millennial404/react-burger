@@ -1,4 +1,5 @@
+import { productsPropTypes } from "./types";
 
-export function getIngredientById(id: string, ingredients: Array<{[key: string]: string | number}>) {
-  return ingredients.find((ingredient) => ingredient._id === id);
+export function getIngredientById(id: string | undefined, ingredients: productsPropTypes[]) {
+  return ingredients.find((ingredient: productsPropTypes) => ingredient._id === id);
 }

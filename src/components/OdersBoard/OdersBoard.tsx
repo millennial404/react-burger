@@ -1,6 +1,6 @@
 import {useSelector} from "react-redux";
 import style from "./OdersBoard.module.css";
-
+import { TOrder } from "../../utils/types";
 
 export const OrdersBoard = () => {
   const ordersData = useSelector((state) => state.feed.orders);
@@ -10,7 +10,7 @@ export const OrdersBoard = () => {
         <div className={`${style.ordersReadyContainer} mr-9`}>
           <h3 className="text text_type_main-medium mb-6">Готовы:</h3>
           <ul className={`${style.ordersReadyElements}`}>
-            {ordersData.orders?.map((order) => {
+            {ordersData.orders?.map((order: TOrder) => {
               return (
                 order.status === "done" && (
                   <li key={order.number}>
@@ -28,7 +28,7 @@ export const OrdersBoard = () => {
         <div className={`${style.ordersInWorkContainer}`}>
           <h3 className="text text_type_main-medium mb-6">В работе:</h3>
           <ul className={`${style.ordersInWorkElements}`}>
-            {ordersData.orders?.map((order) => {
+            {ordersData.orders?.map((order: TOrder) => {
               return (
                 order.status === "pending" && (
                   <li key={order.number}>

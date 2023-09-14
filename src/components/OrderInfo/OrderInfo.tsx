@@ -3,8 +3,13 @@ import styles from "./OrderInfo.module.css";
 import {getIngredientById, priceOrder, countingIngredients} from "./utils";
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {useSelector} from "react-redux";
+import { TOrder } from "../../utils/types";
 
-export const OrderInfo = (props) => {
+type TOrderInfoProps = {
+  order: TOrder
+};
+
+export const OrderInfo = (props: TOrderInfoProps) => {
   const menuIngredients = useSelector((state) => state.ingredients.ingredients);
   const {order} = props
   const orderComposition = order?.ingredients || [];

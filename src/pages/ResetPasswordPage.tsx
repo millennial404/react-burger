@@ -10,10 +10,10 @@ export function ResetPasswordPage() {
   const navigate = useNavigate()
   const [newPass, setNewPass] = React.useState('')
   const [token, setToken] = React.useState('')
-  const onChangePass = e => {
+  const onChangePass = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPass(e.target.value)
   }
-  const onChangeToken = e => {
+  const onChangeToken = (e: React.ChangeEvent<HTMLInputElement>) => {
     setToken(e.target.value)
   }
 
@@ -29,7 +29,7 @@ export function ResetPasswordPage() {
     }
   }, [auth, dispatch, isMail, navigate])
 
-  const onFormSubmit = (e) => {
+  const onFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     confirmationPasswordReset(newPass, token)
       .then((res) => {

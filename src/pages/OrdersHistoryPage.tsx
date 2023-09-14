@@ -19,14 +19,17 @@ export function OrdersHistoryPage() {
   const location = useLocation();
   const match = matchPath("/profile/orders", `${location.pathname}`);
   const navigate = useNavigate();
-  const accessToken = Cookies.get("accessToken").split(" ")[1];
+  const accessToken = Cookies.get("accessToken")?.split(" ")[1];
 
   useEffect(() => {
-    dispatch(wsConnectUserOrders(`${wsUrlUserOrders}?token=${accessToken}`));
+    if (accessToken) {
+      dispatch(wsConnectUserOrders(`${wsUrlUserOrders}?token=${accessToken}`));
+    }
+
     return () => {
       dispatch(wsDisconnectUserOrders())
     };
-  }, []);
+  }, [dispatch, accessToken]);
 
   return (
     <>
