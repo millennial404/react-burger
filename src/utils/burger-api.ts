@@ -1,34 +1,36 @@
 import {BASE_URL} from './constants';
 import Cookies from 'js-cookie';
 
-const checkResponse = (res) => {
+const checkResponse = <T>(res: Response): Promise<T> => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-const fetchWithRefresh = async (endpoint, options) => {
+const fetchWithRefresh = async (endpoint: string, options: RequestInit) => {
   try {
-    return await request(endpoint, options); //делаем запрос
-  } catch (err) {
+    return await request(endpoint, options);
+  } catch (err: any) {
     if (err.message === "jwt expired") {
-      const refreshData = await refreshToken(); //обновляем токен
+      const refreshData: { [key: string]: string } = await refreshToken();
       Cookies.set("refreshToken", refreshData.refreshToken);
-      Cookies.set("accessToken", refreshData.accessToken); //(или в cookies)
-      options.headers.Authorization = refreshData.accessToken;
-      return await request(endpoint, options); //вызываем перезапрос данных
+      Cookies.set("accessToken", refreshData.accessToken);
+      if (options.headers) {
+        (options.headers as { [key: string]: string }).Authorization = refreshData.accessToken;
+      }
+      return await request(endpoint, options);
     } else {
       return Promise.reject(err);
     }
   }
 };
 
-const checkSuccess = (res) => {
-  if (res && res.success) {
-    return res;
+const checkSuccess = (res: unknown): { [key: string]: string } | Promise<never> => {
+  if (res && typeof res === 'object' && 'success' in res) {
+    return res as { [key: string]: string };
   }
   return Promise.reject(`Ответ не success: ${res}`);
 };
 
-function request(endpoint, options) {
+function request(endpoint: string, options?: RequestInit) {
   return fetch(`${BASE_URL}${endpoint}`, options)
     .then(checkResponse)
     .then(checkSuccess);
@@ -37,37 +39,37 @@ function request(endpoint, options) {
 
 export const getIngredientsData = () => request("ingredients");
 
-export function placeAnOrder(arrayIngredients) {
+export function placeAnOrder(arrayIngredients: string[]) {
   return fetchWithRefresh("orders", {
     method: 'POST',
     headers: {
       'Content-type': 'application/json; charset=UTF-8',
       Authorization: Cookies.get('accessToken')
-    },
+    } as HeadersInit,
     body: JSON.stringify({
       ingredients: arrayIngredients
     })
   })
 }
 
-export function passwordReset(email) {
+export function passwordReset(email: string) {
   return request("password-reset", {
     method: 'POST',
     headers: {
       'Content-type': 'application/json; charset=UTF-8',
-    },
+    } as HeadersInit,
     body: JSON.stringify({
       "email": email
     })
   })
 }
 
-export function confirmationPasswordReset(password,token) {
+export function confirmationPasswordReset(password: string, token: string) {
   return request("password-reset/reset", {
     method: 'POST',
     headers: {
       'Content-type': 'application/json; charset=UTF-8',
-    },
+    } as HeadersInit,
     body: JSON.stringify({
       "password": password,
       "token": token
@@ -75,12 +77,18 @@ export function confirmationPasswordReset(password,token) {
   })
 }
 
-export function registerUser ({password, email, name}) {
+type TRegisterUser = {
+  password: string;
+  email: string;
+  name: string;
+}
+
+export function registerUser({password, email, name}: TRegisterUser) {
   return request("auth/register", {
     method: 'POST',
     headers: {
       'Content-type': 'application/json; charset=UTF-8',
-    },
+    } as HeadersInit,
     body: JSON.stringify({
       "email": email,
       "password": password,
@@ -89,7 +97,7 @@ export function registerUser ({password, email, name}) {
   })
 }
 
-export function loginRequest({password,email}) {
+export function loginRequest({password, email}: { password: string, email: string }) {
   return request("auth/login", {
     method: 'POST',
     mode: 'cors',
@@ -97,7 +105,7 @@ export function loginRequest({password,email}) {
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json'
-    },
+    } as HeadersInit,
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
     body: JSON.stringify({
@@ -107,7 +115,13 @@ export function loginRequest({password,email}) {
   });
 }
 
-export function updateUserData({name, login, password}) {
+type TUpdateUserData = {
+  name: string;
+  login: string;
+  password: string;
+}
+
+export function updateUserData({name, login, password}: TUpdateUserData) {
   return fetchWithRefresh("auth/user", {
     method: 'PATCH',
     mode: 'cors',
@@ -116,7 +130,7 @@ export function updateUserData({name, login, password}) {
     headers: {
       'Content-Type': 'application/json',
       Authorization: Cookies.get('accessToken')
-    },
+    } as HeadersInit,
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
     body: JSON.stringify({
@@ -136,7 +150,7 @@ export function getUserData() {
     headers: {
       'Content-Type': 'application/json',
       Authorization: Cookies.get('accessToken')
-    },
+    } as HeadersInit,
     redirect: 'follow',
     referrerPolicy: 'no-referrer'
   });
@@ -150,11 +164,11 @@ export function refreshToken() {
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
-    },
+    } as HeadersInit,
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
     body: JSON.stringify({
-    "token": Cookies.get('refreshToken')
+      "token": Cookies.get('refreshToken')
     })
   });
 }
@@ -167,7 +181,7 @@ export function logoutRequest() {
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json',
-    },
+    } as HeadersInit,
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
     body: JSON.stringify({

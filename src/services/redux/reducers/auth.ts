@@ -8,9 +8,22 @@ import {
   SIGN_IN_FORM_SUBMIT_SUCCESS,
   SIGN_OUT, SIGN_OUT_FAILED, SIGN_OUT_SUCCESS
 } from "../actions/auth";
+import {TAuthActions} from '../actions/auth'
 
-
-const initialState = {
+type TAuthState = {
+  loginRequest: boolean;
+  loginFailed: boolean;
+  logoutRequest: boolean;
+  logoutFailed: boolean;
+  loginStatusRequest: boolean;
+  loginStatusFailed: boolean;
+  isAuthenticated: boolean;
+  form: {
+    email: string;
+    password: string;
+  }
+}
+const initialState: TAuthState = {
   loginRequest: false,
   loginFailed: false,
   logoutRequest: false,
@@ -22,10 +35,9 @@ const initialState = {
     email: '',
     password: '',
   }
+};
 
-}
-
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action: TAuthActions) => {
   switch (action.type) {
     case SIGN_IN_FORM_SET_VALUE: {
       return {
