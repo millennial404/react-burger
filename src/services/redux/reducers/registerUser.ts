@@ -4,9 +4,19 @@ import {
   USER_REGISTER_FORM_SUBMIT_FAILED,
   USER_REGISTER_FORM_SUBMIT_SUCCESS
 } from "../actions/registerUser";
+import {TRegisterUserAction} from '../actions/registerUser'
 
+type TRegisterUserState = {
+  registrationRequest: boolean;
+  registrationFailed: boolean;
+  form: {
+    name: string;
+    email: string;
+    password: string;
+  }
+}
 
-const initialState = {
+const initialState: TRegisterUserState = {
   registrationRequest: false,
   registrationFailed: false,
   form: {
@@ -16,10 +26,11 @@ const initialState = {
   }
 }
 
-export const userRegistrationReducer = (state = initialState, action) => {
+export const userRegistrationReducer = (state = initialState, action: TRegisterUserAction) => {
   switch (action.type) {
     case USER_REGISTER_FORM_SET_VALUE: {
       return {
+        ...state,
         form: {
           ...state.form,
           [action.field]: action.value

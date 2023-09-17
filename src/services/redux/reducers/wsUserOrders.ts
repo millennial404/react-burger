@@ -4,14 +4,22 @@ import {
   USER_ORDERS_WS_CONNECTION_CLOSED,
   USER_ORDERS_WS_GET_MESSAGE,
 } from "../actions/wsUserOrders";
+import {TUserOrdersWsConnectionActions} from '../actions/wsUserOrders'
+import {TOrder} from "../../../utils/types";
 
-const initialState = {
+type TUserOrdersWsConnectionState = {
+  wsConnected: boolean,
+  orders: { total: number, totalToday: number, orders: TOrder[] },
+  error: string | undefined,
+}
+
+const initialState: TUserOrdersWsConnectionState = {
   wsConnected: false,
-  orders: [],
+  orders: { total: 0, totalToday: 0, orders: [] },
   error: undefined,
 };
 
-export const wsUserOrderReducer = (state = initialState, action) => {
+export const wsUserOrderReducer = (state = initialState, action: TUserOrdersWsConnectionActions) => {
   switch (action.type) {
     case USER_ORDERS_WS_CONNECTION_SUCCESS:
       return {

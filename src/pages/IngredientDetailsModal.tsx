@@ -2,7 +2,7 @@ import {clearIngredientDetails, ingredientDetails} from "../services/redux/actio
 import IngredientDetails from "../components/IngredientDetails/IngredientDetails";
 import Modal from "../components/Modal/Modal";
 import React, {useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../services/redux/store";
 import {useNavigate, useParams} from "react-router-dom";
 import {getIngredientById} from "../utils/card";
 
@@ -15,7 +15,7 @@ export const IngredientDetailsModal = () => {
 
   useEffect(() => {
     const ingredient = getIngredientById(id, ingredients)
-    dispatch(ingredientDetails({...ingredient}))
+    dispatch(ingredientDetails({calories: 0, carbohydrates: 0, fat: 0, image_large: "", name: "", proteins: 0, ...ingredient}))
   }, [dispatch, id, ingredients])
 
   return (

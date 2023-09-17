@@ -6,14 +6,22 @@ import {
   GET_INGREDIENTS_SUCCESS,
   INCREMENT_INGREDIENT_COUNT
 } from '../actions/ingredients';
+import {TIngredientsAction} from '../actions/ingredients';
+import {productsPropTypes} from '../../../utils/types';
 
-const initialState = {
+
+type TIngredientsState = {
+  ingredientsRequest: boolean;
+  ingredientsFailed: boolean;
+  ingredients: productsPropTypes[];
+}
+const initialState: TIngredientsState = {
   ingredientsRequest: false,
   ingredientsFailed: false,
   ingredients: []
 }
 
-export const ingredientsReducer = (state = initialState, action) => {
+export const ingredientsReducer = (state = initialState, action: TIngredientsAction) => {
   switch (action.type) {
     case GET_INGREDIENTS: {
       return {

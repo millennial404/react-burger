@@ -10,7 +10,7 @@ import {
 } from "../actions/auth";
 import {TAuthActions} from '../actions/auth'
 
-type TAuthState = {
+export type TAuthState = {
   loginRequest: boolean;
   loginFailed: boolean;
   logoutRequest: boolean;
@@ -41,6 +41,7 @@ export const authReducer = (state = initialState, action: TAuthActions) => {
   switch (action.type) {
     case SIGN_IN_FORM_SET_VALUE: {
       return {
+        ...state,
         form: {
           ...state.form,
           [action.field]: action.value

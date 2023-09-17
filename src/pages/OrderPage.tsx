@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from "../services/redux/store";
 import {wsConnectAllOrders, wsDisconnectAllOrders} from "../services/redux/actions/wsAllOrders";
 import { wsUrlAllOrders } from "../utils/constants";
 import {OrderInfo} from "../components/OrderInfo/OrderInfo";

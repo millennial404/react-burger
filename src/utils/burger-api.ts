@@ -77,7 +77,7 @@ export function confirmationPasswordReset(password: string, token: string) {
   })
 }
 
-type TRegisterUser = {
+export type TRegisterUser = {
   password: string;
   email: string;
   name: string;

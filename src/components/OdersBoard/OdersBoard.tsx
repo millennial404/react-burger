@@ -1,4 +1,4 @@
-import {useSelector} from "react-redux";
+import {useSelector} from "../../services/redux/store";
 import style from "./OdersBoard.module.css";
 import { TOrder } from "../../utils/types";
 

@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useSelector} from "../../services/redux/store";
 import {
   Counter,
   Tab,
@@ -69,7 +69,7 @@ function Card({ cardData }: CardProps) {
     type: "ingredient",
     item: { cardData: cardData },
     collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
+      isDragging: monitor.isDragging(),
     }),
   }));
 

@@ -10,7 +10,7 @@ import componentMarkerImg from "../../images/icon24x24.svg";
 import Modal from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import { productsPropTypes, burgerObjectPropTypes } from "../../utils/types";
-import { useDispatch, useSelector } from "react-redux";
+import {useDispatch, useSelector} from "../../services/redux/store";
 import {
   clearGetIdOrder,
   getIdOrder,
@@ -21,7 +21,7 @@ import {
   deleteBurgerComponent,
   moveBurgerComponent,
 } from "../../services/redux/actions/constructorIngredients";
-import { useDrag, useDrop } from "react-dnd";
+import {DropTargetMonitor, useDrag, useDrop} from "react-dnd";
 import {
   decrementIngredient,
   incrementIngredient,
@@ -38,6 +38,7 @@ type DragItem = {
   index: number;
   id: string;
   type: string;
+  cardData: productsPropTypes;
 }
 function Component({ component, index, id }: ComponentProps) {
   const dispatch = useDispatch();
@@ -123,7 +124,7 @@ function BurgerConstructorComponents({
 
   const [{ isOver }, drop] = useDrop(() => ({
     accept: "ingredient",
-    drop: (item: any) => {
+    drop: (item: DragItem) => {
       if (item.cardData.type === "bun") {
         dispatch(addBurgerComponentBun(item.cardData));
         dispatch(incrementIngredient(item.cardData));
@@ -132,8 +133,8 @@ function BurgerConstructorComponents({
         dispatch(incrementIngredient(item.cardData));
       }
     },
-    collect: (monitor: any) => ({
-      isOver: !!monitor.isOver(),
+    collect: (monitor: DropTargetMonitor<DragItem>) => ({
+      isOver: monitor.isOver(),
     }),
   }));
 

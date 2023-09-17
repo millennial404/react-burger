@@ -2,7 +2,7 @@ import React from 'react';
 import styles from "./OrderInfo.module.css";
 import {getIngredientById, priceOrder, countingIngredients} from "./utils";
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
-import {useSelector} from "react-redux";
+import {useSelector} from "../../services/redux/store";
 import { TOrder } from "../../utils/types";
 
 type TOrderInfoProps = {
@@ -33,14 +33,14 @@ export const OrderInfo = (props: TOrderInfoProps) => {
             <div className={styles.orderCompositionImageWrapper}>
               <img
                 className={styles.orderCompositionImage}
-                src={getIngredientById(ingredientId, menuIngredients).image}
+                src={getIngredientById(ingredientId, menuIngredients)?.image}
                 alt=""
               />
             </div>
             <span
               className={`${styles.orderCompositionName} text text_type_main-default ml-4 mr-4`}
             >
-              {getIngredientById(ingredientId, menuIngredients).name}
+              {getIngredientById(ingredientId, menuIngredients)?.name}
             </span>
             <div className={styles.orderCompositionPriceAndCount}>
               <span className="text text_type_digits-default">
@@ -48,7 +48,7 @@ export const OrderInfo = (props: TOrderInfoProps) => {
                 &nbsp;x&nbsp;
               </span>
               <span className="text text_type_digits-default mr-2">
-                {getIngredientById(ingredientId, menuIngredients).price *
+                {(getIngredientById(ingredientId, menuIngredients)?.price || 1) *
                   countingIngredients(ingredientId, orderComposition)}
               </span>
               <CurrencyIcon type="primary"/>

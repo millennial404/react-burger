@@ -2,7 +2,7 @@ import styles from "./OrdersHistoryPage.module.css";
 import React, {useEffect} from "react";
 import {matchPath, useLocation, useNavigate} from "react-router-dom";
 import {logout} from "../services/redux/actions/auth";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../services/redux/store";
 import {
   wsConnectUserOrders,
   wsDisconnectUserOrders

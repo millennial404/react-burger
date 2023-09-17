@@ -1,6 +1,8 @@
 import {getUserData, loginRequest, logoutRequest} from "../../../utils/burger-api";
-import {setProfileData} from "./profileData";
+import {setProfileData, TSetProfileData} from "./profileData";
 import Cookies from 'js-cookie';
+import {RootState} from "../store";
+
 
 export const SIGN_IN_FORM_SET_VALUE: 'SIGN_IN_FORM_SET_VALUE' = "SIGN_IN_FORM_SET_VALUE";
 export const SIGN_IN_FORM_SUBMIT: 'SIGN_IN_FORM_SUBMIT' = "SIGN_IN_FORM_SUBMIT";
@@ -16,8 +18,8 @@ export const SIGN_IN: 'SIGN_IN' = "SIGN_IN"
 
 export type TSetLoginFormValueAction = {
   readonly type: typeof SIGN_IN_FORM_SET_VALUE;
-  readonly field: string;
-  readonly value: string;
+  field: string;
+  value: string;
 }
 
 export type TSignInFormSubmitAction = {
@@ -88,17 +90,17 @@ export const setLoginFormValue = (field: string, value: string): TSetLoginFormVa
   value,
 });
 
-export const onAuthenticated = ():TSignInAction => {
+export const onAuthenticated = (): TSignInAction => {
   return {
     type: SIGN_IN
   }
 }
-export const login = () => (dispatch, getState) => {
+export const login = () => (dispatch: (arg: TSignInFormSubmitAction | TSignInFormSubmitSuccessAction | TSignInFormSubmitFailedAction| TSetProfileData) => void, getState: () => RootState) => {
   dispatch({
     type: SIGN_IN_FORM_SUBMIT
   });
   loginRequest(getState().auth.form)
-    .then((res) => {
+    .then((res:any) => {
       if (res) {
         dispatch({
           type: SIGN_IN_FORM_SUBMIT_SUCCESS,
@@ -120,11 +122,11 @@ export const login = () => (dispatch, getState) => {
     });
 };
 
-export const getLoginData = () => (dispatch) => {
+export const getLoginData = () => (dispatch: (arg: TGetLoginStatusAction | TGetLoginStatusSuccessAction | TGetLoginStatusFailedAction | TSetProfileData) => void) => {
   dispatch({
     type: GET_LOGIN_STATUS
   });
-  getUserData().then((res) => {
+  getUserData().then((res: any) => {
     if (res) {
       dispatch({
         type: GET_LOGIN_STATUS_SUCCESS,
@@ -143,7 +145,7 @@ export const getLoginData = () => (dispatch) => {
       })
     });
 }
-export const logout = () => (dispatch) => {
+export const logout = () => (dispatch: (arg: TSignOutAction | TSignOutSuccessAction | TSignOutFailedAction) => void ) => {
   dispatch({
     type: SIGN_OUT
   });

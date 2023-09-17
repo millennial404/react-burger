@@ -1,7 +1,18 @@
-export const socketMiddleware = (wsActions) => {
+import {Middleware} from "@reduxjs/toolkit";
+import {RootState} from "../store";
 
+export type TWsActionTypes = {
+  wsInit: string;
+  wsClose: string;
+  wsSendMessage?: string;
+  onOpen: string;
+  onClose: string;
+  onError: string;
+  onMessage: string;
+};
+export const socketMiddleware = (wsActions: TWsActionTypes): Middleware<{}, RootState> => {
   return store => {
-    let socket = null;
+    let socket: WebSocket | null = null;
     return next => action => {
       let flag = true;
       const {dispatch} = store;
@@ -34,7 +45,7 @@ export const socketMiddleware = (wsActions) => {
         socket.onclose = () => {
           if (flag && url) {
             socket = new WebSocket(url);
-          }else {
+          } else {
             dispatch({type: onClose});
           }
         };

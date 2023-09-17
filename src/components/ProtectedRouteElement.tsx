@@ -1,5 +1,5 @@
 import {Navigate, useLocation} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useSelector} from "../services/redux/store";
 import React from "react";
 
 type TProtectedRouteElementProps = {
@@ -8,5 +8,5 @@ type TProtectedRouteElementProps = {
 export const ProtectedRouteElement = ({element}: TProtectedRouteElementProps) => {
   const auth = useSelector(state => state.auth.isAuthenticated)
   const location = useLocation();
-  return auth ? element : <Navigate to="/login" state={{ from: location }} />;
+  return auth ? element as JSX.Element : <Navigate to="/login" state={{from: location}}/>;
 }

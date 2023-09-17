@@ -4,8 +4,19 @@ import {
   SET_PROFILE_DATA,
   SET_PROFILE_DATA_FORM_VALUE
 } from "../actions/profileData";
+import {TProfileDataAction} from '../actions/profileData';
 
-const initialState = {
+type TProfileDataState = {
+  profileEditRequest: boolean;
+  profileEditFailed: boolean;
+  form: {
+    name: string;
+    login: string;
+    password: string;
+  }
+}
+
+const initialState: TProfileDataState = {
   profileEditRequest: false,
   profileEditFailed: false,
   form: {
@@ -15,10 +26,11 @@ const initialState = {
   }
 }
 
-export const profileDataReducer = (state = initialState, action) => {
+export const profileDataReducer = (state = initialState, action: TProfileDataAction) => {
   switch (action.type) {
     case SET_PROFILE_DATA_FORM_VALUE: {
       return {
+        ...state,
         form: {
           ...state.form,
           [action.field]: action.value

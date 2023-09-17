@@ -19,7 +19,7 @@ export type burgerObjectPropTypes = {
   components: Array<productsPropTypes>;
 };
 
-export type TOrder ={
+export type TOrder = {
   _id: string;
   ingredients: string[];
   status: string;

@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./UserOrderPage.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { wsUrlUserOrders} from "../utils/constants";
+import { useDispatch, useSelector } from "../services/redux/store";
+import { wsUrlUserOrders } from "../utils/constants";
 import {
   wsConnectUserOrders,
-  wsDisconnectUserOrders
+  wsDisconnectUserOrders,
 } from "../services/redux/actions/wsUserOrders";
 import Cookies from "js-cookie";
-import {OrderInfo} from "../components/OrderInfo/OrderInfo";
+import { OrderInfo } from "../components/OrderInfo/OrderInfo";
 import { TOrder } from "../utils/types";
 
 export const UserOrderPage = () => {
@@ -21,13 +21,13 @@ export const UserOrderPage = () => {
   useEffect(() => {
     dispatch(wsConnectUserOrders(`${wsUrlUserOrders}?token=${accessToken}`));
     return () => {
-      dispatch(wsDisconnectUserOrders())
+      dispatch(wsDisconnectUserOrders);
     };
   }, []);
 
   return (
     <div className={styles.wrapper}>
-      <OrderInfo order={order}/>
+      <OrderInfo order={order} />
     </div>
   );
 };

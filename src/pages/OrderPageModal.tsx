@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from "../components/Modal/Modal";
 import {useNavigate, useParams} from "react-router-dom";
 import {OrderInfo} from "../components/OrderInfo/OrderInfo";
-import {useSelector} from "react-redux";
+import { useSelector} from "../services/redux/store";
 import { productsPropTypes } from "../utils/types";
 
 export const OrderPageModal = () => {

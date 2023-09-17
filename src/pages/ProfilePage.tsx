@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {useState, useRef} from "react";
 import {matchPath, useLocation, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../services/redux/store";
 import {setProfileDataFormValue, updateProfileData} from "../services/redux/actions/profileData";
 import {getLoginData, logout} from "../services/redux/actions/auth";
 

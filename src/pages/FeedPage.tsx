@@ -1,6 +1,6 @@
 import style from "./FeedPage.module.css";
 import {useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../services/redux/store";
 import {wsConnectAllOrders, wsDisconnectAllOrders} from "../services/redux/actions/wsAllOrders";
 import {wsUrlAllOrders} from "../utils/constants";
 import {OrdersBoard} from "../components/OdersBoard/OdersBoard";
@@ -24,9 +24,9 @@ export const FeedPage = () => {
   useEffect(() => {
     dispatch(wsConnectAllOrders(wsUrlAllOrders));
     return ()=> {
-      dispatch(wsDisconnectAllOrders())
+      dispatch(wsDisconnectAllOrders)
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <main className={style.main}>

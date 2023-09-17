@@ -1,5 +1,5 @@
 import styles from "./IngredientPage.module.css";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../services/redux/store";
 import React, {useEffect} from "react";
 import IngredientDetails from "../components/IngredientDetails/IngredientDetails";
 import {useParams} from "react-router-dom";
@@ -13,7 +13,7 @@ export default function IngredientPage() {
   const dispatch = useDispatch();
   useEffect(() => {
     const ingredient = getIngredientById(id, ingredients)
-    dispatch(ingredientDetails({...ingredient}))
+    dispatch(ingredientDetails({calories: 0, carbohydrates: 0, fat: 0, image_large: "", name: "", proteins: 0, ...ingredient}))
   }, [dispatch, id, ingredients])
 
   return (

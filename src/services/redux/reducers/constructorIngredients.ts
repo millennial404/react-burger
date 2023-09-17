@@ -6,14 +6,20 @@ import {
   CLEAR_BURGER_COMPONENTS
 } from "../actions/constructorIngredients";
 import update from 'immutability-helper'
+import {TConstructorIngredientsActions} from '../actions/constructorIngredients';
+import {productsPropTypes} from '../../../utils/types';
 
+type TConstructorIngredientsState = {
+  bun: productsPropTypes[];
+  components: productsPropTypes[];
+}
 
-const initialState = {
+const initialState: TConstructorIngredientsState = {
   bun: [],
   components: []
 }
 
-export const componentsReducer = (state = initialState, action) => {
+export const componentsReducer = (state = initialState, action: TConstructorIngredientsActions) => {
   switch (action.type) {
     case ADD_BURGER_COMPONENT: {
 

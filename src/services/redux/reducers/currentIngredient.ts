@@ -1,14 +1,24 @@
 import {GET_INGREDIENT_DETAILS, CLEAR_INGREDIENT_DETAILS} from '../actions/currentIngredient';
+import {TCurrentIngredientActions} from '../actions/currentIngredient';
 
-const initialState = {
-  name: '',
-  calories: '',
-  proteins: '',
-  fat: '',
-  carbohydrates: '',
-  image: ''
+type TCurrentIngredientState = {
+  name: string;
+  calories: number;
+  proteins: number;
+  fat: number;
+  carbohydrates: number;
+  image_large: string;
 }
-export const ingredientDetailsReducer = (state = initialState, action) => {
+
+const initialState: TCurrentIngredientState = {
+  name: '',
+  calories: 0,
+  proteins: 0,
+  fat: 0,
+  carbohydrates: 0,
+  image_large: ''
+}
+export const ingredientDetailsReducer = (state = initialState, action: TCurrentIngredientActions) => {
   switch (action.type) {
     case GET_INGREDIENT_DETAILS: {
       return {
@@ -23,17 +33,11 @@ export const ingredientDetailsReducer = (state = initialState, action) => {
     }
     case CLEAR_INGREDIENT_DETAILS: {
       return {
-        ...state,
-        name: '',
-        calories: '',
-        proteins: '',
-        fat: '',
-        carbohydrates: '',
-        image_large: ''
+        ...initialState
       }
     }
     default: {
-      return state
+      return state;
     }
   }
 }

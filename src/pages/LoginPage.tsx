@@ -2,7 +2,7 @@ import styles from './LoginPage.module.css'
 import {EmailInput, Button, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
 import React, {useEffect} from "react";
 import {Link, useLocation, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "../services/redux/store";
 import {setLoginFormValue, login} from "../services/redux/actions/auth";
 
 export function LoginPage() {

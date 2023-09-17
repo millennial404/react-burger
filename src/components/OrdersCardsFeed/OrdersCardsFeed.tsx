@@ -1,9 +1,9 @@
-import {useSelector} from "react-redux";
+import {useSelector} from "../../services/redux/store";
 import style from "./OrdersCardsFeed.module.css";
 import {CurrencyIcon, FormattedDate} from "@ya.praktikum/react-developer-burger-ui-components";
 import {priceOrder} from "./utils";
-import { productsPropTypes } from "../../utils/types";
-import { TOrder } from "../../utils/types";
+import {productsPropTypes} from "../../utils/types";
+import {TOrder} from "../../utils/types";
 
 
 type TImageIngredientProps = {
@@ -13,9 +13,7 @@ type TImageIngredientProps = {
 };
 const ImageIngredient = ({ingredient, index, digit}: TImageIngredientProps) => {
   const allIngredients = useSelector((state) => state.ingredients.ingredients);
-  const img = allIngredients.find(
-    (element: productsPropTypes) => element._id === ingredient
-  ).image;
+  const img = allIngredients.find((element: productsPropTypes) => element._id === ingredient)?.image;
   return (
     <li className={`${style.component} `}>
       <img className={`${style.componentsImg} ${index === 5 && digit > 0 && style.opacity}`} src={img} alt=""/>

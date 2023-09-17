@@ -1,6 +1,6 @@
 import styles from "./OrderDetails.module.css";
 import doneImg from "../../images/done.png";
-import {useSelector} from "react-redux";
+import {useSelector} from "../../services/redux/store";
 
 export default function OrderDetails() {
   const idOrder = useSelector(state => state.orderId.orderId)
