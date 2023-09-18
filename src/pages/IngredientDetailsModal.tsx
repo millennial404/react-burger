@@ -1,6 +1,6 @@
 import {clearIngredientDetails, ingredientDetails} from "../services/redux/actions/currentIngredient";
 import IngredientDetails from "../components/IngredientDetails/IngredientDetails";
-import Modal from "../components/Modal/Modal";
+import {Modal} from "../components/Modal/Modal";
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "../services/redux/store";
 import {useNavigate, useParams} from "react-router-dom";

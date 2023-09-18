@@ -43,7 +43,7 @@ export const register = () => (dispatch: (arg: TUserRegisterSubmit | TUserRegist
     type: USER_REGISTER_FORM_SUBMIT
   });
   registerUser(getState().registration.form)
-    .then((res: any) => {
+    .then((res) => {
       if (res) {
         dispatch({
           type: USER_REGISTER_FORM_SUBMIT_SUCCESS,

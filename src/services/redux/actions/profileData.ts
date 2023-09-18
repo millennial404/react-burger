@@ -52,12 +52,12 @@ export const setProfileData = (login: string, name: string): TSetProfileData => 
   }
 }
 
-export const updateProfileData = () => (dispatch: (arg0: TProfileDataAction) => void , getState: () => any) => {
+export const updateProfileData = () => (dispatch: (arg: TProfileDataAction) => void , getState: () => any) => {
   dispatch({
     type: PROFILE_DATA_FORM_SUBMIT
   });
   updateUserData(getState().profileData.form)
-    .then((res: any) => {
+    .then((res) => {
       if (res) {
         dispatch({
           type: PROFILE_DATA_FORM_SUBMIT_SUCCESS

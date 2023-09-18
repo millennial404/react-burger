@@ -100,7 +100,7 @@ export const login = () => (dispatch: (arg: TSignInFormSubmitAction | TSignInFor
     type: SIGN_IN_FORM_SUBMIT
   });
   loginRequest(getState().auth.form)
-    .then((res:any) => {
+    .then((res) => {
       if (res) {
         dispatch({
           type: SIGN_IN_FORM_SUBMIT_SUCCESS,
@@ -126,7 +126,7 @@ export const getLoginData = () => (dispatch: (arg: TGetLoginStatusAction | TGetL
   dispatch({
     type: GET_LOGIN_STATUS
   });
-  getUserData().then((res: any) => {
+  getUserData().then((res) => {
     if (res) {
       dispatch({
         type: GET_LOGIN_STATUS_SUCCESS,

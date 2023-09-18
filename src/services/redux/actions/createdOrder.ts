@@ -36,7 +36,7 @@ export function getIdOrder(arrayComponentsId: string[]) {
       type: GET_ID_ORDER
     })
     placeAnOrder(arrayComponentsId)
-      .then((res:any) => {
+      .then((res) => {
           if (res) {
             dispatch({
               type: GET_ID_ORDER_SUCCESS,

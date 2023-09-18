@@ -5,7 +5,7 @@ const checkResponse = <T>(res: Response): Promise<T> => {
   return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 };
 
-const fetchWithRefresh = async (endpoint: string, options: RequestInit) => {
+const fetchWithRefresh = async <T>(endpoint: string, options: RequestInit): Promise<T> => {
   try {
     return await request(endpoint, options);
   } catch (err: any) {
@@ -23,9 +23,9 @@ const fetchWithRefresh = async (endpoint: string, options: RequestInit) => {
   }
 };
 
-const checkSuccess = (res: unknown): { [key: string]: string } | Promise<never> => {
-  if (res && typeof res === 'object' && 'success' in res) {
-    return res as { [key: string]: string };
+const checkSuccess = (res: any) => {
+  if (res && res.success) {
+    return res;
   }
   return Promise.reject(`Ответ не success: ${res}`);
 };
@@ -39,7 +39,16 @@ function request(endpoint: string, options?: RequestInit) {
 
 export const getIngredientsData = () => request("ingredients");
 
-export function placeAnOrder(arrayIngredients: string[]) {
+type TOrderRes =
+  {
+    success: boolean;
+    name: string;
+    order: {
+      number: number;
+    }
+  }
+
+export function placeAnOrder(arrayIngredients: string[]): Promise<TOrderRes> {
   return fetchWithRefresh("orders", {
     method: 'POST',
     headers: {
@@ -77,13 +86,24 @@ export function confirmationPasswordReset(password: string, token: string) {
   })
 }
 
-export type TRegisterUser = {
+export type TRegisterUserArg = {
   password: string;
   email: string;
   name: string;
 }
 
-export function registerUser({password, email, name}: TRegisterUser) {
+type TRegisterUserRes = {
+  success: boolean;
+  user:
+    {
+      email: string;
+      name: string;
+    }
+  accessToken: string;
+  refreshToken: string;
+}
+
+export function registerUser({password, email, name}: TRegisterUserArg): Promise<TRegisterUserRes> {
   return request("auth/register", {
     method: 'POST',
     headers: {
@@ -121,7 +141,15 @@ type TUpdateUserData = {
   password: string;
 }
 
-export function updateUserData({name, login, password}: TUpdateUserData) {
+type TUserData = {
+  success: boolean;
+  user: {
+    email: string;
+    name: string;
+  }
+}
+
+export function updateUserData({name, login, password}: TUpdateUserData): Promise<TUserData> {
   return fetchWithRefresh("auth/user", {
     method: 'PATCH',
     mode: 'cors',
@@ -141,7 +169,7 @@ export function updateUserData({name, login, password}: TUpdateUserData) {
   });
 }
 
-export function getUserData() {
+export function getUserData(): Promise<TUserData> {
   return fetchWithRefresh("auth/user", {
     method: 'GET',
     mode: 'cors',

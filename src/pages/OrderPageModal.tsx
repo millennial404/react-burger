@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal from "../components/Modal/Modal";
+import {Modal} from "../components/Modal/Modal";
 import {useNavigate, useParams} from "react-router-dom";
 import {OrderInfo} from "../components/OrderInfo/OrderInfo";
 import { useSelector} from "../services/redux/store";

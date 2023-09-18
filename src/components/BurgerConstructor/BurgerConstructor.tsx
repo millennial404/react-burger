@@ -7,7 +7,7 @@ import {
 import styles from "./BurgerConstructor.module.css";
 import CurrencyIconTotalPrice from "../../images/CurrencyIcon36x36.svg";
 import componentMarkerImg from "../../images/icon24x24.svg";
-import Modal from "../Modal/Modal";
+import {Modal} from "../Modal/Modal";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import { productsPropTypes, burgerObjectPropTypes } from "../../utils/types";
 import {useDispatch, useSelector} from "../../services/redux/store";

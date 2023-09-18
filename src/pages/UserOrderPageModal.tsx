@@ -1,6 +1,6 @@
 import React from 'react';
 import {OrderInfo} from "../components/OrderInfo/OrderInfo";
-import Modal from "../components/Modal/Modal";
+import {Modal} from "../components/Modal/Modal";
 import {useNavigate, useParams} from "react-router-dom";
 import {useSelector} from "../services/redux/store";
 import { TOrder } from "../utils/types";
